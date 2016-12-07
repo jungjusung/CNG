@@ -3,6 +3,7 @@ package com.example.user.gnc;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +16,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         startActivity(new Intent(this, StartActivity.class));
         super.onCreate(savedInstanceState);
+
+        mainActivity=this;
+
         setContentView(R.layout.activity_main);
 
         bt_setting = (Button)this.findViewById(R.id.bt_setting);
@@ -30,5 +34,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void Setting(View view){
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG,"액티비티 지워짐");
+        finish();
+        super.onDestroy();
     }
 }

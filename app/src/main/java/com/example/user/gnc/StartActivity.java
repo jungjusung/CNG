@@ -137,6 +137,7 @@ public class StartActivity extends Service {
         return finalResult;
     }
 
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -427,15 +428,12 @@ public class StartActivity extends Service {
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
                                 windowManager.removeView(txt_turn);
-                                stopSelf();
                             }
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li2);
                                 windowManager.removeView(txt_setting);
-                                stopSelf();
                             }
                             windowManager.removeView(bli);
-                            stopSelf();
                         }
                     });
 
@@ -453,7 +451,7 @@ public class StartActivity extends Service {
                     sub_parameters1.x = iconX;
                     sub_parameters1.y = iconY - 200;
                     txt_turn_parameters.y = sub_parameters1.y;
-                    txt_turn_parameters.x = sub_parameters1.x - 150*2;
+                    txt_turn_parameters.x = sub_parameters1.x - 150 * 2;
 
                     sub_li1.setBackgroundResource(R.drawable.turn_on);
                     windowManager.addView(txt_turn, txt_turn_parameters);
@@ -464,20 +462,19 @@ public class StartActivity extends Service {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(StartActivity.this, "1번 클릭", Toast.LENGTH_SHORT).show();
-
+                            stopSelf();
+                            //stopService(new Intent(StartActivity.this, StartActivity.class));
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
                                 windowManager.removeView(txt_turn);
-                                stopSelf();
+
                             }
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li2);
                                 windowManager.removeView(txt_setting);
-                                stopSelf();
                             }
 
                             windowManager.removeView(bli);
-                            stopSelf();
                         }
                     });
 
@@ -497,7 +494,7 @@ public class StartActivity extends Service {
                     sub_parameters2.y = iconY - 400;
 
                     txt_setting_parameters.y = sub_parameters2.y;
-                    txt_setting_parameters.x = sub_parameters2.x - 150*2;
+                    txt_setting_parameters.x = sub_parameters2.x - 150 * 2;
                     sub_li2.setBackgroundResource(R.drawable.setting);
                     windowManager.addView(txt_setting, txt_setting_parameters);
                     windowManager.addView(sub_li2, sub_parameters2);
@@ -514,16 +511,13 @@ public class StartActivity extends Service {
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li1);
                                 windowManager.removeView(txt_turn);
-                                stopSelf();
                             }
                             if (windowManager != null) {
                                 windowManager.removeView(sub_li2);
                                 windowManager.removeView(txt_setting);
-                                stopSelf();
                             }
 
                             windowManager.removeView(bli);
-                            stopSelf();
                         }
                     });
 
@@ -643,7 +637,6 @@ public class StartActivity extends Service {
                             windowManager.removeView(block_top);
 
                             windowManager.removeView(block_bottom);
-                            stopSelf();
 
                             if (longClickOn == false) {
 
@@ -664,7 +657,7 @@ public class StartActivity extends Service {
                                     } else if (method == START_APP_CALL) {
                                         String number = rs.getString(rs.getColumnIndex("path"));
                                         Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null)){
+                                        if (!number.equals(null)) {
                                             Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
@@ -689,7 +682,7 @@ public class StartActivity extends Service {
                                     } else if (method == START_APP_CALL) {
                                         String number = rs.getString(rs.getColumnIndex("path"));
                                         Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null)){
+                                        if (!number.equals(null)) {
                                             Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
@@ -746,15 +739,15 @@ public class StartActivity extends Service {
 
                                     gestureResult = "";
                                 }
-                                } else {
-                                    updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
-                                    updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
-                                    heroIcon.x = updatedParameters.x - icon_width / 2;
-                                    heroIcon.y = updatedParameters.y - icon_height / 2;
-                                    windowManager.updateViewLayout(heroIcon, updatedParameters);
-                                    initialPosX = updatedParameters.x;
-                                    initialPosY = updatedParameters.y;
-                                }
+                            } else {
+                                updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
+                                updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
+                                heroIcon.x = updatedParameters.x - icon_width / 2;
+                                heroIcon.y = updatedParameters.y - icon_height / 2;
+                                windowManager.updateViewLayout(heroIcon, updatedParameters);
+                                initialPosX = updatedParameters.x;
+                                initialPosY = updatedParameters.y;
+                            }
 
 
                             longClickOn = false;
@@ -771,6 +764,16 @@ public class StartActivity extends Service {
         }
 
         return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "지워짐?");
+        //android.os.Process.killProcess(android.os.Process.myPid());
+        System.runFinalizersOnExit(true);
+
+        System.exit(0);
+        super.onDestroy();
     }
 
     /*전화 permission*/
