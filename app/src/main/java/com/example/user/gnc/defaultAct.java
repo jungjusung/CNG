@@ -33,6 +33,7 @@ public class defaultAct extends Activity {
     MyDB myDB;
     public static SQLiteDatabase db;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

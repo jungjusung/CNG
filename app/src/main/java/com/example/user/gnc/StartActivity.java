@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class StartActivity extends Service {
 
@@ -52,6 +54,8 @@ public class StartActivity extends Service {
     Boolean longClickOn = false;
     static final int FIRST_X = 350;
     static final int FIRST_Y = 600;
+    public static StartActivity startActivity;
+    HeroIcon heroIcon;
 
     int initialPosX = FIRST_X;
     int initialPosY = FIRST_Y;
@@ -87,6 +91,7 @@ public class StartActivity extends Service {
     @Override
     public void onCreate() {
         TAG = this.getClass().getName();
+        startActivity=this;
 
         super.onCreate();
     }
@@ -185,29 +190,25 @@ public class StartActivity extends Service {
         parameters.x = initialPosX;
         parameters.y = initialPosY;
         parameters.alpha = 0f;
-        final HeroIcon heroIcon = new HeroIcon(this, parameters.x, parameters.y, icon_width, icon_height);
-        if (SettingActivity.name != null) {
-             /*  SettingActivity에서 넘겨준 이미지 경로값 넘겨받아 비트맵으로 변환*/
-            SettingActivity.name = (String) intent.getExtras().get("data");
-            Log.d(TAG, "name " + SettingActivity.name);
-            File dest = new File(SettingActivity.name);
-            Log.d(TAG, "dest" + dest);
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(dest);
-                Log.d(TAG, "Fis샘성됨" + fis);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Log.d(TAG, "안됨");
-            }
-
-            bitmap = BitmapFactory.decodeStream(fis);
-            heroIcon.setImageBitmap(bitmap);
-            heroIcon.setSelected(true);
+        heroIcon = new HeroIcon(this, parameters.x, parameters.y, icon_width, icon_height);
+        String sql="select path from img_info";
+        Cursor cursor=defaultAct.db.rawQuery(sql,null);
+        cursor.moveToNext();
+        String imgPath=cursor.getString(cursor.getColumnIndex("path"));
+        if (imgPath.equals("")) {
+            heroIcon.setImageResource(R.drawable.logo2);
+            Log.d(TAG, "디비에 없어서 이미지 디폴트");
 
         } else {
-            heroIcon.setImageResource(R.drawable.logo2);
-            Log.d(TAG, "else문으로 넘어간다");
+
+            Bitmap change_bitmap = null;
+            try {
+                change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(imgPath));
+                StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
+                Log.d(TAG, "디비에 있으니까 디비에서 이미지 가져옴ㅋㅋ");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         windowManager.addView(heroIcon, parameters);
 
