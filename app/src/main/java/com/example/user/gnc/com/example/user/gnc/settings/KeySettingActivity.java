@@ -24,28 +24,32 @@ public class KeySettingActivity extends Activity {
     String number;
     String TAG;
     String name, phoneNumber;
-    int DOUBLE_CLICK=1;
-    int TOP_CLICK=2;
-     int BOTTOM_CLICK=3;
-    int LEFT_CLICK=4;
-    int RIGHT_CLICK=5;
+    int DOUBLE_CLICK = 1;
+    int TOP_CLICK = 2;
+    int BOTTOM_CLICK = 3;
+    int LEFT_CLICK = 4;
+    int RIGHT_CLICK = 5;
 
-    int confirmNum=-1;
+    int confirmNum = -1;
     private static final int REQUEST_SELECT_PHONE_NUMBER = 1;
-    TextView txt_doubleClick,txt_right,txt_left,txt_bottom,txt_top;
+
+    private static final int START_PHONE_CALL = 1;
+    private static final int START_APP_CALL = 2;
+    private static final int START_WEB_CALL = 3;
+
+    TextView txt_doubleClick, txt_right, txt_left, txt_bottom, txt_top;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TAG=this.getClass().getName();
+        TAG = this.getClass().getName();
 
         setContentView(R.layout.key_setting_activity);
-        txt_doubleClick = (TextView)findViewById(R.id.txt_doubleClick);
-        txt_right = (TextView)findViewById(R.id.txt_right);
-        txt_left = (TextView)findViewById(R.id.txt_left);
-        txt_top = (TextView)findViewById(R.id.txt_top);
-        txt_bottom = (TextView)findViewById(R.id.txt_bottom);
-
-
+        txt_doubleClick = (TextView) findViewById(R.id.txt_doubleClick);
+        txt_right = (TextView) findViewById(R.id.txt_right);
+        txt_left = (TextView) findViewById(R.id.txt_left);
+        txt_top = (TextView) findViewById(R.id.txt_top);
+        txt_bottom = (TextView) findViewById(R.id.txt_bottom);
 
         txt_doubleClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +83,8 @@ public class KeySettingActivity extends Activity {
             }
         });
     }
-    public void showSelectedDialog(final int short_id){
+
+    public void showSelectedDialog(final int short_id) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(
                 KeySettingActivity.this);
         alertBuilder.setIcon(R.drawable.logo);
@@ -164,24 +169,21 @@ public class KeySettingActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        for(int i=1;i<=5;i++) {
-            String sql = "select * from shortcut where short_cut="+i;
+        for (int i = 1; i <= 5; i++) {
+            String sql = "select * from shortcut where short_cut=" + i;
             Cursor rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
-            String path=rs.getString(rs.getColumnIndex("path"));
-            if(path!=null&&i==1){
-                txt_doubleClick.setText(path);
-            }else if(path!=null&&i==2){
-                txt_top.setText(path);
-            }
-            else if(path!=null&&i==3){
-                txt_bottom.setText(path);
-            }
-            else if(path!=null&&i==4){
-                txt_left.setText(path);
-            }
-            else if(path!=null&&i==5){
-                txt_right.setText(path);
+            String name = rs.getString(rs.getColumnIndex("name"));
+            if (name != null && i == 1) {
+                txt_doubleClick.setText(name);
+            } else if (name != null && i == 2) {
+                txt_top.setText(name);
+            } else if (name != null && i == 3) {
+                txt_bottom.setText(name);
+            } else if (name != null && i == 4) {
+                txt_left.setText(name);
+            } else if (name != null && i == 5) {
+                txt_right.setText(name);
             }
         }
     }
@@ -191,34 +193,39 @@ public class KeySettingActivity extends Activity {
             // Get the URI and query the content provider for the phone number
             Uri contactUri = data.getData();
             String[] projection = new String[]{
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
+                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    ContactsContract.Contacts.DISPLAY_NAME
             };
             Cursor cursor = getContentResolver().query(contactUri, projection,
                     null, null, null);
             // If the cursor returned is valid, get the phone number
             if (cursor != null && cursor.moveToFirst()) {
                 int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                int nameIndex=cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+
                 number = cursor.getString(numberIndex);
+                name=cursor.getString(nameIndex);
+
                 // Do something with the phone number
-                Log.d(TAG,"number는?"+number);
-                if(confirmNum==1){
+                Log.d(TAG, "number는?" + number);
+                if (confirmNum == 1) {
                     txt_doubleClick.setText(number);
-                }else if(confirmNum==2){
+                } else if (confirmNum == 2) {
                     txt_top.setText(number);
-                }else if(confirmNum==3){
+                } else if (confirmNum == 3) {
                     txt_bottom.setText(number);
-                }else if(confirmNum==4){
+                } else if (confirmNum == 4) {
                     txt_left.setText(number);
-                }else if(confirmNum==5){
+                } else if (confirmNum == 5) {
                     txt_right.setText(number);
                 }
 
-                String sql="update shortcut set path=?, method=? where short_cut=?";
+                String sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
 
-                defaultAct.db.execSQL(sql,new String[]{
-                        number,"1",Integer.toString(confirmNum)
+                defaultAct.db.execSQL(sql, new String[]{
+                        name+"에게 전화걸기", number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
                 });
-                confirmNum=-1;
+                confirmNum = -1;
             }
         }
     }

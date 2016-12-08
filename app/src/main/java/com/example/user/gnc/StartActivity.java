@@ -748,8 +748,6 @@ public class StartActivity extends Service {
                                 initialPosX = updatedParameters.x;
                                 initialPosY = updatedParameters.y;
                             }
-
-
                             longClickOn = false;
                             break;
                         default:

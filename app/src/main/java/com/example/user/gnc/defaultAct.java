@@ -74,9 +74,6 @@ public class defaultAct extends Activity {
         db =myDB.getWritableDatabase();
     }
 
-
-
-
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
         int iconPermission= ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
