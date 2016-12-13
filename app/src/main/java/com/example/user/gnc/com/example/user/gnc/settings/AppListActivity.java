@@ -48,6 +48,7 @@ public class AppListActivity extends Activity {
     private static final int SELECT_APP = 2;
     public ArrayList<AppInfo> mListData = new ArrayList<AppInfo>();
     String pkg;
+    String title;
 
     /**
      * Called when the activity is first created.
@@ -267,7 +268,7 @@ public class AppListActivity extends Activity {
         super.onCreateContextMenu(menu, view, menuInfo);
 
         int nPosition = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
-        String title = mListData.get(nPosition).mAppName;
+        title = mListData.get(nPosition).mAppName;
         pkg = mListData.get(nPosition).mAppPackage;
 
         menu.setHeaderTitle(title);
@@ -281,8 +282,8 @@ public class AppListActivity extends Activity {
         switch (item.getItemId()) {
             case ONE:
                //디비에 넣어야되
-                String sql = "update shortcut set path=?, method=2 where short_cut=?";
-                defaultAct.db.execSQL(sql, new String[]{pkg, Integer.toString(short_cut)});
+                String sql = "update shortcut set path=?, name=?, method=2 where short_cut=?";
+                defaultAct.db.execSQL(sql, new String[]{pkg, title, Integer.toString(short_cut)});
                 this.finish();
                 break;
 
