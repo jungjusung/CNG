@@ -1,7 +1,9 @@
 package com.example.user.gnc;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -30,7 +34,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class StartActivity extends Service {
+public class StartActivity extends Service implements View.OnTouchListener {
 
     String gestureResult = "";
     private LinearLayout li;
@@ -50,15 +54,14 @@ public class StartActivity extends Service {
     WindowManager.LayoutParams params, params2, params3, params4;
     TextView txt_setting;
     TextView txt_turn;
-    WindowManager windowManager;
+    static WindowManager windowManager;
     Boolean longClickOn = false;
-    static final int FIRST_X = 350;
-    static final int FIRST_Y = 600;
     public static StartActivity startActivity;
-    HeroIcon heroIcon;
 
-    int initialPosX = FIRST_X;
-    int initialPosY = FIRST_Y;
+
+
+    static int initialPosX;
+    static int initialPosY;
     String TAG;
     Handler handler, handler2, handler3;
     Thread thread;
@@ -82,6 +85,11 @@ public class StartActivity extends Service {
     private static final int MOVE_LEFT = 4;
     private static final int MOVE_RIGHT = 5;
 
+    static int limitY;
+    float touchedX, touchedY;
+
+    static HeroIcon heroIcon;
+
     @Override
     public IBinder onBind(Intent intent) {
         stopService(intent);
@@ -91,7 +99,7 @@ public class StartActivity extends Service {
     @Override
     public void onCreate() {
         TAG = this.getClass().getName();
-        startActivity=this;
+        startActivity = this;
 
         super.onCreate();
     }
@@ -145,7 +153,19 @@ public class StartActivity extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG,"나는 언제 실행되는것인가?");
+        DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();
+        //dm.widthPixels;
+        limitY = (dm.heightPixels / 2) - 500;
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
+        //초기 위치 설정
+        String sql = "select * from initialpos";
+        Cursor rs = defaultAct.db.rawQuery(sql, null);
+
+        rs.moveToNext();
+        initialPosX = rs.getInt(rs.getColumnIndex("x"));
+        initialPosY = rs.getInt(rs.getColumnIndex("y"));
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         layout = new RelativeLayout(this);
@@ -170,11 +190,11 @@ public class StartActivity extends Service {
         params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
 
-
+        //크기 조절 문제점이 여기에 있다.!! params2
         params2 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params2.alpha = 0f;
-        params2.x = FIRST_X;
-        params2.y = FIRST_Y;
+        params2.x = initialPosX;
+        params2.y = initialPosY;
 
         params3 = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params4 = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
@@ -190,11 +210,11 @@ public class StartActivity extends Service {
         parameters.x = initialPosX;
         parameters.y = initialPosY;
         parameters.alpha = 0f;
-        heroIcon = new HeroIcon(this, parameters.x, parameters.y, icon_width, icon_height);
-        String sql="select path from img_info";
-        Cursor cursor=defaultAct.db.rawQuery(sql,null);
+        heroIcon = new HeroIcon(this, initialPosX, initialPosY, icon_width, icon_height);
+        String sql1 = "select path from img_info";
+        Cursor cursor = defaultAct.db.rawQuery(sql1, null);
         cursor.moveToNext();
-        String imgPath=cursor.getString(cursor.getColumnIndex("path"));
+        String imgPath = cursor.getString(cursor.getColumnIndex("path"));
         if (imgPath.equals("")) {
             heroIcon.setImageResource(R.drawable.logo2);
             Log.d(TAG, "디비에 없어서 이미지 디폴트");
@@ -353,6 +373,8 @@ public class StartActivity extends Service {
                 @Override
                 public void onLongPress(MotionEvent e) {
                     Toast.makeText(StartActivity.this, "롱클릭", Toast.LENGTH_SHORT).show();
+                    Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibe.vibrate(40);
                     longClickOn = true;
                 }
 
@@ -449,8 +471,13 @@ public class StartActivity extends Service {
                     WindowManager.LayoutParams sub_parameters1 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
                     WindowManager.LayoutParams txt_turn_parameters = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
-                    sub_parameters1.x = iconX;
-                    sub_parameters1.y = iconY - 200;
+                    sub_parameters1.x = initialPosX;
+                    if (initialPosY < -limitY) {
+                        sub_parameters1.y = initialPosY + 200;
+                    } else {
+                        sub_parameters1.y = initialPosY - 200;
+                    }
+
                     txt_turn_parameters.y = sub_parameters1.y;
                     txt_turn_parameters.x = sub_parameters1.x - 150 * 2;
 
@@ -491,8 +518,12 @@ public class StartActivity extends Service {
                     WindowManager.LayoutParams sub_parameters2 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
                     WindowManager.LayoutParams txt_setting_parameters = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
-                    sub_parameters2.x = iconX;
-                    sub_parameters2.y = iconY - 400;
+                    sub_parameters2.x = initialPosX;
+                    if (initialPosY < -limitY) {
+                        sub_parameters2.y = initialPosY + 400;
+                    } else {
+                        sub_parameters2.y = initialPosY - 400;
+                    }
 
                     txt_setting_parameters.y = sub_parameters2.y;
                     txt_setting_parameters.x = sub_parameters2.x - 150 * 2;
@@ -529,91 +560,98 @@ public class StartActivity extends Service {
 
 
             //heroIcon ->> layout_start
-            heroIcon.setOnTouchListener(new View.OnTouchListener() {
 
-                private WindowManager.LayoutParams updatedParameters = params2;
-                float touchedX, touchedY;
+            heroIcon.setOnTouchListener(this);
 
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            Log.d(TAG, "다운");
-                            iconX = updatedParameters.x;
-                            iconY = updatedParameters.y;
+            mGestureDetector = new GestureDetector(this, mOnSimpleOnGestureListener);
+        }
 
-                            touchedX = motionEvent.getRawX();
-                            touchedY = motionEvent.getRawY();
+        return START_NOT_STICKY;
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        WindowManager.LayoutParams updatedParameters = params2;
 
 
-                            Log.d(TAG, iconX + " " + iconY + " " + touchedX + " " + touchedY);
-                            //우측 버튼 트랩
-                            WindowManager.LayoutParams btnParameters1 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                            btnParameters1.x = iconX + 300;
-                            btnParameters1.y = iconY;
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.d(TAG, "다운");
+                iconX = updatedParameters.x;
+                iconY = updatedParameters.y;
+
+                touchedX = motionEvent.getRawX();
+                touchedY = motionEvent.getRawY();
 
 
-                            block_right = new Block(StartActivity.this, btnParameters1.x, btnParameters1.y, 50, 250);
-                            windowManager.addView(block_right, btnParameters1);
-
-                            //좌측 버튼 트랩
-                            WindowManager.LayoutParams btnParameters2 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                            btnParameters2.x = iconX - 300;
-                            btnParameters2.y = iconY;
-
-                            block_left = new Block(StartActivity.this, btnParameters2.x, btnParameters2.y, 50, 250);
-                            windowManager.addView(block_left, btnParameters2);
-
-                            //위쪽 버튼 트랩
-                            WindowManager.LayoutParams btnParameters3 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                            btnParameters3.x = iconX;
-                            btnParameters3.y = iconY + 300;
-
-                            block_top = new Block(StartActivity.this, btnParameters3.x, btnParameters3.y, 250, 50);
-                            windowManager.addView(block_top, btnParameters3);
-
-                            //아래쪽 버튼 트랩
-                            WindowManager.LayoutParams btnParameters4 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                            btnParameters4.x = iconX;
-                            btnParameters4.y = iconY - 300;
-
-                            block_bottom = new Block(StartActivity.this, btnParameters4.x, btnParameters4.y, 250, 50);
-                            windowManager.addView(block_bottom, btnParameters4);
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            //Log.d(TAG,"무브");
-
-                            updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
-                            updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
-
-                            heroIcon.x = updatedParameters.x - icon_width / 2;
-                            heroIcon.y = updatedParameters.y - icon_height / 2;
-
-                            windowManager.updateViewLayout(heroIcon, updatedParameters);
+                Log.d(TAG, iconX + " " + iconY + " " + touchedX + " " + touchedY);
+                //우측 버튼 트랩
+                WindowManager.LayoutParams btnParameters1 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                btnParameters1.x = iconX + 300;
+                btnParameters1.y = iconY;
 
 
-                            boolean[] result1 = hitTest(heroIcon, block_bottom);
-                            boolean[] result2 = hitTest(heroIcon, block_top);
-                            boolean[] result3 = hitTest(heroIcon, block_right);
-                            boolean[] result4 = hitTest(heroIcon, block_left);
-                            if (result1[0] && (result1[2] == true)) {
-                                //Log.d(TAG,"위쪽");
-                                gestureResult = "위쪽";
-                                break;
-                            }
-                            if (result2[0] && (result2[2] == false)) {
-                                //Log.d(TAG,"아래쪽");
-                                gestureResult = "아래쪽";
-                                break;
-                            }
-                            if (result3[0] && (result3[1] == true)) {
-                                //Log.d(TAG,"오른쪽");
-                                gestureResult = "오른쪽";
-                                break;
-                            }
-                            if (result4[0] && (result4[1] == false)) {
-                                //Log.d(TAG,"왼쪽");
-                                gestureResult = "왼쪽";
+                block_right = new Block(StartActivity.this, btnParameters1.x, btnParameters1.y, 50, 250);
+                windowManager.addView(block_right, btnParameters1);
+
+                //좌측 버튼 트랩
+                WindowManager.LayoutParams btnParameters2 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                btnParameters2.x = iconX - 300;
+                btnParameters2.y = iconY;
+
+                block_left = new Block(StartActivity.this, btnParameters2.x, btnParameters2.y, 50, 250);
+                windowManager.addView(block_left, btnParameters2);
+
+                //위쪽 버튼 트랩
+                WindowManager.LayoutParams btnParameters3 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                btnParameters3.x = iconX;
+                btnParameters3.y = iconY + 300;
+
+                block_top = new Block(StartActivity.this, btnParameters3.x, btnParameters3.y, 250, 50);
+                windowManager.addView(block_top, btnParameters3);
+
+                //아래쪽 버튼 트랩
+                WindowManager.LayoutParams btnParameters4 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                btnParameters4.x = iconX;
+                btnParameters4.y = iconY - 300;
+
+                block_bottom = new Block(StartActivity.this, btnParameters4.x, btnParameters4.y, 250, 50);
+                windowManager.addView(block_bottom, btnParameters4);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //Log.d(TAG,"무브");
+
+                updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
+                updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
+
+                heroIcon.x = updatedParameters.x - icon_width / 2;
+                heroIcon.y = updatedParameters.y - icon_height / 2;
+
+                windowManager.updateViewLayout(heroIcon, updatedParameters);
+
+
+                boolean[] result1 = hitTest(heroIcon, block_bottom);
+                boolean[] result2 = hitTest(heroIcon, block_top);
+                boolean[] result3 = hitTest(heroIcon, block_right);
+                boolean[] result4 = hitTest(heroIcon, block_left);
+                if (result1[0] && (result1[2] == true)) {
+                    //Log.d(TAG,"위쪽");
+                    gestureResult = "위쪽";
+                    break;
+                }
+                if (result2[0] && (result2[2] == false)) {
+                    //Log.d(TAG,"아래쪽");
+                    gestureResult = "아래쪽";
+                    break;
+                }
+                if (result3[0] && (result3[1] == true)) {
+                    //Log.d(TAG,"오른쪽");
+                    gestureResult = "오른쪽";
+                    break;
+                }
+                if (result4[0] && (result4[1] == false)) {
+                    //Log.d(TAG,"왼쪽");
+                    gestureResult = "왼쪽";
                               /*  updatedParameters.x = initialPosX;
                                 updatedParameters.y = initialPosY;
                                 wm.updateViewLayout(heroIcon,updatedParameters);*/
@@ -623,146 +661,154 @@ public class StartActivity extends Service {
                                 btn_wm4.removeView(block_bottom);
                                 stopSelf();
                                 */
-                                break;
-                            }
-                            break;
-                        case MotionEvent.ACTION_UP:
-
-                            updatedParameters.x = initialPosX;
-                            updatedParameters.y = initialPosY;
-                            windowManager.updateViewLayout(heroIcon, updatedParameters);
-                            windowManager.removeView(block_right);
-
-                            windowManager.removeView(block_left);
-
-                            windowManager.removeView(block_top);
-
-                            windowManager.removeView(block_bottom);
-
-                            if (longClickOn == false) {
-
-                                //Log.d(TAG,"끝");
-                                if (gestureResult.equals("왼쪽")) {
-                                    Toast.makeText(StartActivity.this, "왼쪽", Toast.LENGTH_SHORT).show();
-                                    String sql = "select * from shortcut where short_cut=4";
-                                    Cursor rs = defaultAct.db.rawQuery(sql, null);
-
-                                    rs.moveToNext();
-                                    int method = rs.getInt(rs.getColumnIndex("method"));
-                                    if (method == START_PHONE_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null))
-                                            callPhone(number);
-
-                                    } else if (method == START_APP_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null)) {
-                                            Intent intent = getPackageManager().getLaunchIntentForPackage(number);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
-                                        }
-                                    } else if (method == START_WEB_CALL) {
-
-                                    }
-
-                                } else if (gestureResult.equals("오른쪽")) {
-                                    Toast.makeText(StartActivity.this, "오른쪽", Toast.LENGTH_SHORT).show();
-                                    String sql = "select * from shortcut where short_cut=5";
-                                    Cursor rs = defaultAct.db.rawQuery(sql, null);
-                                    rs.moveToNext();
-                                    int method = rs.getInt(rs.getColumnIndex("method"));
-                                    if (method == START_PHONE_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null))
-                                            callPhone(number);
-
-
-                                    } else if (method == START_APP_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null)) {
-                                            Intent intent = getPackageManager().getLaunchIntentForPackage(number);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
-                                        }
-                                    } else if (method == START_WEB_CALL) {
-
-                                    }
-                                } else if (gestureResult.equals("아래쪽")) {
-                                    Toast.makeText(StartActivity.this, "아래쪽", Toast.LENGTH_SHORT).show();
-                                    String sql = "select * from shortcut where short_cut=3";
-                                    Cursor rs = defaultAct.db.rawQuery(sql, null);
-                                    rs.moveToNext();
-                                    int method = rs.getInt(rs.getColumnIndex("method"));
-                                    if (method == START_PHONE_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null))
-                                            callPhone(number);
-                                    } else if (method == START_APP_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null)) {
-                                            Intent intent = getPackageManager().getLaunchIntentForPackage(number);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
-                                        }
-                                    } else if (method == START_WEB_CALL) {
-
-                                    }
-
-                                } else if (gestureResult.equals("위쪽")) {
-                                    Toast.makeText(StartActivity.this, "위쪽", Toast.LENGTH_SHORT).show();
-                                    String sql = "select * from shortcut where short_cut=2";
-                                    Cursor rs = defaultAct.db.rawQuery(sql, null);
-                                    rs.moveToNext();
-                                    int method = rs.getInt(rs.getColumnIndex("method"));
-                                    if (method == START_PHONE_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null))
-                                            callPhone(number);
-                                    } else if (method == START_APP_CALL) {
-                                        String number = rs.getString(rs.getColumnIndex("path"));
-                                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
-                                        if (!number.equals(null)) {
-                                            Intent intent = getPackageManager().getLaunchIntentForPackage(number);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
-                                        }
-
-                                    } else if (method == START_WEB_CALL) {
-
-                                    }
-
-                                    gestureResult = "";
-                                }
-                            } else {
-                                updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
-                                updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
-                                heroIcon.x = updatedParameters.x - icon_width / 2;
-                                heroIcon.y = updatedParameters.y - icon_height / 2;
-                                windowManager.updateViewLayout(heroIcon, updatedParameters);
-                                initialPosX = updatedParameters.x;
-                                initialPosY = updatedParameters.y;
-                            }
-                            longClickOn = false;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    return mGestureDetector.onTouchEvent(motionEvent);
+                    break;
                 }
-            });
+                break;
+            case MotionEvent.ACTION_UP:
 
-            mGestureDetector = new GestureDetector(this, mOnSimpleOnGestureListener);
+                updatedParameters.x = initialPosX;
+                updatedParameters.y = initialPosY;
+                windowManager.updateViewLayout(heroIcon, updatedParameters);
+                windowManager.removeView(block_right);
+
+                windowManager.removeView(block_left);
+
+                windowManager.removeView(block_top);
+
+                windowManager.removeView(block_bottom);
+
+                if (longClickOn == false) {
+
+                    //Log.d(TAG,"끝");
+                    if (gestureResult.equals("왼쪽")) {
+                        Toast.makeText(StartActivity.this, "왼쪽", Toast.LENGTH_SHORT).show();
+                        String sql = "select * from shortcut where short_cut=4";
+                        Cursor rs = defaultAct.db.rawQuery(sql, null);
+
+                        rs.moveToNext();
+                        int method = rs.getInt(rs.getColumnIndex("method"));
+                        if (method == START_PHONE_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null))
+                                callPhone(number);
+
+                        } else if (method == START_APP_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null)) {
+                                Intent intent = getPackageManager().getLaunchIntentForPackage(number);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        } else if (method == START_WEB_CALL) {
+
+                        }
+
+                    } else if (gestureResult.equals("오른쪽")) {
+                        Toast.makeText(StartActivity.this, "오른쪽", Toast.LENGTH_SHORT).show();
+                        String sql = "select * from shortcut where short_cut=5";
+                        Cursor rs = defaultAct.db.rawQuery(sql, null);
+                        rs.moveToNext();
+                        int method = rs.getInt(rs.getColumnIndex("method"));
+                        if (method == START_PHONE_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null))
+                                callPhone(number);
+
+
+                        } else if (method == START_APP_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null)) {
+                                Intent intent = getPackageManager().getLaunchIntentForPackage(number);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        } else if (method == START_WEB_CALL) {
+
+                        }
+                    } else if (gestureResult.equals("아래쪽")) {
+                        Toast.makeText(StartActivity.this, "아래쪽", Toast.LENGTH_SHORT).show();
+                        String sql = "select * from shortcut where short_cut=3";
+                        Cursor rs = defaultAct.db.rawQuery(sql, null);
+                        rs.moveToNext();
+                        int method = rs.getInt(rs.getColumnIndex("method"));
+                        if (method == START_PHONE_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null))
+                                callPhone(number);
+                        } else if (method == START_APP_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null)) {
+                                Intent intent = getPackageManager().getLaunchIntentForPackage(number);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        } else if (method == START_WEB_CALL) {
+
+                        }
+
+                    } else if (gestureResult.equals("위쪽")) {
+                        Toast.makeText(StartActivity.this, "위쪽", Toast.LENGTH_SHORT).show();
+                        String sql = "select * from shortcut where short_cut=2";
+                        Cursor rs = defaultAct.db.rawQuery(sql, null);
+                        rs.moveToNext();
+                        int method = rs.getInt(rs.getColumnIndex("method"));
+                        if (method == START_PHONE_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null))
+                                callPhone(number);
+                        } else if (method == START_APP_CALL) {
+                            String number = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
+                            if (!number.equals(null)) {
+                                Intent intent = getPackageManager().getLaunchIntentForPackage(number);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+
+                        } else if (method == START_WEB_CALL) {
+
+                        }
+
+                        gestureResult = "";
+                    }
+                } else {
+                    updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
+                    updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
+                    heroIcon.x = updatedParameters.x - icon_width / 2;
+                    heroIcon.y = updatedParameters.y - icon_height / 2;
+                    windowManager.updateViewLayout(heroIcon, updatedParameters);
+                    initialPosX = updatedParameters.x;
+                    initialPosY = updatedParameters.y;
+                    String sqlPos = "update initialpos set x=?, y=?";
+
+                    defaultAct.db.execSQL(sqlPos, new String[]{
+                            Integer.toString(initialPosX), Integer.toString(initialPosY)
+                    });
+
+                    String sql1 = "select * from initialpos";
+                    Cursor rs1 = defaultAct.db.rawQuery(sql1, null);
+
+                    rs1.moveToNext();
+                    initialPosX = rs1.getInt(rs1.getColumnIndex("x"));
+                    initialPosY = rs1.getInt(rs1.getColumnIndex("y"));
+
+                    Log.d(TAG, initialPosX + " " + initialPosY);
+                }
+                longClickOn = false;
+                break;
+            default:
+                break;
         }
 
-        return START_NOT_STICKY;
+        return mGestureDetector.onTouchEvent(motionEvent);
+
     }
 
     @Override
