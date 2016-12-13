@@ -28,6 +28,9 @@ public class MyDB extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (3)");
         sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (4)");
         sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (5)");
+
+        sqLiteDatabase.execSQL("create table initialpos(x int,y int);");
+        sqLiteDatabase.execSQL("insert into initialpos(x,y) values(350,600);");
     }
 
     @Override
