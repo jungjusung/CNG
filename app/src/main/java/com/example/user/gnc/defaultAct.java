@@ -73,6 +73,11 @@ public class defaultAct extends Activity {
     public void init(){
         myDB = new MyDB(this,"iot.sqlite",null,1);
         db =myDB.getWritableDatabase();
+
+        String sql="update shortcut set call_img=? where short_cut=1";
+        db.execSQL(sql, new String[]{
+                Integer.toString(R.drawable.phone)
+        });
     }
 
     public void checkAccessPermission() {

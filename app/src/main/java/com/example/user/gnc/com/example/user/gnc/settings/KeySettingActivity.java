@@ -26,6 +26,7 @@ public class KeySettingActivity extends Activity {
     String number;
     String TAG;
     String name, phoneNumber;
+
     int DOUBLE_CLICK = 1;
     int TOP_CLICK = 2;
     int BOTTOM_CLICK = 3;
@@ -176,12 +177,17 @@ public class KeySettingActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
         for (int i = 1; i <= 5; i++) {
             String sql = "select * from shortcut where short_cut=" + i;
             Cursor rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
             String name = rs.getString(rs.getColumnIndex("name"));
             String icon_img = rs.getString(rs.getColumnIndex("path"));
+            String call_img=rs.getString(rs.getColumnIndex("call_img"));
+
+            Log.d(TAG,"이미지는??"+call_img);
+
             if (name != null && i == 1) {
                 txt_doubleClick.setText(name);
                 try {
@@ -221,7 +227,6 @@ public class KeySettingActivity extends Activity {
         }
     }
 
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SELECT_PHONE_NUMBER && resultCode == RESULT_OK) {
             // Get the URI and query the content provider for the phone number
@@ -247,16 +252,16 @@ public class KeySettingActivity extends Activity {
                     img_doubleClick.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 2) {
                     txt_top.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_top.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 3) {
                     txt_bottom.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_bottom.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 4) {
                     txt_left.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_left.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 5) {
                     txt_right.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_right.setImageResource(R.drawable.phone);
                 }
 
                 String sql = "update shortcut set name=?, path=?, method=? where short_cut=?";

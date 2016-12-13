@@ -22,7 +22,7 @@ public class MyDB extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("create table img_info(x int, y int, size int, path varchar(2000));");
         sqLiteDatabase.execSQL("insert into img_info(x,y,size,path) values(350,600,0,'');");
         /*어플리케이션에 필요한 테이블이 있으면 테이블은 이 시점에 구축하자.*/
-        sqLiteDatabase.execSQL("create table shortcut(short_cut int, path varchar(200), name varchar(20), method int);");
+        sqLiteDatabase.execSQL("create table shortcut(short_cut int, path varchar(200), name varchar(20), call_img varchar(40), method int);");
         sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (1)");
         sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (2)");
         sqLiteDatabase.execSQL("insert into shortcut ( short_cut) values (3)");
