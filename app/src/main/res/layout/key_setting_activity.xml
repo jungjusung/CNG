@@ -38,13 +38,12 @@
             android:background="@drawable/border2"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="1 :"
-                android:textAlignment="textEnd" />
+                android:src="@drawable/double_tap"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -52,13 +51,14 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="더블 클릭"
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_doubleClick"/>
 
             <TextView
                 android:id="@+id/txt_doubleClick"
@@ -80,13 +80,12 @@
             android:background="@drawable/border2"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="2 :"
-                android:textAlignment="textEnd" />
+                android:src="@drawable/finger_up"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -94,13 +93,14 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="위로 이동"
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_top"/>
 
             <TextView
                 android:id="@+id/txt_top"
@@ -122,13 +122,12 @@
             android:background="@drawable/border2"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="3 :"
-                android:textAlignment="textEnd" />
+                android:src="@drawable/finger_down"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -136,13 +135,14 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="아래로 이동"
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_bottom"/>
 
             <TextView
                 android:id="@+id/txt_bottom"
@@ -164,13 +164,12 @@
             android:background="@drawable/border2"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="4 :"
-                android:textAlignment="textEnd" />
+                android:src="@drawable/finger_left"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -178,13 +177,14 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="왼쪽 이동"
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_left"/>
 
             <TextView
                 android:id="@+id/txt_left"
@@ -206,13 +206,12 @@
             android:background="@drawable/border2"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="5 :"
-                android:textAlignment="textEnd" />
+                android:gravity="left"
+                android:src="@drawable/finger_right"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -220,13 +219,14 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="오른쪽 이동"
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_right"/>
 
             <TextView
                 android:id="@+id/txt_right"

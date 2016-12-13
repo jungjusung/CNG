@@ -3,6 +3,7 @@ package com.example.user.gnc.com.example.user.gnc.settings;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.user.gnc.R;
@@ -38,7 +40,7 @@ public class KeySettingActivity extends Activity {
     private static final int START_WEB_CALL = 3;
 
     TextView txt_doubleClick, txt_right, txt_left, txt_bottom, txt_top;
-
+    ImageView img_doubleClick, img_top, img_bottom, img_right, img_left;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,12 @@ public class KeySettingActivity extends Activity {
 
             }
         });
+
+        img_doubleClick = (ImageView) findViewById(R.id.img_doubleClick);
+        img_top= (ImageView) findViewById(R.id.img_top);
+        img_bottom= (ImageView) findViewById(R.id.img_bottom);
+        img_right= (ImageView) findViewById(R.id.img_right);
+        img_left= (ImageView) findViewById(R.id.img_left);
     }
 
     public void showSelectedDialog(final int short_id) {
@@ -168,25 +176,51 @@ public class KeySettingActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
         for (int i = 1; i <= 5; i++) {
             String sql = "select * from shortcut where short_cut=" + i;
             Cursor rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
             String name = rs.getString(rs.getColumnIndex("name"));
+            String icon_img = rs.getString(rs.getColumnIndex("path"));
             if (name != null && i == 1) {
                 txt_doubleClick.setText(name);
+                try {
+                    img_doubleClick.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
             } else if (name != null && i == 2) {
                 txt_top.setText(name);
+                try {
+                    img_top.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
             } else if (name != null && i == 3) {
                 txt_bottom.setText(name);
+                try {
+                    img_bottom.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
             } else if (name != null && i == 4) {
                 txt_left.setText(name);
+                try {
+                    img_left.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
             } else if (name != null && i == 5) {
                 txt_right.setText(name);
+                try {
+                    img_right.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SELECT_PHONE_NUMBER && resultCode == RESULT_OK) {
