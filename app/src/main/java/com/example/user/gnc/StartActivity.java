@@ -781,8 +781,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                         }
 
-                        gestureResult = "";
+
                     }
+                    gestureResult = "";
                 } else {
                     updatedParameters.x = (int) (initialPosX + (motionEvent.getRawX() - touchedX));
                     updatedParameters.y = (int) (initialPosY + (motionEvent.getRawY() - touchedY));
