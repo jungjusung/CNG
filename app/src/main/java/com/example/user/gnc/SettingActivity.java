@@ -20,9 +20,6 @@ import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-/**
- * Created by user on 2016-11-30.
- */
 
 public class SettingActivity extends Activity {
     String TAG;
@@ -102,7 +99,6 @@ public class SettingActivity extends Activity {
                     image.setImageBitmap(image_bitmap);
                     Uri uri = data.getData();
                     Log.d(TAG, "uri" + uri);
-
 
 
                     String sql = "update img_info set path=?";
