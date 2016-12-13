@@ -244,14 +244,19 @@ public class KeySettingActivity extends Activity {
                 Log.d(TAG, "number는?" + number);
                 if (confirmNum == 1) {
                     txt_doubleClick.setText(number);
+                    img_doubleClick.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 2) {
                     txt_top.setText(number);
+                    img_doubleClick.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 3) {
                     txt_bottom.setText(number);
+                    img_doubleClick.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 4) {
                     txt_left.setText(number);
+                    img_doubleClick.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 5) {
                     txt_right.setText(number);
+                    img_doubleClick.setImageResource(R.drawable.phone);
                 }
 
                 String sql = "update shortcut set name=?, path=?, method=? where short_cut=?";

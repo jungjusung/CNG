@@ -38,6 +38,7 @@ public class SettingActivity extends Activity {
     static final int REQ_CODE_SELECT_IMAGE = 100;
     WindowManager.LayoutParams windowParameters;
     int iconX,iconY;
+    ImageView flagImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,67 +71,69 @@ public class SettingActivity extends Activity {
                 startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                 break;
             case R.id.bt_location:
-                Toast.makeText(this, "깃발로 초기위치를 설정하세요~", Toast.LENGTH_SHORT).show();
-                windowParameters = new WindowManager.LayoutParams(200, 200, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                final LinearLayout layout = new LinearLayout(this);
-                final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                layout.setBackgroundColor(Color.argb(100, 0, 0, 0));
-                layout.setLayoutParams(layoutParams);
+                if(flagImg==null){
+                    Toast.makeText(this, "깃발로 초기위치를 설정하세요~", Toast.LENGTH_SHORT).show();
+                    windowParameters = new WindowManager.LayoutParams(200, 200, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    final LinearLayout layout = new LinearLayout(this);
+                    final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                ImageView img = new ImageView(this);
-                ViewGroup.LayoutParams imgLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                img.setImageResource(R.drawable.initlocationflag);
-                img.setLayoutParams(imgLayoutParams);
-                layout.addView(img);
-                StartActivity.windowManager.addView(layout,windowParameters);
+                    layout.setLayoutParams(layoutParams);
 
-                layout.setOnTouchListener(new View.OnTouchListener() {
-                    private WindowManager.LayoutParams updatedParameters = windowParameters;
-                    float touchedX, touchedY;
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                    flagImg = new ImageView(this);
+                    ViewGroup.LayoutParams imgLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    flagImg.setImageResource(R.drawable.initlocationflag);
+                    flagImg.setLayoutParams(imgLayoutParams);
+                    layout.addView(flagImg);
+                    StartActivity.windowManager.addView(layout,windowParameters);
 
-                        switch (motionEvent.getAction()) {
-                            case MotionEvent.ACTION_DOWN:
+                    layout.setOnTouchListener(new View.OnTouchListener() {
+                        private WindowManager.LayoutParams updatedParameters = windowParameters;
+                        float touchedX, touchedY;
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                                iconX = updatedParameters.x;
-                                iconY = updatedParameters.y;
+                            switch (motionEvent.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
 
-                                touchedX = motionEvent.getRawX();
-                                touchedY = motionEvent.getRawY();
-                                break;
-                            case MotionEvent.ACTION_MOVE:
-                                updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
-                                updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
-                                StartActivity.windowManager.updateViewLayout(layout, updatedParameters);
+                                    iconX = updatedParameters.x;
+                                    iconY = updatedParameters.y;
 
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                Log.d(TAG, "업" +updatedParameters.x+" "+updatedParameters.y);
-                                StartActivity.initialPosX = updatedParameters.x;
-                                StartActivity.initialPosY = updatedParameters.y;
-                                StartActivity.windowManager.removeView(layout);
-                                StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,updatedParameters);
-                                String sql="update initialpos set x=?, y=?";
+                                    touchedX = motionEvent.getRawX();
+                                    touchedY = motionEvent.getRawY();
+                                    break;
+                                case MotionEvent.ACTION_MOVE:
+                                    updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
+                                    updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
+                                    StartActivity.windowManager.updateViewLayout(layout, updatedParameters);
 
-                                defaultAct.db.execSQL(sql,new String[]{
-                                        Integer.toString(StartActivity.initialPosX),Integer.toString(StartActivity.initialPosY)
-                                });
+                                    break;
+                                case MotionEvent.ACTION_UP:
+                                    Log.d(TAG, "업" +updatedParameters.x+" "+updatedParameters.y);
+                                    StartActivity.initialPosX = updatedParameters.x;
+                                    StartActivity.initialPosY = updatedParameters.y;
+                                    StartActivity.windowManager.removeView(layout);
+                                    StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,updatedParameters);
+                                    String sql="update initialpos set x=?, y=?";
 
-                                String sql1 = "select * from initialpos";
-                                Cursor rs = defaultAct.db.rawQuery(sql1, null);
+                                    defaultAct.db.execSQL(sql,new String[]{
+                                            Integer.toString(StartActivity.initialPosX),Integer.toString(StartActivity.initialPosY)
+                                    });
 
-                                rs.moveToNext();
-                                StartActivity.initialPosX= rs.getInt(rs.getColumnIndex("x"));
-                                StartActivity.initialPosY = rs.getInt(rs.getColumnIndex("y"));
+                                    String sql1 = "select * from initialpos";
+                                    Cursor rs = defaultAct.db.rawQuery(sql1, null);
 
-                                Log.d(TAG,StartActivity.initialPosX+" "+StartActivity.initialPosY);
+                                    rs.moveToNext();
+                                    StartActivity.initialPosX= rs.getInt(rs.getColumnIndex("x"));
+                                    StartActivity.initialPosY = rs.getInt(rs.getColumnIndex("y"));
 
-                                break;
+                                    Log.d(TAG,StartActivity.initialPosX+" "+StartActivity.initialPosY);
+                                    flagImg=null;
+                                    break;
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                });
+                    });
+                }
                 break;
             case R.id.bt_size:
                 Toast.makeText(this, "크기 변경하기", Toast.LENGTH_SHORT).show();

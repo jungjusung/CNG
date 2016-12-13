@@ -378,6 +378,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 @Override
                 public void onLongPress(MotionEvent e) {
                     Toast.makeText(StartActivity.this, "롱클릭", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"롱클릭");
                     Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     vibe.vibrate(40);
                     longClickOn = true;
@@ -625,8 +626,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 Log.d(TAG, iconX + " " + iconY + " " + touchedX + " " + touchedY);
                 //우측 버튼 트랩
                 WindowManager.LayoutParams btnParameters1 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters1.x = iconX + 300;
-                btnParameters1.y = iconY;
+                btnParameters1.x = initialPosX + 300;
+                btnParameters1.y = initialPosY;
 
 
                 block_right = new Block(StartActivity.this, btnParameters1.x, btnParameters1.y, 50, 250);
@@ -636,8 +637,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 //좌측 버튼 트랩
                 WindowManager.LayoutParams btnParameters2 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters2.x = iconX - 300;
-                btnParameters2.y = iconY;
+                btnParameters2.x = initialPosX - 300;
+                btnParameters2.y = initialPosY;
 
                 block_left = new Block(StartActivity.this, btnParameters2.x, btnParameters2.y, 50, 250);
                 block_left.setBackgroundColor(Color.RED);
@@ -645,8 +646,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 //위쪽 버튼 트랩
                 WindowManager.LayoutParams btnParameters3 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters3.x = iconX;
-                btnParameters3.y = iconY + 300;
+                btnParameters3.x = initialPosX;
+                btnParameters3.y = initialPosY + 300;
 
                 block_top = new Block(StartActivity.this, btnParameters3.x, btnParameters3.y, 250, 50);
                 block_top.setBackgroundColor(Color.RED);
@@ -654,8 +655,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 //아래쪽 버튼 트랩
                 WindowManager.LayoutParams btnParameters4 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters4.x = iconX;
-                btnParameters4.y = iconY - 300;
+                btnParameters4.x = initialPosX;
+                btnParameters4.y = initialPosY - 300;
 
                 block_bottom = new Block(StartActivity.this, btnParameters4.x, btnParameters4.y, 250, 50);
                 block_bottom.setBackgroundColor(Color.RED);
@@ -752,6 +753,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     //Log.d(TAG,"끝");
                     if (gestureResult.equals("왼쪽")) {
                         Toast.makeText(StartActivity.this, "왼쪽", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG,"왼쪽");
                         String sql = "select * from shortcut where short_cut=4";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
 
@@ -777,6 +779,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                     } else if (gestureResult.equals("오른쪽")) {
                         Toast.makeText(StartActivity.this, "오른쪽", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG,"오른쪽");
                         String sql = "select * from shortcut where short_cut=5";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
                         rs.moveToNext();
@@ -801,6 +804,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         }
                     } else if (gestureResult.equals("아래쪽")) {
                         Toast.makeText(StartActivity.this, "아래쪽", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG,"아래쪽");
                         String sql = "select * from shortcut where short_cut=3";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
                         rs.moveToNext();
@@ -824,6 +828,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                     } else if (gestureResult.equals("위쪽")) {
                         Toast.makeText(StartActivity.this, "위쪽", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG,"위쪽");
                         String sql = "select * from shortcut where short_cut=2";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
                         rs.moveToNext();
@@ -846,8 +851,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                         }
 
-                        gestureResult = "";
                     }
+                    gestureResult = "";
                 } else {
                     updatedParameters.x = (int) (initialPosX + (motionEvent.getRawX() - touchedX));
                     updatedParameters.y = (int) (initialPosY + (motionEvent.getRawY() - touchedY));
@@ -870,6 +875,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     initialPosY = rs1.getInt(rs1.getColumnIndex("y"));
 
                     Log.d(TAG, initialPosX + " " + initialPosY);
+                    gestureResult = "";
                 }
                 longClickOn = false;
                 break;
