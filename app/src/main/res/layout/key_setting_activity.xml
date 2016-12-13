@@ -57,7 +57,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_doubleClick"/>
 
             <TextView
                 android:id="@+id/txt_doubleClick"
@@ -98,7 +99,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_top"/>
 
             <TextView
                 android:id="@+id/txt_top"
@@ -139,7 +141,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_bottom"/>
 
             <TextView
                 android:id="@+id/txt_bottom"
@@ -180,7 +183,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_left"/>
 
             <TextView
                 android:id="@+id/txt_left"
@@ -221,7 +225,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img_right"/>
 
             <TextView
                 android:id="@+id/txt_right"

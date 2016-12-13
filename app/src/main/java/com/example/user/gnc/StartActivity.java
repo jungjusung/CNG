@@ -592,7 +592,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
                 block_right = new Block(StartActivity.this, btnParameters1.x, btnParameters1.y, 50, 250);
+                block_right.setBackgroundColor(Color.RED);
                 windowManager.addView(block_right, btnParameters1);
+
 
                 //좌측 버튼 트랩
                 WindowManager.LayoutParams btnParameters2 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
@@ -600,6 +602,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 btnParameters2.y = iconY;
 
                 block_left = new Block(StartActivity.this, btnParameters2.x, btnParameters2.y, 50, 250);
+                block_left.setBackgroundColor(Color.RED);
                 windowManager.addView(block_left, btnParameters2);
 
                 //위쪽 버튼 트랩
@@ -608,6 +611,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 btnParameters3.y = iconY + 300;
 
                 block_top = new Block(StartActivity.this, btnParameters3.x, btnParameters3.y, 250, 50);
+                block_top.setBackgroundColor(Color.RED);
                 windowManager.addView(block_top, btnParameters3);
 
                 //아래쪽 버튼 트랩
@@ -616,13 +620,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 btnParameters4.y = iconY - 300;
 
                 block_bottom = new Block(StartActivity.this, btnParameters4.x, btnParameters4.y, 250, 50);
+                block_bottom.setBackgroundColor(Color.RED);
                 windowManager.addView(block_bottom, btnParameters4);
                 break;
             case MotionEvent.ACTION_MOVE:
                 //Log.d(TAG,"무브");
 
-                updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
-                updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
+                updatedParameters.x = (int) (initialPosX + (motionEvent.getRawX() - touchedX));
+                updatedParameters.y = (int) (initialPosY + (motionEvent.getRawY() - touchedY));
 
                 heroIcon.x = updatedParameters.x - icon_width / 2;
                 heroIcon.y = updatedParameters.y - icon_height / 2;
@@ -779,8 +784,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         gestureResult = "";
                     }
                 } else {
-                    updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
-                    updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
+                    updatedParameters.x = (int) (initialPosX + (motionEvent.getRawX() - touchedX));
+                    updatedParameters.y = (int) (initialPosY + (motionEvent.getRawY() - touchedY));
                     heroIcon.x = updatedParameters.x - icon_width / 2;
                     heroIcon.y = updatedParameters.y - icon_height / 2;
                     windowManager.updateViewLayout(heroIcon, updatedParameters);
