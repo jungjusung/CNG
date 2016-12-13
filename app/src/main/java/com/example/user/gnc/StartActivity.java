@@ -43,18 +43,20 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     private LinearLayout bli;
     private LinearLayout sub_li1, sub_li2, sub_li3;
-
+    private LinearLayout main_li1, main_li2;
     int iconX, iconY;
-    int icon_width = 200;
-    int icon_height = 200;
+    int icon_width = 150;
+    int icon_height = 150;
     RelativeLayout layout;
     RelativeLayout title;
     RelativeLayout copyright;
     //RelativeLayout layout_start;
     WindowManager.LayoutParams params, params2, params3, params4;
+    WindowManager.LayoutParams main_parameters1,main_parameters2;
     TextView txt_setting;
     TextView txt_turn;
     static WindowManager windowManager;
+    DisplayMetrics dm;
     Boolean longClickOn = false;
     public static StartActivity startActivity;
 
@@ -86,6 +88,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
     private static final int MOVE_RIGHT = 5;
 
     static int limitY;
+    static int limitX;
     float touchedX, touchedY;
 
     static HeroIcon heroIcon;
@@ -100,7 +103,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
     public void onCreate() {
         TAG = this.getClass().getName();
         startActivity = this;
-
+        main_parameters1 = new WindowManager.LayoutParams(icon_width*2, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+        main_parameters2 = new WindowManager.LayoutParams(icon_width*2, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         super.onCreate();
     }
 
@@ -154,9 +158,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG,"나는 언제 실행되는것인가?");
-        DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();
+        dm = Resources.getSystem().getDisplayMetrics();
         //dm.widthPixels;
         limitY = (dm.heightPixels / 2) - 500;
+        limitX = (dm.widthPixels / 2)-icon_width*2;
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         //초기 위치 설정
@@ -426,10 +431,15 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
-                    Toast.makeText(StartActivity.this, "원클릭", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(StartActivity.this,Float.toString(main_li1.getX()), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "확인사항 " + Integer.toString(main_parameters1.x));
+
+                    Log.d(TAG, "전체 스크린 width " +dm.widthPixels);
+                    Log.d(TAG, "전체 스크린 height " +dm.heightPixels);
+                    Log.d(TAG,"확인 할 x 좌표 "+Integer.toString(initialPosX-(dm.widthPixels/2-icon_width/2)));
                     Log.d(TAG, "투명도: " + Float.toString(params2.alpha));
-                    Log.d(TAG, "X좌표: " + Integer.toString(params2.x));
-                    Log.d(TAG, "Y좌표: " + Integer.toString(params2.y));
+                    Log.d(TAG, "X좌표: " + initialPosX);
+                    Log.d(TAG, "Y좌표: " + initialPosY);
                     bli = new LinearLayout(StartActivity.this);
 
                     LinearLayout.LayoutParams bliParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -449,41 +459,51 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         @Override
                         public void onClick(View view) {
                             if (windowManager != null) {
-                                windowManager.removeView(sub_li1);
-                                windowManager.removeView(txt_turn);
+                                windowManager.removeView(main_li1);
+                                //windowManager.removeView(txt_turn);
                             }
                             if (windowManager != null) {
-                                windowManager.removeView(sub_li2);
-                                windowManager.removeView(txt_setting);
+                                windowManager.removeView(main_li2);
+                                //windowManager.removeView(txt_setting);
                             }
                             windowManager.removeView(bli);
                         }
                     });
-
+                    main_li1=new LinearLayout(StartActivity.this);
                     sub_li1 = new LinearLayout(StartActivity.this);
                     txt_turn = new TextView(StartActivity.this);
+                    LinearLayout.LayoutParams main_liParameters1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     LinearLayout.LayoutParams sub_liParameters1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+                    main_li1.setLayoutParams(main_liParameters1);
+                    main_li1.setOrientation(LinearLayout.HORIZONTAL);
+
                     sub_li1.setBackgroundColor(Color.argb(66, 255, 0, 0));
                     sub_li1.setLayoutParams(sub_liParameters1);
 
                     txt_turn.setText("종료");
+                    txt_turn.setGravity(Gravity.CENTER_VERTICAL);
+                    //txt_turn.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
 
                     WindowManager.LayoutParams sub_parameters1 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
                     WindowManager.LayoutParams txt_turn_parameters = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-
-                    sub_parameters1.x = initialPosX;
+                    //txt_turn_parameters.gravity=Gravity.CENTER;
+                    main_parameters1.x=initialPosX;
                     if (initialPosY < -limitY) {
-                        sub_parameters1.y = initialPosY + 200;
+                        main_parameters1.y = initialPosY + 200;
                     } else {
-                        sub_parameters1.y = initialPosY - 200;
+                        main_parameters1.y = initialPosY - 200;
                     }
 
-                    txt_turn_parameters.y = sub_parameters1.y;
-                    txt_turn_parameters.x = sub_parameters1.x - 150 * 2;
-
                     sub_li1.setBackgroundResource(R.drawable.turn_on);
-                    windowManager.addView(txt_turn, txt_turn_parameters);
-                    windowManager.addView(sub_li1, sub_parameters1);
+
+                    main_li1.addView(txt_turn,txt_turn_parameters);
+                    main_li1.addView(sub_li1, sub_parameters1);
+                    main_parameters1.x=main_parameters1.x-icon_width/2;
+
+
+                    windowManager.addView(main_li1,main_parameters1);
 
                     sub_li1.setOnClickListener(new View.OnClickListener() {
 
@@ -493,13 +513,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             stopSelf();
                             //stopService(new Intent(StartActivity.this, StartActivity.class));
                             if (windowManager != null) {
-                                windowManager.removeView(sub_li1);
-                                windowManager.removeView(txt_turn);
+                                windowManager.removeView(main_li1);
+                                //windowManager.removeView(txt_turn);
 
                             }
                             if (windowManager != null) {
-                                windowManager.removeView(sub_li2);
-                                windowManager.removeView(txt_setting);
+                                windowManager.removeView(main_li2);
+                                //windowManager.removeView(txt_setting);
                             }
 
                             windowManager.removeView(bli);
@@ -508,28 +528,46 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
                     windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+                    main_li2=new LinearLayout(StartActivity.this);
                     sub_li2 = new LinearLayout(StartActivity.this);
                     txt_setting = new TextView(StartActivity.this);
+
+
+
+                    txt_setting.setGravity(Gravity.CENTER_VERTICAL);
                     txt_setting.setText("설정");
                     LinearLayout.LayoutParams sub_liParameters2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    LinearLayout.LayoutParams main_liParameters2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    main_li2.setLayoutParams(main_liParameters2);
+                    main_li2.setOrientation(LinearLayout.HORIZONTAL);
+
+
                     sub_li2.setBackgroundColor(Color.argb(66, 0, 255, 0));
                     sub_li2.setLayoutParams(sub_liParameters2);
+
 
                     WindowManager.LayoutParams sub_parameters2 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
                     WindowManager.LayoutParams txt_setting_parameters = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
-                    sub_parameters2.x = initialPosX;
+
+
+                    main_parameters2.x = initialPosX;
                     if (initialPosY < -limitY) {
-                        sub_parameters2.y = initialPosY + 400;
+                        main_parameters2.y = initialPosY + 400;
                     } else {
-                        sub_parameters2.y = initialPosY - 400;
+                        main_parameters2.y = initialPosY - 400;
                     }
 
-                    txt_setting_parameters.y = sub_parameters2.y;
-                    txt_setting_parameters.x = sub_parameters2.x - 150 * 2;
+
+
+                    main_li2.addView(txt_setting,txt_setting_parameters);
+                    main_li2.addView(sub_li2,sub_parameters2);
+                    main_parameters2.x=main_parameters2.x-icon_width/2;
                     sub_li2.setBackgroundResource(R.drawable.setting);
-                    windowManager.addView(txt_setting, txt_setting_parameters);
-                    windowManager.addView(sub_li2, sub_parameters2);
+
+
+                    windowManager.addView(main_li2, main_parameters2);
+
 
                     sub_li2.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -541,12 +579,12 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
                             if (windowManager != null) {
-                                windowManager.removeView(sub_li1);
-                                windowManager.removeView(txt_turn);
+                                windowManager.removeView(main_li1);
+                                //windowManager.removeView(txt_turn);
                             }
                             if (windowManager != null) {
-                                windowManager.removeView(sub_li2);
-                                windowManager.removeView(txt_setting);
+                                windowManager.removeView(main_li2);
+                                //windowManager.removeView(txt_setting);
                             }
 
                             windowManager.removeView(bli);
@@ -626,13 +664,40 @@ public class StartActivity extends Service implements View.OnTouchListener {
             case MotionEvent.ACTION_MOVE:
                 //Log.d(TAG,"무브");
 
+
                 updatedParameters.x = (int) (initialPosX + (motionEvent.getRawX() - touchedX));
                 updatedParameters.y = (int) (initialPosY + (motionEvent.getRawY() - touchedY));
+                if(updatedParameters.y<0) {
+                    if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)){
+                        updatedParameters.y=(dm.heightPixels / 2 - icon_height / 2)*(-1);
+                    }
+                }else{
+                    if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)){
+                        updatedParameters.y=(dm.heightPixels / 2 - icon_height / 2);
+                    }
+                }
 
-                heroIcon.x = updatedParameters.x - icon_width / 2;
-                heroIcon.y = updatedParameters.y - icon_height / 2;
+                if(updatedParameters.x<0) {
+                    if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)){
+                        updatedParameters.x=(dm.widthPixels / 2 - icon_width / 2)*(-1);
+                    }
+                }else{
+                    if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)){
+                        updatedParameters.x=(dm.widthPixels / 2 - icon_width / 2);
+                    }
+                }
+
+
+
+                //heroIcon.x = updatedParameters.x - icon_width / 2;
+                //heroIcon.y = updatedParameters.y - icon_height / 2;
+                heroIcon.x = updatedParameters.x;
+                heroIcon.y = updatedParameters.y;
 
                 windowManager.updateViewLayout(heroIcon, updatedParameters);
+                params2=updatedParameters;
+                Log.d(TAG,"갱신되는 x "+params2.x+"   갱신되는 y "+params2.y);
+
 
 
                 boolean[] result1 = hitTest(heroIcon, block_bottom);
