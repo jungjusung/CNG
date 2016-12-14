@@ -17,6 +17,8 @@ import com.example.user.gnc.R;
 
 import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 
 public class SizeSettingActivity extends Activity {
@@ -39,6 +41,9 @@ public class SizeSettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.size_setting_activity);
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         String sql = "select * from img_info";
         Cursor rs = defaultAct.db.rawQuery(sql, null);
@@ -51,7 +56,6 @@ public class SizeSettingActivity extends Activity {
         wm = StartActivity.windowManager;
         sizeBar = (SeekBar) findViewById(R.id.sizeBar);
         imageView = (ImageView) findViewById(R.id.change_image);
-        textView = (TextView) findViewById(R.id.textView);
         params=imageView.getLayoutParams();
         params.width=init;
         params.height=init;
