@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.example.user.gnc.R;
 import com.example.user.gnc.defaultAct;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,6 +62,11 @@ public class KeySettingActivity extends Activity {
         Log.d(TAG, "onCreate호출");
 
         setContentView(R.layout.key_setting_activity);
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         txt_doubleClick = (TextView) findViewById(R.id.txt_doubleClick);
         txt_right = (TextView) findViewById(R.id.txt_right);
         txt_left = (TextView) findViewById(R.id.txt_left);
