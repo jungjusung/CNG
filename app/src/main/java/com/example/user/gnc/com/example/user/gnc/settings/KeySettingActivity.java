@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -18,6 +21,9 @@ import android.widget.TextView;
 import com.example.user.gnc.R;
 import com.example.user.gnc.defaultAct;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Created by Jusung on 2016. 11. 30..
  */
@@ -26,6 +32,10 @@ public class KeySettingActivity extends Activity {
     String number;
     String TAG;
     String name, phoneNumber;
+
+    /*이미지 변수 선언 중 @@*/
+    String call_img;
+
     int DOUBLE_CLICK = 1;
     int TOP_CLICK = 2;
     int BOTTOM_CLICK = 3;
@@ -41,10 +51,13 @@ public class KeySettingActivity extends Activity {
 
     TextView txt_doubleClick, txt_right, txt_left, txt_bottom, txt_top;
     ImageView img_doubleClick, img_top, img_bottom, img_right, img_left;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
+
+        Log.d(TAG, "onCreate호출");
 
         setContentView(R.layout.key_setting_activity);
         txt_doubleClick = (TextView) findViewById(R.id.txt_doubleClick);
@@ -86,10 +99,71 @@ public class KeySettingActivity extends Activity {
         });
 
         img_doubleClick = (ImageView) findViewById(R.id.img_doubleClick);
-        img_top= (ImageView) findViewById(R.id.img_top);
-        img_bottom= (ImageView) findViewById(R.id.img_bottom);
-        img_right= (ImageView) findViewById(R.id.img_right);
-        img_left= (ImageView) findViewById(R.id.img_left);
+        img_top = (ImageView) findViewById(R.id.img_top);
+        img_bottom = (ImageView) findViewById(R.id.img_bottom);
+        img_right = (ImageView) findViewById(R.id.img_right);
+        img_left = (ImageView) findViewById(R.id.img_left);
+
+        for (int i = 1; i <= 5; i++) {
+            Log.d(TAG, "첫번째 포문");
+
+            String sql = "select * from shortcut where short_cut=" + i;
+            Cursor rs = defaultAct.db.rawQuery(sql, null);
+
+            rs.moveToNext();
+
+            int method=rs.getInt(rs.getColumnIndex("method"));
+
+            if(method!=START_PHONE_CALL && method!=START_APP_CALL&& method!=START_WEB_CALL){
+                if(i==1){
+                    img_doubleClick.setImageResource(R.drawable.logo2);
+                }
+                if(i==2){
+                    img_top.setImageResource(R.drawable.logo2);
+                }
+                if(i==3){
+                    img_bottom.setImageResource(R.drawable.logo2);
+                }
+                if(i==4){
+                    img_left.setImageResource(R.drawable.logo2);
+                }
+                if(i==5){
+                    img_right.setImageResource(R.drawable.logo2);
+                }
+            } else if(method==START_PHONE_CALL){
+                if(i==1){
+                    img_doubleClick.setImageResource(R.drawable.phone);
+                }
+                if(i==2){
+                    img_top.setImageResource(R.drawable.phone);
+                }
+                if(i==3){
+                    img_bottom.setImageResource(R.drawable.phone);
+                }
+                if(i==4){
+                    img_left.setImageResource(R.drawable.phone);
+                }
+                if(i==5){
+                    img_right.setImageResource(R.drawable.phone);
+                }
+            } else if(method==START_WEB_CALL){
+                if(i==1){
+                    img_doubleClick.setImageResource(R.drawable.internet);
+                }
+                if(i==2){
+                    img_top.setImageResource(R.drawable.internet);
+                }
+                if(i==3){
+                    img_bottom.setImageResource(R.drawable.internet);
+                }
+                if(i==4){
+                    img_left.setImageResource(R.drawable.internet);
+                }
+                if(i==5){
+                    img_right.setImageResource(R.drawable.internet);
+                }
+            }
+        }
     }
 
     public void showSelectedDialog(final int short_id) {
@@ -164,6 +238,8 @@ public class KeySettingActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_SELECT_PHONE_NUMBER);
             confirmNum = short_id;
+
+            Log.d(TAG, "shortID는?" + short_id);
         }
     }
 
@@ -180,14 +256,27 @@ public class KeySettingActivity extends Activity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG, "onStart호출");
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+
+        Log.d(TAG, "onResume호출");
+
         for (int i = 1; i <= 5; i++) {
             String sql = "select * from shortcut where short_cut=" + i;
             Cursor rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
             String name = rs.getString(rs.getColumnIndex("name"));
             String icon_img = rs.getString(rs.getColumnIndex("path"));
+
+            Log.d(TAG, "이미지는??" + call_img);
+
             if (name != null && i == 1) {
                 txt_doubleClick.setText(name);
                 try {
@@ -227,7 +316,6 @@ public class KeySettingActivity extends Activity {
         }
     }
 
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SELECT_PHONE_NUMBER && resultCode == RESULT_OK) {
             // Get the URI and query the content provider for the phone number
@@ -241,10 +329,10 @@ public class KeySettingActivity extends Activity {
             // If the cursor returned is valid, get the phone number
             if (cursor != null && cursor.moveToFirst()) {
                 int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                int nameIndex=cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
 
                 number = cursor.getString(numberIndex);
-                name=cursor.getString(nameIndex);
+                name = cursor.getString(nameIndex);
 
                 // Do something with the phone number
                 Log.d(TAG, "number는?" + number);
@@ -253,23 +341,24 @@ public class KeySettingActivity extends Activity {
                     img_doubleClick.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 2) {
                     txt_top.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_top.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 3) {
                     txt_bottom.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_bottom.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 4) {
                     txt_left.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_left.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 5) {
                     txt_right.setText(number);
-                    img_doubleClick.setImageResource(R.drawable.phone);
+                    img_right.setImageResource(R.drawable.phone);
                 }
 
                 String sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
 
                 defaultAct.db.execSQL(sql, new String[]{
-                        name+"에게 전화걸기", number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
+                        name + "에게 전화걸기", number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
                 });
+
                 confirmNum = -1;
             }
         }

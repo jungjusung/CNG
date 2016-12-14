@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +18,9 @@ import android.util.Log;
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 import com.example.user.gnc.db.ImageDAO;
 import com.example.user.gnc.db.ShortcutDAO;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Jusung on 2016. 11. 29..
