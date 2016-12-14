@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Switch;
 
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 import com.example.user.gnc.db.ImageDAO;
@@ -80,6 +82,21 @@ public class defaultAct extends Activity {
         db =myDB.getWritableDatabase();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode){
+            case REQUEST_ACCESS_CONTACTS:
+                if(permissions.length>0&&grantResults[0]==PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "연락처 사용권한을 주셔야 사용이 가능합니다."); break;
+                } else if(permissions.length>0&&grantResults[1]==PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다."); break;
+                }else if(permissions.length>0&&grantResults[2]==PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다."); break;
+                }
+        }
+    }
+
+    /*연락처, 전화, 사진 권한 요청*/
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
         int iconPermission= ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -93,5 +110,10 @@ public class defaultAct extends Activity {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, REQUEST_ACCESS_CONTACTS);
         }
+    }
+
+    public void showMsg(String title, String msg) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(title).setMessage(msg).show();
     }
 }
