@@ -415,6 +415,15 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                         }
 
+                    }else if(method == START_WEB_CALL){
+                        String urlPath = rs.getString(rs.getColumnIndex("path"));
+                        Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                        if(!urlPath.equals(null)){
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setData(Uri.parse(urlPath));
+                            startActivity(intent);
+                        }
                     }
                     return super.onDoubleTap(e);
                 }
@@ -709,7 +718,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         } else if (method == START_WEB_CALL) {
-
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse(urlPath));
+                                startActivity(intent);
+                            }
                         }
 
                     } else if (gestureResult.equals("오른쪽")) {
@@ -735,7 +751,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         } else if (method == START_WEB_CALL) {
-
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse(urlPath));
+                                startActivity(intent);
+                            }
                         }
                     } else if (gestureResult.equals("아래쪽")) {
                         Toast.makeText(StartActivity.this, "아래쪽", Toast.LENGTH_SHORT).show();
@@ -758,7 +781,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         } else if (method == START_WEB_CALL) {
-
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse(urlPath));
+                                startActivity(intent);
+                            }
                         }
 
                     } else if (gestureResult.equals("위쪽")) {
@@ -783,6 +813,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             }
 
                         } else if (method == START_WEB_CALL) {
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                  Intent intent = new Intent(Intent.ACTION_VIEW);
+                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                  intent.setData(Uri.parse(urlPath));
+                                 startActivity(intent);
+                            }
 
                         }
 
