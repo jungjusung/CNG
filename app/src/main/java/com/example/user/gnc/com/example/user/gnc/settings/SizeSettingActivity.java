@@ -66,9 +66,6 @@ public class SizeSettingActivity extends Activity {
         sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                //Toast.makeText(SizeSettingActivity.this, i + "의 값", Toast.LENGTH_SHORT).show();
-
-
                 if (i < 0)
                     seekBar.setProgress(0);
                 if (i > max)

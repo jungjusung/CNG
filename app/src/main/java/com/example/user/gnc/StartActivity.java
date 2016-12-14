@@ -77,22 +77,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
     Block block_left, block_right, block_top, block_bottom;
 
 
-
-
-
-
-
-
     private static final int START_PHONE_CALL = 1;
     private static final int START_APP_CALL = 2;
     private static final int START_WEB_CALL = 3;
-
-
-
-
-
-
-
 
     private static final int DOUBLE_CLICK = 1;
     private static final int MOVE_UP = 2;

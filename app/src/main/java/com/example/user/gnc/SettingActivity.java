@@ -117,6 +117,8 @@ public class SettingActivity extends Activity {
                                     StartActivity.initialPosX = updatedParameters.x;
                                     StartActivity.initialPosY = updatedParameters.y;
                                     StartActivity.windowManager.removeView(layout);
+                                    updatedParameters.width=StartActivity.icon_width;
+                                    updatedParameters.height=StartActivity.icon_height;
                                     StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,updatedParameters);
                                     String sql="update initialpos set x=?, y=?";
 
@@ -130,7 +132,8 @@ public class SettingActivity extends Activity {
                                     rs.moveToNext();
                                     StartActivity.initialPosX= rs.getInt(rs.getColumnIndex("x"));
                                     StartActivity.initialPosY = rs.getInt(rs.getColumnIndex("y"));
-
+                                    StartActivity.params2.x=StartActivity.initialPosX;
+                                    StartActivity.params2.y=StartActivity.initialPosY;
                                     Log.d(TAG,StartActivity.initialPosX+" "+StartActivity.initialPosY);
                                     flagImg=null;
                                     break;
