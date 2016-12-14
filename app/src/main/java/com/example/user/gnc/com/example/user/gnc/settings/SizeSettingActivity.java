@@ -28,9 +28,9 @@ public class SizeSettingActivity extends Activity {
 
         setContentView(R.layout.size_setting_activity);
 
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+  /*      AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);*/
 
         sizeBar = (SeekBar) findViewById(R.id.sizeBar);
         imageView = (ImageView) findViewById(R.id.change_image);
