@@ -7,6 +7,7 @@ package com.example.user.gnc.com.example.user.gnc.settings;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -56,6 +57,8 @@ public class AppListActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(this, ManualAppListActivity.class);
+        startActivity(intent);
         setContentView(R.layout.app_list_layout);
         short_cut = Integer.parseInt(getIntent().getStringExtra("short_cut"));
         mLoadingContainer = findViewById(R.id.loading_container);

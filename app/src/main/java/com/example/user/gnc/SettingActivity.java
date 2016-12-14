@@ -45,6 +45,8 @@ public class SettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(this, ManualSettingActivity.class);
+        startActivity(intent);
         setContentView(R.layout.setting_layout);
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();

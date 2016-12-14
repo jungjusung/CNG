@@ -59,6 +59,9 @@ public class KeySettingActivity extends Activity {
 
         Log.d(TAG, "onCreate호출");
 
+        Intent intent = new Intent(this, ManualKeySettingActivity.class);
+        startActivity(intent);
+
         setContentView(R.layout.key_setting_activity);
         txt_doubleClick = (TextView) findViewById(R.id.txt_doubleClick);
         txt_right = (TextView) findViewById(R.id.txt_right);
