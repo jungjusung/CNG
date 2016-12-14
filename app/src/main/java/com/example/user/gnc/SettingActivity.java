@@ -1,13 +1,24 @@
 package com.example.user.gnc;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,14 +49,25 @@ public class SettingActivity extends Activity {
     int iconX,iconY;
     ImageView flagImg;
 
+    private static final int REQUEST_ACCESS_CONTACTS = 1;
+    private static final int REQUEST_ACCESS_CALL = 2;
+    private static final int REQUEST_EXTERNAL_STORAGE = 3;
+
+    boolean contact_flag = false;
+    boolean storage_flag = false;
+    boolean call_flag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if(checkFlag() == 0){
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
         }
+
+        checkAccessPermission();
 
         setContentView(R.layout.setting_layout);
        /* AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -167,10 +189,13 @@ public class SettingActivity extends Activity {
                     //이미지 데이터를 비트맵으로 받아온다.
                     Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                     ImageView image = (ImageView) findViewById(R.id.img_icon);
+                    Bitmap resized = Bitmap.createScaledBitmap(image_bitmap, 150, 150, true);
                     Log.d(TAG, "비트맵 " + image_bitmap);
 
                     //배치해놓은 ImageView에 set
-                    image.setImageBitmap(image_bitmap);
+
+                    image.setImageBitmap(resized);
+
                     Uri uri = data.getData();
                     Log.d(TAG, "uri" + uri);
 
@@ -183,7 +208,6 @@ public class SettingActivity extends Activity {
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
                     Log.d(TAG, StartActivity.startActivity.heroIcon+"스타트액티비티");
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -215,5 +239,84 @@ public class SettingActivity extends Activity {
         Cursor rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.d(TAG, "onresultper "+Integer.toString(requestCode));
+        switch(requestCode){
+            case REQUEST_ACCESS_CALL:
+                if(permissions.length>0&&grantResults[0]== PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "연락처 사용권한을 주셔야 사용이 가능합니다.");
+                }else if(permissions.length>0&&grantResults[1]==PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
+                }else if(permissions.length>0&&grantResults[2]==PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
+                }else{
+                }
+                break;
+            /*case REQUEST_ACCESS_CALL:
+                if(permissions.length>0&&grantResults[1]==PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
+                }else {
+                    call_flag = true;
+                }
+                break;
+            case REQUEST_ACCESS_CALL:
+                if(permissions.length>0&&grantResults[2]==PackageManager.PERMISSION_DENIED){
+                    showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
+                }else{
+                    storage_flag = true;
+                }
+                break;*/
+        }
+    }
+
+    /*연락처, 전화, 사진 권한 요청*/
+    public void checkAccessPermission() {
+        int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        int iconPermission= ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int accessCall= ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE);
+        if (accessPermission == PackageManager.PERMISSION_DENIED||accessCall==PackageManager.PERMISSION_DENIED||iconPermission== PackageManager.PERMISSION_DENIED) {
+            //유저에게 권한 줄것을 요청
+             /*ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_CONTACTS
+            }, REQUEST_ACCESS_CONTACTS);
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.CALL_PHONE
+            }, REQUEST_ACCESS_CALL);
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            }, REQUEST_EXTERNAL_STORAGE);*/
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.CALL_PHONE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            }, REQUEST_ACCESS_CALL);
+        }
+        Log.d(TAG, "checkAccess 메서드 종료");
+
+    }
+
+    public void showMsg(String title, String msg) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(title).setMessage(msg).setCancelable(true)
+                .setNegativeButton("닫기", null)
+                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                    .setData(Uri.parse("package:" + getPackageName()));
+                            startActivity(intent);
+                        }catch (ActivityNotFoundException e) {
+                            e.printStackTrace();
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                            startActivity(intent);
+                        }
+                    }
+                })
+                .show();
     }
 }

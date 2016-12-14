@@ -651,7 +651,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
                 block_right = new Block(StartActivity.this, btnParameters1.x, btnParameters1.y, 50, 250);
-                block_right.setBackgroundColor(Color.RED);
+        //        block_right.setBackgroundColor(Color.RED);
                 windowManager.addView(block_right, btnParameters1);
 
 
@@ -661,7 +661,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 btnParameters2.y = params2.y;
 
                 block_left = new Block(StartActivity.this, btnParameters2.x, btnParameters2.y, 50, 250);
-                block_left.setBackgroundColor(Color.RED);
+      //          block_left.setBackgroundColor(Color.RED);
                 windowManager.addView(block_left, btnParameters2);
 
                 //위쪽 버튼 트랩
@@ -670,7 +670,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 btnParameters3.y = params2.y + 300;
 
                 block_top = new Block(StartActivity.this, btnParameters3.x, btnParameters3.y, 250, 50);
-                block_top.setBackgroundColor(Color.RED);
+           //     block_top.setBackgroundColor(Color.RED);
                 windowManager.addView(block_top, btnParameters3);
 
                 //아래쪽 버튼 트랩
@@ -679,7 +679,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 btnParameters4.y = params2.y - 300;
 
                 block_bottom = new Block(StartActivity.this, btnParameters4.x, btnParameters4.y, 250, 50);
-                block_bottom.setBackgroundColor(Color.RED);
+          //      block_bottom.setBackgroundColor(Color.RED);
                 windowManager.addView(block_bottom, btnParameters4);
 
                 break;
