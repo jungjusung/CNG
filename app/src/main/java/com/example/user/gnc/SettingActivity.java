@@ -66,12 +66,10 @@ public class SettingActivity extends Activity {
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.bt_key:
-                Toast.makeText(this, "키 변경하기", Toast.LENGTH_SHORT).show();
                 Intent key_intent = new Intent(this, KeySettingActivity.class);
                 startActivity(key_intent);
                 break;
             case R.id.bt_icon:
-                Toast.makeText(this, "아이콘 변경하기", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "아이콘변경하기1");
                 Intent icon_intent = new Intent(Intent.ACTION_PICK);
                 Log.d(TAG, "아이콘변경하기2");
@@ -147,12 +145,10 @@ public class SettingActivity extends Activity {
                 }
                 break;
             case R.id.bt_size:
-                Toast.makeText(this, "크기 변경하기", Toast.LENGTH_SHORT).show();
                 Intent size_intent = new Intent(this, SizeSettingActivity.class);
                 startActivity(size_intent);
                 break;
             case R.id.img_icon: //설정창에 이미지 아이콘
-                Toast.makeText(this, "아이콘 이미지 변경하기", Toast.LENGTH_SHORT).show();
                 Intent serviceIntent = new Intent(SettingActivity.this, StartActivity.class);
                 serviceIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 serviceIntent.putExtra("data", name);
