@@ -27,11 +27,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -346,7 +342,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 @Override
                 public boolean onSingleTapUp(MotionEvent e) {
-                    //Toast.makeText(FloatingWindow.this, "원클릭", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
@@ -363,7 +358,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 @Override
                 public void onLongPress(MotionEvent e) {
-                    Toast.makeText(StartActivity.this, "롱클릭", Toast.LENGTH_SHORT).show();
                     Log.d(TAG,"롱클릭");
                     Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     vibe.vibrate(40);
@@ -383,7 +377,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
-                    Toast.makeText(StartActivity.this, "더블클릭", Toast.LENGTH_SHORT).show();
 
                     String sql = "select * from shortcut where short_cut=1";
                     Cursor rs = defaultAct.db.rawQuery(sql, null);
@@ -392,13 +385,11 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     int method = rs.getInt(rs.getColumnIndex("method"));
                     if (method == START_PHONE_CALL) {
                         String number = rs.getString(rs.getColumnIndex("path"));
-                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                         if (!number.equals(null))
                             callPhone(number);
 
                     } else if (method == START_APP_CALL) {
                         String number = rs.getString(rs.getColumnIndex("path"));
-                        Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                         if (!number.equals(null)) {
                             Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -408,7 +399,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                     }else if(method == START_WEB_CALL){
                         String urlPath = rs.getString(rs.getColumnIndex("path"));
-                        Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
                         if(!urlPath.equals(null)){
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -427,7 +417,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
-                    //Toast.makeText(StartActivity.this,Float.toString(main_li1.getX()), Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "확인사항 " + Integer.toString(main_parameters1.x));
 
                     Log.d(TAG, "전체 스크린 width " +dm.widthPixels);
@@ -520,7 +509,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(StartActivity.this, "1번 클릭", Toast.LENGTH_SHORT).show();
                             stopSelf();
                             //stopService(new Intent(StartActivity.this, StartActivity.class));
                             if (windowManager != null) {
@@ -761,7 +749,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                     //Log.d(TAG,"끝");
                     if (gestureResult.equals("왼쪽")) {
-                        Toast.makeText(StartActivity.this, "왼쪽", Toast.LENGTH_SHORT).show();
                         Log.d(TAG,"왼쪽");
                         String sql = "select * from shortcut where short_cut=4";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
@@ -770,13 +757,11 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null))
                                 callPhone(number);
 
                         } else if (method == START_APP_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null)) {
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -784,7 +769,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             }
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
                             if(!urlPath.equals(null)){
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -794,7 +778,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         }
 
                     } else if (gestureResult.equals("오른쪽")) {
-                        Toast.makeText(StartActivity.this, "오른쪽", Toast.LENGTH_SHORT).show();
                         Log.d(TAG,"오른쪽");
                         String sql = "select * from shortcut where short_cut=5";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
@@ -802,14 +785,12 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null))
                                 callPhone(number);
 
 
                         } else if (method == START_APP_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null)) {
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -817,7 +798,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             }
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
                             if(!urlPath.equals(null)){
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -826,7 +806,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             }
                         }
                     } else if (gestureResult.equals("아래쪽")) {
-                        Toast.makeText(StartActivity.this, "아래쪽", Toast.LENGTH_SHORT).show();
                         Log.d(TAG,"아래쪽");
                         String sql = "select * from shortcut where short_cut=3";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
@@ -834,12 +813,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null))
                                 callPhone(number);
                         } else if (method == START_APP_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null)) {
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -847,7 +824,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             }
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
                             if(!urlPath.equals(null)){
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -857,7 +833,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         }
 
                     } else if (gestureResult.equals("위쪽")) {
-                        Toast.makeText(StartActivity.this, "위쪽", Toast.LENGTH_SHORT).show();
                         Log.d(TAG,"위쪽");
                         String sql = "select * from shortcut where short_cut=2";
                         Cursor rs = defaultAct.db.rawQuery(sql, null);
@@ -865,12 +840,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null))
                                 callPhone(number);
                         } else if (method == START_APP_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, number, Toast.LENGTH_SHORT).show();
                             if (!number.equals(null)) {
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -879,7 +852,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
                             if(!urlPath.equals(null)){
                                   Intent intent = new Intent(Intent.ACTION_VIEW);
                                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
