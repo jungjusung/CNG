@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.defaultAct;
 
 /**
  * Created by user on 2016-12-13.
@@ -31,6 +32,8 @@ public class ManualAppListActivity extends Activity implements CompoundButton.On
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (compoundButton.getId() == R.id.applist_check_view) {
             if (compoundButton.isChecked()) {
+                String sql = "update manual_flags set applist=1";
+                defaultAct.db.execSQL(sql);
                 finish();
             }
         }

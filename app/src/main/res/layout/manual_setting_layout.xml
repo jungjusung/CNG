@@ -42,7 +42,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
-                android:onClick="btnClick"
                 android:orientation="vertical">
 
                 <ImageView
@@ -65,7 +64,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
-                android:onClick="btnClick"
                 android:orientation="vertical">
 
                 <ImageView
@@ -96,7 +94,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
-                android:onClick="btnClick"
                 android:orientation="vertical">
 
                 <ImageView
@@ -120,7 +117,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
-                android:onClick="btnClick"
                 android:orientation="vertical">
 
                 <ImageView

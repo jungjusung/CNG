@@ -45,8 +45,12 @@ public class SettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this, ManualSettingActivity.class);
-        startActivity(intent);
+
+        if(checkFlag() == 0){
+            Intent intent = new Intent(this, ManualSettingActivity.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.setting_layout);
        /* AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -206,4 +210,11 @@ public class SettingActivity extends Activity {
         imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
         return imgPath;
     }*/
+
+    public int checkFlag(){
+        String sql = "select setting from manual_flags";
+        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        rs.moveToNext();
+        return rs.getInt(0);
+    }
 }
