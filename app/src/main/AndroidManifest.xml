@@ -32,9 +32,11 @@
         </activity>
         <service android:name=".StartActivity" />
 
-        <activity android:name=".SettingActivity">
-
+        <activity android:name=".SettingActivity" android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:taskAffinity="" >
         </activity>
+
         <activity android:name=".com.example.user.gnc.settings.IconSettingActivity" />
         <activity android:name=".com.example.user.gnc.settings.KeySettingActivity"/>
         <activity android:name=".com.example.user.gnc.settings.LocationSettingActivity" />

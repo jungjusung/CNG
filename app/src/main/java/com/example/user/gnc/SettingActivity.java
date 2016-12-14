@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,10 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
-import com.example.user.gnc.com.example.user.gnc.settings.LocationSettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -121,6 +117,8 @@ public class SettingActivity extends Activity {
                                     StartActivity.initialPosX = updatedParameters.x;
                                     StartActivity.initialPosY = updatedParameters.y;
                                     StartActivity.windowManager.removeView(layout);
+                                    updatedParameters.width=StartActivity.icon_width;
+                                    updatedParameters.height=StartActivity.icon_height;
                                     StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,updatedParameters);
                                     String sql="update initialpos set x=?, y=?";
 
@@ -134,7 +132,8 @@ public class SettingActivity extends Activity {
                                     rs.moveToNext();
                                     StartActivity.initialPosX= rs.getInt(rs.getColumnIndex("x"));
                                     StartActivity.initialPosY = rs.getInt(rs.getColumnIndex("y"));
-
+                                    StartActivity.params2.x=StartActivity.initialPosX;
+                                    StartActivity.params2.y=StartActivity.initialPosY;
                                     Log.d(TAG,StartActivity.initialPosX+" "+StartActivity.initialPosY);
                                     flagImg=null;
                                     break;
@@ -168,10 +167,13 @@ public class SettingActivity extends Activity {
                     //이미지 데이터를 비트맵으로 받아온다.
                     Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                     ImageView image = (ImageView) findViewById(R.id.img_icon);
+                    Bitmap resized = Bitmap.createScaledBitmap(image_bitmap, 150, 150, true);
                     Log.d(TAG, "비트맵 " + image_bitmap);
 
                     //배치해놓은 ImageView에 set
-                    image.setImageBitmap(image_bitmap);
+
+                    image.setImageBitmap(resized);
+
                     Uri uri = data.getData();
                     Log.d(TAG, "uri" + uri);
 
@@ -184,7 +186,6 @@ public class SettingActivity extends Activity {
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
                     Log.d(TAG, StartActivity.startActivity.heroIcon+"스타트액티비티");
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block

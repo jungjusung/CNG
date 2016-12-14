@@ -68,9 +68,6 @@ public class KeySettingActivity extends Activity {
 
         setContentView(R.layout.key_setting_activity);
 
- /*       AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
 
         txt_doubleClick = (TextView) findViewById(R.id.txt_doubleClick);
         txt_right = (TextView) findViewById(R.id.txt_right);
