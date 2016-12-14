@@ -20,6 +20,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +34,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartActivity extends Service implements View.OnTouchListener {
+public class StartActivity extends Service implements View.OnTouchListener{
 
     String gestureResult = "";
     private LinearLayout li;
     Bitmap bitmap;
 
 
+    boolean startAnimationFlag=false;
     private LinearLayout bli;
     public static LinearLayout sub_li1, sub_li2;
     public static LinearLayout main_li1, main_li2;
@@ -260,6 +262,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 float alpha = Float.parseFloat(str);
                 params2.alpha = alpha;
                 windowManager.updateViewLayout(heroIcon, params2);
+                startAnimationFlag=true;
             }
         };
 
@@ -957,5 +960,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
             e.printStackTrace();
         }
     }
+
+
 }
 
