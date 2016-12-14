@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.defaultAct;
 
 /**
  * Created by user on 2016-12-13.
@@ -30,6 +31,8 @@ public class ManualKeySettingActivity extends Activity implements CompoundButton
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (compoundButton.getId() == R.id.key_check_view) {
             if (compoundButton.isChecked()) {
+                String sql = "update manual_flags set key_setting=1";
+                defaultAct.db.execSQL(sql);
                 finish();
             }
         }
