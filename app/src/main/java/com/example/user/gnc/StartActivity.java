@@ -44,20 +44,21 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
     private LinearLayout bli;
-    private LinearLayout sub_li1, sub_li2, sub_li3;
-    private LinearLayout main_li1, main_li2;
+    public static LinearLayout sub_li1, sub_li2;
+    public static LinearLayout main_li1, main_li2;
     int iconX, iconY;
-    int icon_width = 150;
-    int icon_height = 150;
+    public static int icon_width = 150;
+    public static int icon_height = 150;
     RelativeLayout layout;
     RelativeLayout title;
     RelativeLayout copyright;
     //RelativeLayout layout_start;
-    WindowManager.LayoutParams params, params2, params3, params4;
-    WindowManager.LayoutParams main_parameters1,main_parameters2;
-    TextView txt_setting;
-    TextView txt_turn;
-    static WindowManager windowManager;
+    public static WindowManager.LayoutParams params, params2, params3, params4;
+    public static WindowManager.LayoutParams main_parameters1,main_parameters2,sub_parameters1,sub_parameters2,txt_turn_parameters,txt_setting_parameters;
+    public static LinearLayout.LayoutParams main_liParameters1,main_liParameters2,sub_liParameters1,sub_liParameters2;
+    public static TextView txt_setting,txt_turn;
+
+    public static WindowManager windowManager;
     DisplayMetrics dm;
     Boolean longClickOn = false;
     public static StartActivity startActivity;
@@ -79,9 +80,23 @@ public class StartActivity extends Service implements View.OnTouchListener {
     GestureDetector mGestureDetector;
     Block block_left, block_right, block_top, block_bottom;
 
+
+
+
+
+
+
+
     private static final int START_PHONE_CALL = 1;
     private static final int START_APP_CALL = 2;
     private static final int START_WEB_CALL = 3;
+
+
+
+
+
+
+
 
     private static final int DOUBLE_CLICK = 1;
     private static final int MOVE_UP = 2;
@@ -93,7 +108,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
     static int limitX;
     float touchedX, touchedY;
 
-    static HeroIcon heroIcon;
+    public static HeroIcon heroIcon;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -105,8 +120,15 @@ public class StartActivity extends Service implements View.OnTouchListener {
     public void onCreate() {
         TAG = this.getClass().getName();
         startActivity = this;
-        main_parameters1 = new WindowManager.LayoutParams(icon_width*2, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-        main_parameters2 = new WindowManager.LayoutParams(icon_width*2, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+        String sql = "select * from img_info";
+        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        rs.moveToNext();
+        if(icon_width!=rs.getInt(rs.getColumnIndex("size"))) {
+            icon_width = rs.getInt(rs.getColumnIndex("size"));
+            icon_height = rs.getInt(rs.getColumnIndex("size"));
+        }
+        main_parameters1 = new WindowManager.LayoutParams(icon_width*2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+        main_parameters2 = new WindowManager.LayoutParams(icon_width*2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         super.onCreate();
     }
 
@@ -182,7 +204,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
         params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
 
         //크기 조절 문제점이 여기에 있다.!! params2
-        params2 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+        params2 = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params2.alpha = 0f;
         params2.x = initialPosX;
         params2.y = initialPosY;
@@ -468,8 +490,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     main_li1=new LinearLayout(StartActivity.this);
                     sub_li1 = new LinearLayout(StartActivity.this);
                     txt_turn = new TextView(StartActivity.this);
-                    LinearLayout.LayoutParams main_liParameters1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    LinearLayout.LayoutParams sub_liParameters1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    main_liParameters1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    sub_liParameters1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
                     main_li1.setLayoutParams(main_liParameters1);
                     main_li1.setOrientation(LinearLayout.HORIZONTAL);
@@ -482,14 +504,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     //txt_turn.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
 
-                    WindowManager.LayoutParams sub_parameters1 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                    WindowManager.LayoutParams txt_turn_parameters = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    sub_parameters1 = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    txt_turn_parameters = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
                     //txt_turn_parameters.gravity=Gravity.CENTER;
                     main_parameters1.x=initialPosX;
                     if (initialPosY < -limitY) {
-                        main_parameters1.y = initialPosY + 200;
+                        main_parameters1.y = initialPosY + (icon_height+50);
                     } else {
-                        main_parameters1.y = initialPosY - 200;
+                        main_parameters1.y = initialPosY - (icon_height+50);
                     }
 
                     if(params2.x<0) {
@@ -547,8 +569,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                     txt_setting.setGravity(Gravity.CENTER_VERTICAL);
                     txt_setting.setText("설정");
-                    LinearLayout.LayoutParams sub_liParameters2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    LinearLayout.LayoutParams main_liParameters2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    sub_liParameters2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    main_liParameters2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     main_li2.setLayoutParams(main_liParameters2);
                     main_li2.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -557,16 +579,16 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     sub_li2.setLayoutParams(sub_liParameters2);
 
 
-                    WindowManager.LayoutParams sub_parameters2 = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                    WindowManager.LayoutParams txt_setting_parameters = new WindowManager.LayoutParams(150, 150, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    sub_parameters2 = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+                    txt_setting_parameters = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
 
 
                     main_parameters2.x = initialPosX;
                     if (initialPosY < -limitY) {
-                        main_parameters2.y = initialPosY + 400;
+                        main_parameters2.y = initialPosY + (icon_height+50)*2;
                     } else {
-                        main_parameters2.y = initialPosY - 400;
+                        main_parameters2.y = initialPosY - (icon_height+50)*2;
                     }
 
                     if(params2.x<0) {
