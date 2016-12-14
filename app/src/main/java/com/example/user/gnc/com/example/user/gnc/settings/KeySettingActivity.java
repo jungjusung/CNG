@@ -274,4 +274,46 @@ public class KeySettingActivity extends Activity {
             }
         }
     }
+
+    public void xClick(View view){
+        String sql = "update shortcut set path=null,name=?,method=0 where short_cut=?";
+        switch (view.getId()){
+            case R.id.x1:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(1)
+                });
+                txt_doubleClick.setText("추가하기");
+                img_doubleClick.setImageResource(R.drawable.logo2);
+                break;
+
+            case R.id.x2:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(2)
+                });
+                txt_top.setText("추가하기");
+                img_top.setImageResource(R.drawable.logo2);
+                break;
+            case R.id.x3:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(3)
+                });
+                txt_bottom.setText("추가하기");
+                img_bottom.setImageResource(R.drawable.logo2);
+                break;
+            case R.id.x4:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(4)
+                });
+                txt_left.setText("추가하기");
+                img_left.setImageResource(R.drawable.logo2);
+                break;
+            case R.id.x5:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(5)
+                });
+                txt_right.setText("추가하기");
+                img_right.setImageResource(R.drawable.logo2);
+                break;
+        }
+    }
 }
