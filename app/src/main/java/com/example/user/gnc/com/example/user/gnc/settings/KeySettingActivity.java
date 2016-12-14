@@ -61,8 +61,10 @@ public class KeySettingActivity extends Activity {
 
         Log.d(TAG, "onCreate호출");
 
-        Intent intent = new Intent(this, ManualKeySettingActivity.class);
-        startActivity(intent);
+        if(checkFlag() == 0) {
+            Intent intent = new Intent(this, ManualKeySettingActivity.class);
+            startActivity(intent);
+        }
 
         setContentView(R.layout.key_setting_activity);
 
@@ -372,5 +374,12 @@ public class KeySettingActivity extends Activity {
                 confirmNum = -1;
             }
         }
+    }
+
+    public int checkFlag(){
+        String sql = "select key_setting from manual_flags";
+        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        rs.moveToNext();
+        return rs.getInt(0);
     }
 }
