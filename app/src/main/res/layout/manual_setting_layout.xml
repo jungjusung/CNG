@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/settingColor">
+        >
 
         <TextView
             android:layout_width="0dp"
@@ -38,7 +36,6 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:id="@+id/bt_key"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
@@ -62,7 +59,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/bt_icon"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
@@ -73,7 +69,6 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/img_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/i_image" />
@@ -95,7 +90,6 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:id="@+id/bt_location"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
@@ -120,7 +114,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/bt_size"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
@@ -146,20 +139,23 @@
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-5272695963972081/8136058254">
-        </com.google.android.gms.ads.AdView>
-    </RelativeLayout>
+            android:text="다시보지 않기"
+            android:textSize="25sp"
+            android:layout_weight="6"
+            android:gravity="right"/>
+        <CheckBox
+            android:id="@+id/setting_check_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 </LinearLayout>

@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.gnc.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class SizeSettingActivity extends Activity {
 
@@ -25,9 +27,14 @@ public class SizeSettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.size_setting_activity);
+
+  /*      AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);*/
+
         sizeBar = (SeekBar) findViewById(R.id.sizeBar);
         imageView = (ImageView) findViewById(R.id.change_image);
-        textView = (TextView) findViewById(R.id.textView);
+
         sizeBar.setProgress(INIT_SIZE);
         sizeBar.setMax((max-min)/step);
 
@@ -35,7 +42,6 @@ public class SizeSettingActivity extends Activity {
         Log.d(TAG, "액티비티생성");
         Log.d(TAG, sizeBar.toString());
 
-        textView.setText("액티비티 생성");
         sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
