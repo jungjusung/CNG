@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,10 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
-import com.example.user.gnc.com.example.user.gnc.settings.LocationSettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
