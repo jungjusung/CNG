@@ -146,7 +146,7 @@ public class KeySettingActivity extends Activity {
                         } else if (strName.equals("앱 실행")) {
                             selectApp(short_id);
                         } else if (strName.equals("웹 실행")) {
-
+                            selectWeb(short_id);
                         }
 
                         /*Log.d(TAG,"번호"+number);
@@ -170,6 +170,12 @@ public class KeySettingActivity extends Activity {
     public void selectApp(int short_cut) {
         Intent intent = new Intent(this, AppListActivity.class);
         intent.putExtra("short_cut", Integer.toString(short_cut));
+        startActivity(intent);
+    }
+
+    public void selectWeb(int short_id){
+        Intent intent = new Intent(this,WebListActivity.class);
+        intent.putExtra("short_id",Integer.toString(short_id));
         startActivity(intent);
     }
 

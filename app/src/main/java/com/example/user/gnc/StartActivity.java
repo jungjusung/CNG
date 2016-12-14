@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StartActivity extends Service implements View.OnTouchListener {
 
@@ -108,50 +110,34 @@ public class StartActivity extends Service implements View.OnTouchListener {
         super.onCreate();
     }
 
-    public boolean[] hitTest(HeroIcon heroIcon, Block block) {
-        boolean[] finalResult = new boolean[3];
-        //두물체간 충돌 여부 판단
-        //아래쪽이다.
-        if ((heroIcon.y + (icon_height / 2)) > (initialPosY)) {
-            finalResult[2] = false;
-        }
-        //위쪽이다.
-        if ((heroIcon.y + (icon_height / 2)) < (initialPosY)) {
-            finalResult[2] = true;
-        }
+    public boolean hitTest(HeroIcon heroIcon, Block block) {
 
-        //오른쪽이다.
-        if ((heroIcon.x + (icon_width / 2)) > (initialPosX)) {
-            finalResult[1] = true;
-        }
-
-        //왼쪽이다.
-        if ((heroIcon.x + (icon_width / 2)) < (initialPosX)) {
-            finalResult[1] = false;
-        }
-
-        int me_x = Math.abs(heroIcon.x);
-        int me_y = Math.abs(heroIcon.y);
+        int me_x = heroIcon.x;
+        int me_y = heroIcon.y;
         int me_width = heroIcon.width;
         int me_height = heroIcon.heigth;
 
-        int target_x = Math.abs(block.x);
-        int target_y = Math.abs(block.y);
+
+        int target_x = block.x;
+        int target_y = block.y;
         int target_width = block.width;
         int target_height = block.height;
 
-        //Log.d(TAG,me_x + " "+me_y + " "+me_width + " "+me_height + " ");
-        // Log.d(TAG,target_x + " "+target_y + " "+target_width + " "+target_height + " ");
+        //Log.d(TAG,"내위치 x : "+me_x +" 내위치 y : "+me_y +" 내 너비 : "+me_width + " 내 높이 : "+me_height + " ");
+        //Log.d(TAG,"블락위치 x : "+ target_x + " 블락 위치 y : "+target_y + " 블락 너비 : "+target_width + " 블락 높이 : "+target_height + " ");
 
-        boolean result1 = (me_x >= target_x) && (me_x <= (target_x + target_width));//나의 x좌표위치가 타겟의 x range 내에 있는지 판단
-        boolean result2 = (me_x + me_width >= target_x) && (me_x + me_width <= (target_x + target_width));  //나의 가로폭이 타겟의 가로폭 내에 있는지 판단
+        //내가 오른쪽에서 왼쪽으로 움직이다가 타겟을 만나면 result1 true
+        boolean result1 = (me_x-me_width/2 >= target_x-target_width/2) && (me_x-me_width/2 <= (target_x + target_width+target_width/2));//나의 x좌표위치가 타겟의 x range 내에 있는지 판단
+        //내가 왼쪽에서 오른쪽으로 움직이다가 만나면 result2 true
+        boolean result2 = (me_x + me_width/2 >= target_x-target_width/2) && (me_x + me_width/2 <= (target_x + target_width/2));  //나의 가로폭이 타겟의 가로폭 내에 있는지 판단
 
-        boolean result3 = (me_y >= target_y) && (me_y <= (target_y + target_height));//나의 y좌표위치가 타겟의 세로폭 내에 있는지 판단
-        boolean result4 = (me_y + me_height >= target_y) && (me_y + me_height <= (target_y + target_height));//나의 y폭이 타겟의 세로폭 내에 있는지 판단
+        //내가 아래에서 위로
+        boolean result3 = (me_y-me_height/2 >= target_y-target_height/2) && (me_y-me_height/2 <= (target_y + target_height+target_height/2));//나의 y좌표위치가 타겟의 세로폭 내에 있는지 판단
 
-        finalResult[0] = (result1 || result2) && (result3 || result4);
-        // Log.d(TAG,finalResult[0]+" "+finalResult[1]+" "+finalResult[2]);
-        return finalResult;
+        //내가 위에서 아래로
+        boolean result4 = (me_y + me_height/2 >= target_y-target_height/2) && (me_y + me_height/2 <= (target_y + target_height/2));//나의 y폭이 타겟의 세로폭 내에 있는지 판단
+
+        return (result1||result2)&&(result3||result4);
     }
 
 
@@ -420,6 +406,15 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                         }
 
+                    }else if(method == START_WEB_CALL){
+                        String urlPath = rs.getString(rs.getColumnIndex("path"));
+                        Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                        if(!urlPath.equals(null)){
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setData(Uri.parse(urlPath));
+                            startActivity(intent);
+                        }
                     }
                     return super.onDoubleTap(e);
                 }
@@ -654,8 +649,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 Log.d(TAG, iconX + " " + iconY + " " + touchedX + " " + touchedY);
                 //우측 버튼 트랩
                 WindowManager.LayoutParams btnParameters1 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters1.x = initialPosX + 300;
-                btnParameters1.y = initialPosY;
+                btnParameters1.x = params2.x + 300;
+                btnParameters1.y = params2.y;
 
 
                 block_right = new Block(StartActivity.this, btnParameters1.x, btnParameters1.y, 50, 250);
@@ -665,8 +660,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 //좌측 버튼 트랩
                 WindowManager.LayoutParams btnParameters2 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters2.x = initialPosX - 300;
-                btnParameters2.y = initialPosY;
+                btnParameters2.x = params2.x - 300;
+                btnParameters2.y = params2.y;
 
                 block_left = new Block(StartActivity.this, btnParameters2.x, btnParameters2.y, 50, 250);
                 block_left.setBackgroundColor(Color.RED);
@@ -674,8 +669,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 //위쪽 버튼 트랩
                 WindowManager.LayoutParams btnParameters3 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters3.x = initialPosX;
-                btnParameters3.y = initialPosY + 300;
+                btnParameters3.x = params2.x;
+                btnParameters3.y = params2.y + 300;
 
                 block_top = new Block(StartActivity.this, btnParameters3.x, btnParameters3.y, 250, 50);
                 block_top.setBackgroundColor(Color.RED);
@@ -683,12 +678,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 //아래쪽 버튼 트랩
                 WindowManager.LayoutParams btnParameters4 = new WindowManager.LayoutParams(250, 50, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                btnParameters4.x = initialPosX;
-                btnParameters4.y = initialPosY - 300;
+                btnParameters4.x = params2.x;
+                btnParameters4.y = params2.y - 300;
 
                 block_bottom = new Block(StartActivity.this, btnParameters4.x, btnParameters4.y, 250, 50);
                 block_bottom.setBackgroundColor(Color.RED);
                 windowManager.addView(block_bottom, btnParameters4);
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 //Log.d(TAG,"무브");
@@ -726,41 +722,26 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 windowManager.updateViewLayout(heroIcon, updatedParameters);
                 params2=updatedParameters;
                 Log.d(TAG,"갱신되는 x "+params2.x+"   갱신되는 y "+params2.y);
+                List<Block> list=new ArrayList<Block>();
+                list.add(block_bottom);
+                list.add(block_top);
+                list.add(block_right);
+                list.add(block_left);
 
-
-
-                boolean[] result1 = hitTest(heroIcon, block_bottom);
-                boolean[] result2 = hitTest(heroIcon, block_top);
-                boolean[] result3 = hitTest(heroIcon, block_right);
-                boolean[] result4 = hitTest(heroIcon, block_left);
-                if (result1[0] && (result1[2] == true)) {
-                    //Log.d(TAG,"위쪽");
-                    gestureResult = "위쪽";
-                    break;
-                }
-                if (result2[0] && (result2[2] == false)) {
-                    //Log.d(TAG,"아래쪽");
-                    gestureResult = "아래쪽";
-                    break;
-                }
-                if (result3[0] && (result3[1] == true)) {
-                    //Log.d(TAG,"오른쪽");
-                    gestureResult = "오른쪽";
-                    break;
-                }
-                if (result4[0] && (result4[1] == false)) {
-                    //Log.d(TAG,"왼쪽");
-                    gestureResult = "왼쪽";
-                              /*  updatedParameters.x = initialPosX;
-                                updatedParameters.y = initialPosY;
-                                wm.updateViewLayout(heroIcon,updatedParameters);*/
-                                /*btn_wm1.removeView(block_right);
-                                btn_wm2.removeView(block_left);
-                                btn_wm3.removeView(block_top);
-                                btn_wm4.removeView(block_bottom);
-                                stopSelf();
-                                */
-                    break;
+                for(int i=0;i<4;i++){
+                    boolean result=hitTest(heroIcon,list.get(i));
+                    //Log.d(TAG,i+1+"번째 히트 테스트");
+                    if(result){
+                        if(i==0)
+                            gestureResult="위쪽";
+                        else if(i==1)
+                            gestureResult="아래쪽";
+                        else if(i==2)
+                            gestureResult="오른쪽";
+                        else if(i==3)
+                            gestureResult="왼쪽";
+                        break;
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -802,7 +783,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         } else if (method == START_WEB_CALL) {
-
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse(urlPath));
+                                startActivity(intent);
+                            }
                         }
 
                     } else if (gestureResult.equals("오른쪽")) {
@@ -828,7 +816,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         } else if (method == START_WEB_CALL) {
-
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse(urlPath));
+                                startActivity(intent);
+                            }
                         }
                     } else if (gestureResult.equals("아래쪽")) {
                         Toast.makeText(StartActivity.this, "아래쪽", Toast.LENGTH_SHORT).show();
@@ -851,7 +846,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         } else if (method == START_WEB_CALL) {
-
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse(urlPath));
+                                startActivity(intent);
+                            }
                         }
 
                     } else if (gestureResult.equals("위쪽")) {
@@ -876,6 +878,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             }
 
                         } else if (method == START_WEB_CALL) {
+                            String urlPath = rs.getString(rs.getColumnIndex("path"));
+                            Toast.makeText(StartActivity.this, urlPath, Toast.LENGTH_SHORT).show();
+                            if(!urlPath.equals(null)){
+                                  Intent intent = new Intent(Intent.ACTION_VIEW);
+                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                  intent.setData(Uri.parse(urlPath));
+                                 startActivity(intent);
+                            }
 
                         }
 
