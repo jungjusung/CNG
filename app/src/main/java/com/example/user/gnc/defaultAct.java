@@ -92,6 +92,8 @@ public class defaultAct extends Activity {
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, REQUEST_ACCESS_CONTACTS);
+        }else if(accessPermission == PackageManager.PERMISSION_GRANTED||accessCall==PackageManager.PERMISSION_GRANTED||iconPermission== PackageManager.PERMISSION_GRANTED){
+
         }
     }
 }

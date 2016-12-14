@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -168,10 +170,13 @@ public class SettingActivity extends Activity {
                     //이미지 데이터를 비트맵으로 받아온다.
                     Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                     ImageView image = (ImageView) findViewById(R.id.img_icon);
+                    Bitmap resized = Bitmap.createScaledBitmap(image_bitmap, 150, 150, true);
                     Log.d(TAG, "비트맵 " + image_bitmap);
 
                     //배치해놓은 ImageView에 set
-                    image.setImageBitmap(image_bitmap);
+
+                    image.setImageBitmap(resized);
+
                     Uri uri = data.getData();
                     Log.d(TAG, "uri" + uri);
 
@@ -184,7 +189,6 @@ public class SettingActivity extends Activity {
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
                     Log.d(TAG, StartActivity.startActivity.heroIcon+"스타트액티비티");
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
