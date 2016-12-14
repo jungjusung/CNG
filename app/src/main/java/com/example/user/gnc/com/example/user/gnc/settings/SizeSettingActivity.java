@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import com.example.user.gnc.HeroIcon;
 import com.example.user.gnc.R;
+
 import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
+
 
 public class SizeSettingActivity extends Activity {
 
@@ -37,6 +39,7 @@ public class SizeSettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.size_setting_activity);
+
         String sql = "select * from img_info";
         Cursor rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
@@ -56,12 +59,6 @@ public class SizeSettingActivity extends Activity {
         sizeBar.setProgress(init);
         sizeBar.setMax((max - min) / step);
 
-        TAG = this.getClass().getName();
-        Log.d(TAG, "액티비티생성");
-        Log.d(TAG, sizeBar.toString());
-        Log.d(TAG, iconParam.toString());
-        Log.d(TAG, "처음 너비 : " + iconParam.width + " 처음 높이 : " + iconParam.height);
-        textView.setText("액티비티 생성");
         sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

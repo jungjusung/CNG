@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/settingColor">
+        >
 
         <TextView
             android:layout_width="0dp"
@@ -57,24 +57,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher"
-                android:id="@+id/img_doubleClick"/>
+                android:src="@mipmap/ic_launcher"/>
 
             <TextView
-                android:id="@+id/txt_doubleClick"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-
+                android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="추가 하기"
                 android:textAlignment="center" />
-            <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x1"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -105,23 +97,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher"
-                android:id="@+id/img_top"/>
+                android:src="@mipmap/ic_launcher"/>
 
             <TextView
-                android:id="@+id/txt_top"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="추가 하기"
                 android:textAlignment="center" />
-            <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x2"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,24 +137,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher"
-                android:id="@+id/img_bottom"/>
+                android:src="@mipmap/ic_launcher"/>
 
             <TextView
-                android:id="@+id/txt_bottom"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-
+                android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="추가 하기"
                 android:textAlignment="center" />
-            <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x3"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -200,23 +177,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher"
-                android:id="@+id/img_left"/>
+                android:src="@mipmap/ic_launcher"/>
 
             <TextView
-                android:id="@+id/txt_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="추가 하기"
                 android:textAlignment="center" />
-            <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x4"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -247,23 +217,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:src="@mipmap/ic_launcher"
-                android:id="@+id/img_right"/>
+                android:src="@mipmap/ic_launcher"/>
 
             <TextView
-                android:id="@+id/txt_right"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginRight="50dp"
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="추가 하기"
                 android:textAlignment="center" />
-            <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x5"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -272,30 +235,27 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="2"
             android:orientation="horizontal">
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
             android:layout_weight="2"
-            android:orientation="horizontal"></LinearLayout>
+            android:layout_alignParentBottom="true">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="다시보지 않기"
+                android:textSize="25sp"
+                android:layout_weight="6"
+                android:gravity="right"/>
+            <CheckBox
+                android:id="@+id/key_check_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2">
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-5272695963972081/8136058254">
-        </com.google.android.gms.ads.AdView>
-    </RelativeLayout>
 </LinearLayout>

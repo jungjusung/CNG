@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.example.user.gnc.R;
 import com.example.user.gnc.defaultAct;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +61,17 @@ public class KeySettingActivity extends Activity {
 
         Log.d(TAG, "onCreate호출");
 
+        if(checkFlag() == 0) {
+            Intent intent = new Intent(this, ManualKeySettingActivity.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.key_setting_activity);
+
+ /*       AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);*/
+
         txt_doubleClick = (TextView) findViewById(R.id.txt_doubleClick);
         txt_right = (TextView) findViewById(R.id.txt_right);
         txt_left = (TextView) findViewById(R.id.txt_left);
@@ -361,6 +373,54 @@ public class KeySettingActivity extends Activity {
 
                 confirmNum = -1;
             }
+        }
+    }
+
+    public int checkFlag() {
+        String sql = "select key_setting from manual_flags";
+        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        rs.moveToNext();
+        return rs.getInt(0);
+    }
+    public void xClick(View view){
+        String sql = "update shortcut set path=null,name=?,method=0 where short_cut=?";
+        switch (view.getId()){
+            case R.id.x1:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(1)
+                });
+                txt_doubleClick.setText("추가하기");
+                img_doubleClick.setImageResource(R.drawable.logo2);
+                break;
+
+            case R.id.x2:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(2)
+                });
+                txt_top.setText("추가하기");
+                img_top.setImageResource(R.drawable.logo2);
+                break;
+            case R.id.x3:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(3)
+                });
+                txt_bottom.setText("추가하기");
+                img_bottom.setImageResource(R.drawable.logo2);
+                break;
+            case R.id.x4:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(4)
+                });
+                txt_left.setText("추가하기");
+                img_left.setImageResource(R.drawable.logo2);
+                break;
+            case R.id.x5:
+                defaultAct.db.execSQL(sql, new String[]{
+                        "추가하기",Integer.toString(5)
+                });
+                txt_right.setText("추가하기");
+                img_right.setImageResource(R.drawable.logo2);
+                break;
         }
     }
 }
