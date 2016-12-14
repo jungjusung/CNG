@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -386,7 +387,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
-
                     String sql = "select * from shortcut where short_cut=1";
                     Cursor rs = defaultAct.db.rawQuery(sql, null);
 

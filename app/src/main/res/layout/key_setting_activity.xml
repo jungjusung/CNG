@@ -28,18 +28,28 @@
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
         android:layout_weight="17"
+<<<<<<< HEAD
         android:orientation="vertical"
         android:padding="10dp">
+=======
+        android:padding="5dp"
+        android:orientation="vertical">
+>>>>>>> f22073141913b4aed5ffed0d5949a1aa2a69c25f
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="2dp"
+
             android:layout_weight="2"
             android:background="@drawable/border2"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -58,7 +68,8 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1.2"
                 android:src="@mipmap/ic_launcher"
                 android:id="@+id/img_doubleClick"/>
 
@@ -67,27 +78,36 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
 
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:gravity="center"
-                android:text="추가 하기"
+                android:text=""
                 android:textAlignment="center" />
             <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x1"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content" />
+
+                android:id="@+id/addKey1"
+                android:src="@drawable/chk_sel"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="2dp"
             android:layout_weight="2"
             android:background="@drawable/border2"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -106,7 +126,8 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1.2"
+                android:layout_marginLeft="5dp"
                 android:src="@mipmap/ic_launcher"
                 android:id="@+id/img_top"/>
 
@@ -114,27 +135,35 @@
                 android:id="@+id/txt_top"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:gravity="center"
-                android:text="추가 하기"
+                android:text=""
                 android:textAlignment="center" />
             <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x2"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
+
+                android:id="@+id/addKey2"
+                android:src="@drawable/chk_sel"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="2dp"
             android:layout_weight="2"
             android:background="@drawable/border2"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -153,8 +182,9 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1.2"
                 android:src="@mipmap/ic_launcher"
+                android:layout_marginLeft="5dp"
                 android:id="@+id/img_bottom"/>
 
             <TextView
@@ -162,27 +192,35 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
 
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:gravity="center"
-                android:text="추가 하기"
+                android:text=""
                 android:textAlignment="center" />
             <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x3"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
+
+                android:id="@+id/addKey3"
+                android:src="@drawable/chk_sel"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="2dp"
             android:layout_weight="2"
             android:background="@drawable/border2"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -201,7 +239,8 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1.2"
+                android:layout_marginLeft="5dp"
                 android:src="@mipmap/ic_launcher"
                 android:id="@+id/img_left"/>
 
@@ -209,27 +248,34 @@
                 android:id="@+id/txt_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:gravity="center"
-                android:text="추가 하기"
+                android:text=""
                 android:textAlignment="center" />
             <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x4"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
+                android:id="@+id/addKey4"
+                android:src="@drawable/chk_sel"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="2dp"
             android:layout_weight="2"
             android:background="@drawable/border2"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -248,7 +294,8 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1.2"
+                android:layout_marginLeft="5dp"
                 android:src="@mipmap/ic_launcher"
                 android:id="@+id/img_right"/>
 
@@ -256,16 +303,20 @@
                 android:id="@+id/txt_right"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:gravity="center"
-                android:text="추가 하기"
+                android:text=""
                 android:textAlignment="center" />
             <ImageView
-                android:onClick="xClick"
-                android:id="@+id/x5"
-                android:src="@drawable/x"
-                android:layout_width="30dp"
+                android:id="@+id/addKey5"
+                android:src="@drawable/chk_sel"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                />
         </LinearLayout>
 
         <LinearLayout
