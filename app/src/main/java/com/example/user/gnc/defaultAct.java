@@ -84,7 +84,8 @@ public class defaultAct extends Activity {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, REQUEST_ACCESS_CONTACTS);
         }
     }
