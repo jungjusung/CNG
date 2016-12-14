@@ -376,13 +376,12 @@ public class KeySettingActivity extends Activity {
         }
     }
 
-<<<<<<< HEAD
-    public int checkFlag(){
+    public int checkFlag() {
         String sql = "select key_setting from manual_flags";
         Cursor rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
-=======
+    }
     public void xClick(View view){
         String sql = "update shortcut set path=null,name=?,method=0 where short_cut=?";
         switch (view.getId()){
@@ -423,6 +422,5 @@ public class KeySettingActivity extends Activity {
                 img_right.setImageResource(R.drawable.logo2);
                 break;
         }
->>>>>>> 7c9f2131e87197629c5b41da7a342e7d54620567
     }
 }
