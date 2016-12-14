@@ -63,17 +63,20 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:gravity="center">
+        android:layout_weight="2">
 
-        <TextView
-            android:id="@+id/textView"
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="광고 들어가는 곳"
-            android:textColor="#1ac891" />
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-5272695963972081/8136058254">
+        </com.google.android.gms.ads.AdView>
+    </RelativeLayout>
 </LinearLayout>
