@@ -46,9 +46,9 @@ public class SettingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+       /* AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);*/
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
         bt_size = (LinearLayout) findViewById(R.id.bt_size);
