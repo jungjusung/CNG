@@ -76,6 +76,12 @@ public class defaultAct extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"나 디폴트냐??");
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onacivityresult "+Integer.toString(resultCode));
         restartApp();
