@@ -68,6 +68,9 @@ public class KeySettingActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.key_setting_activity);
+        /*   AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);*/
         TAG = this.getClass().getName();
         viewList = new ArrayList<>();
         imgList = new ArrayList<>();
