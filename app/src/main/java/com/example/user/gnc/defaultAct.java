@@ -107,19 +107,19 @@ public class defaultAct extends Activity {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    @Override
-    public void onBackPressed() {
-        Thread thread=new Thread(){
-            @Override
-            public void run() {
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Thread thread=new Thread(){
+//            @Override
+//            public void run() {
+//                try {
+//                    sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        thread.start();
+//
+//    }
 }

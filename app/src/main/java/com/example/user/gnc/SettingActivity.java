@@ -319,4 +319,9 @@ public class SettingActivity extends Activity {
                 })
                 .show();
     }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
 }

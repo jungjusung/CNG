@@ -125,5 +125,7 @@ public class SizeSettingActivity extends Activity {
         StartActivity.main_li2.setLayoutParams(StartActivity.main_parameters2);
         wm.updateViewLayout(heroIcon, iconParam);
     }
+
+
 }
 
