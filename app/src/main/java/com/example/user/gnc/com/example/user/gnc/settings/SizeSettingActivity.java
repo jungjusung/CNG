@@ -41,9 +41,9 @@ public class SizeSettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.size_setting_activity);
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+     /*   AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);*/
 
         String sql = "select * from img_info";
         Cursor rs = defaultAct.db.rawQuery(sql, null);
