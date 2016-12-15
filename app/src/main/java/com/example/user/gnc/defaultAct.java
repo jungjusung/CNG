@@ -21,15 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.Switch;
-import android.widget.Toast;
-
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
-import com.example.user.gnc.db.ImageDAO;
-import com.example.user.gnc.db.ShortcutDAO;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by Jusung on 2016. 11. 29..
@@ -41,14 +33,7 @@ public class defaultAct extends Activity {
     public SharedPreferences preferences;
     public boolean isInstalled;
     private static final int REQUEST_ACCESS_CALL = 2;
-
-    boolean window_flag = false;
-    boolean contact_flag = false;
-    boolean storage_flag = false;
-    boolean call_flag = false;
     String TAG;
-    public static ImageDAO imageDAO;
-    public static ShortcutDAO shortcutDAO;
     public static com.example.user.gnc.defaultAct defaultAct;
     MyDB myDB;
     public static SQLiteDatabase db;
@@ -68,9 +53,6 @@ public class defaultAct extends Activity {
 
         TAG = this.getClass().getName();
         defaultAct = this;
-        imageDAO = new ImageDAO(this, "image_info.db", null, 1);
-        shortcutDAO = new ShortcutDAO(this, "shortcut.db", null, 1);
-
         //권한 주기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkAccessPermission();
@@ -100,10 +82,10 @@ public class defaultAct extends Activity {
     protected void onRestart() {
         super.onRestart();
 
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+//        Intent intent = new Intent(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
     }
 
     @Override
@@ -138,6 +120,23 @@ public class defaultAct extends Activity {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+
+//    @Override
+//    public void onBackPressed() {
+//        Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        thread.start();
+//
+//    }
+
     private void addShortcut(Context context) {
         Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
         shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -160,21 +159,22 @@ public class defaultAct extends Activity {
         editor.putBoolean("isInstalled", true);
         editor.commit();
     }
-    @Override
-    public void onBackPressed() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
+//    @Override
+//    public void onBackPressed() {
+//        Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        thread.start();
+//
+//    }
 
-    }
 
     /*권한 설정!! 사진, 전화, 외부저장소*/
     @Override
@@ -211,24 +211,24 @@ public class defaultAct extends Activity {
 
     }
 
-    public void showMsg1(String title, String msg) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(title).setMessage(msg).setCancelable(true)
-                .setNegativeButton("닫기", null)
-                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                    .setData(Uri.parse("package:" + getPackageName()));
-                            startActivity(intent);
-                        } catch (ActivityNotFoundException e) {
-                            e.printStackTrace();
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-                            startActivity(intent);
-                        }
-                    }
-                })
-                .show();
-    }
+//    public void showMsg1(String title, String msg) {
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        alert.setTitle(title).setMessage(msg).setCancelable(true)
+//                .setNegativeButton("닫기", null)
+//                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        try {
+//                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                                    .setData(Uri.parse("package:" + getPackageName()));
+//                            startActivity(intent);
+//                        } catch (ActivityNotFoundException e) {
+//                            e.printStackTrace();
+//                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+//                            startActivity(intent);
+//                        }
+//                    }
+//                })
+//                .show();
+//    }
 }

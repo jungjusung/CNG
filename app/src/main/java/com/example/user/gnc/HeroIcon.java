@@ -15,7 +15,7 @@ public class HeroIcon extends ImageView {
     int y;
     int width;
     int heigth;
-
+    ViewGroup.LayoutParams img_params;
     public HeroIcon(Context context, int winX, int winY, int width, int height) {
         super(context);
         x = winX-width/2;
@@ -23,8 +23,7 @@ public class HeroIcon extends ImageView {
         this.width = width;
         this.heigth = height;
 
-        ViewGroup.LayoutParams img_params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-   /*     setImageResource(R.drawable.logo2);*/
+        img_params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(img_params);
 
     }

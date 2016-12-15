@@ -25,17 +25,16 @@ public class SizeSettingActivity extends Activity {
 
     SeekBar sizeBar;
     ImageView imageView;
-    TextView textView;
-    String TAG;
-    int init;
-    int step = 1;
-    int min = 80;
-    int max = 220;
     WindowManager.LayoutParams iconParam;
     ViewGroup.LayoutParams params;
     WindowManager wm;
     HeroIcon heroIcon;
-
+    String sql;
+    Cursor rs;
+    int init;
+    int step = 1;
+    int min = 80;
+    int max = 220;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +44,8 @@ public class SizeSettingActivity extends Activity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);*/
 
-        String sql = "select * from img_info";
-        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        sql = "select * from img_info";
+        rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         int size = rs.getInt(rs.getColumnIndex("size"));
         init=size;
@@ -73,7 +72,6 @@ public class SizeSettingActivity extends Activity {
 
                 params.width=i+min;
                 params.height=i+min;
-
                 imageView.setLayoutParams(params);
 
 
@@ -95,8 +93,8 @@ public class SizeSettingActivity extends Activity {
     }
 
     public void btnSize(View view) {
-        Toast.makeText(this, "변경됨", Toast.LENGTH_SHORT).show();
-        String sql = "update img_info set size=?";
+
+        sql = "update img_info set size=?";
         defaultAct.db.execSQL(sql, new String[]{
                 Integer.toString(iconParam.width)
         });
@@ -125,5 +123,7 @@ public class SizeSettingActivity extends Activity {
         StartActivity.main_li2.setLayoutParams(StartActivity.main_parameters2);
         wm.updateViewLayout(heroIcon, iconParam);
     }
+
+
 }
 

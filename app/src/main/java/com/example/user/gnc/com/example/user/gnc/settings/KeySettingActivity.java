@@ -64,13 +64,20 @@ public class KeySettingActivity extends Activity {
     List<TextView> txtList;
     boolean[] viewChk;
 
+
+    /*------------------------------------------------------------
+       정리 하기 위한 곳
+    * -------------------------------------------------------------*/
+    String sql,path;
+    Cursor rs;
+
+
+
+    /*---------------------------------------------------------------*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.key_setting_activity);
-        /*   AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
         TAG = this.getClass().getName();
         viewList = new ArrayList<>();
         imgList = new ArrayList<>();
@@ -95,12 +102,12 @@ public class KeySettingActivity extends Activity {
         아이콘 변화
         * ----------------------------------------------------------*/
         for (int i = 0; i < viewList.size(); i++) {
-            String sql = "select * from shortcut where short_cut=" + (i + 1);
-            Cursor rs = defaultAct.db.rawQuery(sql, null);
+            sql = "select * from shortcut where short_cut=" + (i + 1);
+            rs = defaultAct.db.rawQuery(sql, null);
             Log.d(TAG,"이거 호출 되는지??");
             rs.moveToNext();
 
-            String path = rs.getString(rs.getColumnIndex("path"));
+            path = rs.getString(rs.getColumnIndex("path"));
             if (path != null) {
                 if (i == DOUBLE_CLICK - 1) {
                     viewChk[i+1] = true;
@@ -129,8 +136,6 @@ public class KeySettingActivity extends Activity {
 
         }
 
-        Log.d(TAG, "onCreate호출");
-
         if (checkFlag() == 0) {
             Intent intent = new Intent(this, ManualKeySettingActivity.class);
             startActivity(intent);
@@ -157,16 +162,15 @@ public class KeySettingActivity extends Activity {
         imgList.add(img_bottom);
         imgList.add(img_left);
         imgList.add(img_right);
+
+
         for (int i = 1; i <= 5; i++) {
-            Log.d(TAG, "첫번째 포문");
 
-            String sql = "select * from shortcut where short_cut=" + i;
-            Cursor rs = defaultAct.db.rawQuery(sql, null);
-
+            sql = "select * from shortcut where short_cut=" + i;
+            rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
 
             int method = rs.getInt(rs.getColumnIndex("method"));
-
             if (method != START_PHONE_CALL && method != START_APP_CALL && method != START_WEB_CALL) {
                 if (i == 1) {
                     viewChk[1] = false;
@@ -328,24 +332,6 @@ public class KeySettingActivity extends Activity {
                     public void onClick(DialogInterface dialog,
                                         int id) {
 
-                        /*// AlertDialog 안에 있는 AlertDialog
-                        String strName = adapter.getItem(id);
-                        AlertDialog.Builder innBuilder = new AlertDialog.Builder(
-                                KeySettingActivity.this);
-                        innBuilder.setMessage(strName);
-                        innBuilder.setTitle("당신이 선택한 것은 ");
-                        innBuilder
-                                .setPositiveButton(
-                                        "확인",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                        innBuilder.show();*/
-
                         String strName = adapter.getItem(id);
                         if (strName.equals("전화 걸기")) {
                             selectContact(short_id);
@@ -354,9 +340,6 @@ public class KeySettingActivity extends Activity {
                         } else if (strName.equals("웹 실행")) {
                             selectWeb(short_id);
                         }
-
-                        /*Log.d(TAG,"번호"+number);
-                        txt_doubleClick.setText(number);*/
                     }
                 });
         alertBuilder.show();
@@ -371,7 +354,6 @@ public class KeySettingActivity extends Activity {
             startActivityForResult(intent, REQUEST_SELECT_PHONE_NUMBER);
             confirmNum = short_id;
 
-            Log.d(TAG, "shortID는?" + short_id);
         }
     }
 
@@ -390,8 +372,6 @@ public class KeySettingActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.d(TAG, "onStart호출");
     }
 
     @Override
@@ -401,13 +381,12 @@ public class KeySettingActivity extends Activity {
         Log.d(TAG, "onResume호출");
 
         for (int i = 1; i <= 5; i++) {
-            String sql = "select * from shortcut where short_cut=" + i;
-            Cursor rs = defaultAct.db.rawQuery(sql, null);
+            sql = "select * from shortcut where short_cut=" + i;
+            rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
             String name = rs.getString(rs.getColumnIndex("name"));
             String icon_img = rs.getString(rs.getColumnIndex("path"));
 
-            Log.d(TAG, "이미지는??" + call_img);
 
             if (name != null && i == 1) {
                 txt_doubleClick.setText(name);
@@ -477,7 +456,6 @@ public class KeySettingActivity extends Activity {
                 name = cursor.getString(nameIndex);
 
                 // Do something with the phone number
-                Log.d(TAG, "number는?" + number);
                 if (confirmNum == 1) {
                     viewChk[1] = true;
                     txt_doubleClick.setText(number);
@@ -505,7 +483,7 @@ public class KeySettingActivity extends Activity {
                     img_right.setImageResource(R.drawable.phone);
                 }
 
-                String sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
+                sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
 
                 defaultAct.db.execSQL(sql, new String[]{
                         name + "에게 전화걸기", number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
@@ -517,14 +495,14 @@ public class KeySettingActivity extends Activity {
     }
 
     public int checkFlag() {
-        String sql = "select key_setting from manual_flags";
-        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        sql = "select key_setting from manual_flags";
+        rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
     }
 
     public void deleteKeySetting(int index) {
-        String sql = "update shortcut set name=NULL, path=NULL, method=NULL where short_cut=?";
+        sql = "update shortcut set name=NULL, path=NULL, method=NULL where short_cut=?";
 
         defaultAct.db.execSQL(sql, new String[]{
                 Integer.toString(index)
@@ -541,8 +519,5 @@ public class KeySettingActivity extends Activity {
         txtList.get(index-1).setText("");
         viewList.get(index-1).startAnimation(FabRotateAntiClockWise);
         viewList.get(index-1).setImageResource(R.drawable.chk_sel);
-
-        //imgList.get(index-1).clearAnimation();
     }
-
 }
