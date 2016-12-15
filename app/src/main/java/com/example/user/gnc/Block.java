@@ -14,7 +14,7 @@ public class Block extends LinearLayout {
     int y;
     int width;
     int height;
-
+    LayoutParams btn_liParameters;
     public Block(Context context, int winX, int winY, int width, int height) {
 
         super(context);
@@ -23,8 +23,8 @@ public class Block extends LinearLayout {
         this.width = width;
         this.height = height;
 
-        LayoutParams btn_liParameters1 = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        btn_liParameters = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setBackgroundColor(Color.argb(0,23,20,23));
-        setLayoutParams(btn_liParameters1);
+        setLayoutParams(btn_liParameters);
     }
 }

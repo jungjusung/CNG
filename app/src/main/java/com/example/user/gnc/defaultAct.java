@@ -20,15 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.Switch;
-import android.widget.Toast;
-
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
-import com.example.user.gnc.db.ImageDAO;
-import com.example.user.gnc.db.ShortcutDAO;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by Jusung on 2016. 11. 29..
@@ -37,14 +29,7 @@ import java.io.InputStream;
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
     private static final int REQUEST_ACCESS_CALL = 2;
-
-    boolean window_flag = false;
-    boolean contact_flag = false;
-    boolean storage_flag = false;
-    boolean call_flag = false;
     String TAG;
-    public static ImageDAO imageDAO;
-    public static ShortcutDAO shortcutDAO;
     public static com.example.user.gnc.defaultAct defaultAct;
     MyDB myDB;
     public static SQLiteDatabase db;
@@ -57,9 +42,6 @@ public class defaultAct extends Activity {
 
         TAG = this.getClass().getName();
         defaultAct = this;
-        imageDAO = new ImageDAO(this, "image_info.db", null, 1);
-        shortcutDAO = new ShortcutDAO(this, "shortcut.db", null, 1);
-
         //권한 주기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkAccessPermission();
@@ -89,10 +71,10 @@ public class defaultAct extends Activity {
     protected void onRestart() {
         super.onRestart();
 
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+//        Intent intent = new Intent(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
     }
 
     @Override
@@ -127,21 +109,21 @@ public class defaultAct extends Activity {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    @Override
-    public void onBackPressed() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        thread.start();
+//
+//    }
 
     /*권한 설정!! 사진, 전화, 외부저장소*/
     @Override

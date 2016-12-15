@@ -37,38 +37,31 @@ import java.io.IOException;
 
 public class SettingActivity extends Activity {
     String TAG;
-    String data;
 
     static String name;
-    String imgName;
-    Bitmap bitmap;
-    HeroIcon heroIcon;
     LinearLayout bt_icon, bt_key, bt_size, bt_location;
     static final int REQ_CODE_SELECT_IMAGE = 100;
     WindowManager.LayoutParams windowParameters;
     int iconX,iconY;
     ImageView flagImg;
 
-    private static final int REQUEST_ACCESS_CONTACTS = 1;
-    private static final int REQUEST_ACCESS_CALL = 2;
-    private static final int REQUEST_EXTERNAL_STORAGE = 3;
 
-    boolean contact_flag = false;
-    boolean storage_flag = false;
-    boolean call_flag = false;
+    /*------------------------------------------------------*/
 
+    String sql;
+    Cursor rs;
+    LinearLayout layout;
+    LinearLayout.LayoutParams layoutParams;
+    Bitmap bitmap;
+    /*------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         if(checkFlag() == 0){
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
         }
-
-        //checkAccessPermission();
-
         setContentView(R.layout.setting_layout);
        /* AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -88,28 +81,22 @@ public class SettingActivity extends Activity {
                 startActivity(key_intent);
                 break;
             case R.id.bt_icon:
-                Log.d(TAG, "아이콘변경하기1");
                 Intent icon_intent = new Intent(Intent.ACTION_PICK);
-                Log.d(TAG, "아이콘변경하기2");
                 icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                Log.d(TAG, "아이콘변경하기3");
                 icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                Log.d(TAG, "아이콘변경하기4");
                 startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                 break;
             case R.id.bt_location:
                 if(flagImg==null){
                     Toast.makeText(this, "깃발로 초기위치를 설정하세요~", Toast.LENGTH_SHORT).show();
                     windowParameters = new WindowManager.LayoutParams(200, 200, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-                    final LinearLayout layout = new LinearLayout(this);
-                    final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
+                    layout = new LinearLayout(this);
+                    layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     layout.setLayoutParams(layoutParams);
 
                     flagImg = new ImageView(this);
-                    ViewGroup.LayoutParams imgLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     flagImg.setImageResource(R.drawable.initlocationflag);
-                    flagImg.setLayoutParams(imgLayoutParams);
+                    flagImg.setLayoutParams(layoutParams);
                     layout.addView(flagImg);
                     StartActivity.windowManager.addView(layout,windowParameters);
 
@@ -132,31 +119,29 @@ public class SettingActivity extends Activity {
                                     updatedParameters.x = (int) (iconX + (motionEvent.getRawX() - touchedX));
                                     updatedParameters.y = (int) (iconY + (motionEvent.getRawY() - touchedY));
                                     StartActivity.windowManager.updateViewLayout(layout, updatedParameters);
-
                                     break;
                                 case MotionEvent.ACTION_UP:
-                                    Log.d(TAG, "업" +updatedParameters.x+" "+updatedParameters.y);
                                     StartActivity.initialPosX = updatedParameters.x;
                                     StartActivity.initialPosY = updatedParameters.y;
                                     StartActivity.windowManager.removeView(layout);
                                     updatedParameters.width=StartActivity.icon_width;
                                     updatedParameters.height=StartActivity.icon_height;
                                     StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,updatedParameters);
-                                    String sql="update initialpos set x=?, y=?";
+                                    sql="update initialpos set x=?, y=?";
 
                                     defaultAct.db.execSQL(sql,new String[]{
                                             Integer.toString(StartActivity.initialPosX),Integer.toString(StartActivity.initialPosY)
                                     });
 
-                                    String sql1 = "select * from initialpos";
-                                    Cursor rs = defaultAct.db.rawQuery(sql1, null);
+                                    sql = "select * from initialpos";
+                                    rs = defaultAct.db.rawQuery(sql, null);
 
                                     rs.moveToNext();
                                     StartActivity.initialPosX= rs.getInt(rs.getColumnIndex("x"));
                                     StartActivity.initialPosY = rs.getInt(rs.getColumnIndex("y"));
                                     StartActivity.params2.x=StartActivity.initialPosX;
                                     StartActivity.params2.y=StartActivity.initialPosY;
-                                    Log.d(TAG,StartActivity.initialPosX+" "+StartActivity.initialPosY);
+
                                     flagImg=null;
                                     break;
                             }
@@ -173,7 +158,6 @@ public class SettingActivity extends Activity {
                 Intent serviceIntent = new Intent(SettingActivity.this, StartActivity.class);
                 serviceIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 serviceIntent.putExtra("data", name);
-                Log.d(TAG, "name값" + name);
                 startService(serviceIntent);
                 finish();
                 break;
@@ -182,32 +166,25 @@ public class SettingActivity extends Activity {
 
     /* 세팅에 아이콘 이미지 변경 및 경로*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, requestCode + "리퀘스트코드" + resultCode + "resultcode");
         if (requestCode == REQ_CODE_SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     //이미지 데이터를 비트맵으로 받아온다.
-                    Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                     ImageView image = (ImageView) findViewById(R.id.img_icon);
-                    Bitmap resized = Bitmap.createScaledBitmap(image_bitmap, 150, 150, true);
-                    Log.d(TAG, "비트맵 " + image_bitmap);
-
-                    //배치해놓은 ImageView에 set
+                    Bitmap resized = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
 
                     image.setImageBitmap(resized);
 
                     Uri uri = data.getData();
-                    Log.d(TAG, "uri" + uri);
 
-
-                    String sql = "update img_info set path=?";
+                    sql = "update img_info set path=?";
                     defaultAct.db.execSQL(sql, new String[]{
                              uri.toString()
                     });
 
-                    Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                    Log.d(TAG, StartActivity.startActivity.heroIcon+"스타트액티비티");
-                    StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    StartActivity.startActivity.heroIcon.setImageBitmap(bitmap);
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -222,49 +199,34 @@ public class SettingActivity extends Activity {
         }
     }
 
-/*    public String getImageNameToUri(Uri data) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(data, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-        cursor.moveToFirst();
-
-        String imgPath = cursor.getString(column_index);
-        imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-        return imgPath;
-    }*/
-
     public int checkFlag(){
-        String sql = "select setting from manual_flags";
-        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        sql = "select setting from manual_flags";
+        rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
     }
 
+//    public void showMsg(String title, String msg) {
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        alert.setTitle(title).setMessage(msg).setCancelable(true)
+//                .setNegativeButton("닫기", null)
+//                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        try {
+//                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                                    .setData(Uri.parse("package:" + getPackageName()));
+//                            startActivity(intent);
+//                        }catch (ActivityNotFoundException e) {
+//                            e.printStackTrace();
+//                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+//                            startActivity(intent);
+//                        }
+//                    }
+//                })
+//                .show();
+//    }
 
-
-    public void showMsg(String title, String msg) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(title).setMessage(msg).setCancelable(true)
-                .setNegativeButton("닫기", null)
-                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                    .setData(Uri.parse("package:" + getPackageName()));
-                            startActivity(intent);
-                        }catch (ActivityNotFoundException e) {
-                            e.printStackTrace();
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-                            startActivity(intent);
-                        }
-                    }
-                })
-                .show();
-    }
-
-    @Override
     public void onBackPressed() {
         this.finish();
     }

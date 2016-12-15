@@ -13,7 +13,7 @@
         android:layout_height="@android:dimen/app_icon_size"
         android:layout_marginRight="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/america" />
+        android:src="@drawable/logo2" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
