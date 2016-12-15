@@ -8,6 +8,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,6 +29,9 @@ import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
+
+    public SharedPreferences preferences;
+    public boolean isInstalled;
     private static final int REQUEST_ACCESS_CALL = 2;
     String TAG;
     public static com.example.user.gnc.defaultAct defaultAct;
@@ -39,6 +43,13 @@ public class defaultAct extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+
+        preferences = getSharedPreferences("what", MODE_PRIVATE);
+        isInstalled = preferences.getBoolean("isInstalled", false);
+
+        if (!isInstalled) {
+            addShortcut(this);
+        }
 
         TAG = this.getClass().getName();
         defaultAct = this;
@@ -109,6 +120,7 @@ public class defaultAct extends Activity {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+
 //    @Override
 //    public void onBackPressed() {
 //        Thread thread = new Thread() {
@@ -124,6 +136,45 @@ public class defaultAct extends Activity {
 //        thread.start();
 //
 //    }
+
+    private void addShortcut(Context context) {
+        Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+        shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        shortcutIntent.setClassName(context, getClass().getName());
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME,
+                getResources().getString(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(context,
+                        R.drawable.logo2));
+        intent.putExtra("duplicate", false);
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+
+        sendBroadcast(intent);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isInstalled", true);
+        editor.commit();
+    }
+//    @Override
+//    public void onBackPressed() {
+//        Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        thread.start();
+//
+//    }
+
 
     /*권한 설정!! 사진, 전화, 외부저장소*/
     @Override
@@ -160,24 +211,24 @@ public class defaultAct extends Activity {
 
     }
 
-    public void showMsg1(String title, String msg) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(title).setMessage(msg).setCancelable(true)
-                .setNegativeButton("닫기", null)
-                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                    .setData(Uri.parse("package:" + getPackageName()));
-                            startActivity(intent);
-                        } catch (ActivityNotFoundException e) {
-                            e.printStackTrace();
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-                            startActivity(intent);
-                        }
-                    }
-                })
-                .show();
-    }
+//    public void showMsg1(String title, String msg) {
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        alert.setTitle(title).setMessage(msg).setCancelable(true)
+//                .setNegativeButton("닫기", null)
+//                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        try {
+//                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                                    .setData(Uri.parse("package:" + getPackageName()));
+//                            startActivity(intent);
+//                        } catch (ActivityNotFoundException e) {
+//                            e.printStackTrace();
+//                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+//                            startActivity(intent);
+//                        }
+//                    }
+//                })
+//                .show();
+//    }
 }
