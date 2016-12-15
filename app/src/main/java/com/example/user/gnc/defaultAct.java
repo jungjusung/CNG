@@ -6,6 +6,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,6 +36,8 @@ import java.io.InputStream;
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
 
+    public SharedPreferences preferences;
+    public boolean isInstalled;
 
     boolean window_flag = false;
     boolean contact_flag = false;
@@ -52,6 +55,13 @@ public class defaultAct extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+
+        preferences = getSharedPreferences("what", MODE_PRIVATE);
+        isInstalled = preferences.getBoolean("isInstalled", false);
+
+        if (!isInstalled) {
+            addShortcut(this);
+        }
 
         TAG = this.getClass().getName();
         defaultAct = this;
@@ -105,5 +115,28 @@ public class defaultAct extends Activity {
         moveTaskToBack(true);
         finish();
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    private void addShortcut(Context context) {
+        Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+        shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        shortcutIntent.setClassName(context, getClass().getName());
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME,
+                getResources().getString(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(context,
+                        R.drawable.logo2));
+        intent.putExtra("duplicate", false);
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+
+        sendBroadcast(intent);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isInstalled", true);
+        editor.commit();
     }
 }
