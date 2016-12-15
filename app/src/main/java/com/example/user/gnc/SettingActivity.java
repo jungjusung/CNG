@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -38,6 +40,7 @@ import java.io.IOException;
 public class SettingActivity extends Activity {
     String TAG;
     String data;
+    Uri uri;
 
     static String name;
     String imgName;
@@ -68,6 +71,7 @@ public class SettingActivity extends Activity {
         }
 
         //checkAccessPermission();
+
 
         setContentView(R.layout.setting_layout);
        /* AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -189,25 +193,34 @@ public class SettingActivity extends Activity {
                     //이미지 데이터를 비트맵으로 받아온다.
                     Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                     ImageView image = (ImageView) findViewById(R.id.img_icon);
-                    Bitmap resized = Bitmap.createScaledBitmap(image_bitmap, 150, 150, true);
                     Log.d(TAG, "비트맵 " + image_bitmap);
 
                     //배치해놓은 ImageView에 set
 
-                    image.setImageBitmap(resized);
+                    image.setImageBitmap(image_bitmap);
 
-                    Uri uri = data.getData();
+                    uri = data.getData();
                     Log.d(TAG, "uri" + uri);
-
 
                     String sql = "update img_info set path=?";
                     defaultAct.db.execSQL(sql, new String[]{
-                             uri.toString()
+                            uri.toString()
                     });
 
+                    String uri_path = getImageNameToUri(uri);
+                    Log.d(TAG, "uri_path는? "+uri_path);
+                    /*
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
                     Log.d(TAG, StartActivity.startActivity.heroIcon+"스타트액티비티");
+                    */
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    if(options.outWidth>200||options.outHeight>200) {
+                        options.inSampleSize = 4;
+                    }
+                    Bitmap src = BitmapFactory.decodeFile(uri_path, options);
+                    Bitmap change_bitmap = Bitmap.createScaledBitmap( src, 150, 150, true );
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
+
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -222,7 +235,10 @@ public class SettingActivity extends Activity {
         }
     }
 
-/*    public String getImageNameToUri(Uri data) {
+
+
+
+   public String getImageNameToUri(Uri data) {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(data, proj, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -232,7 +248,7 @@ public class SettingActivity extends Activity {
         String imgPath = cursor.getString(column_index);
         imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
         return imgPath;
-    }*/
+    }
 
     public int checkFlag(){
         String sql = "select setting from manual_flags";
