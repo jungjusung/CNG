@@ -10,9 +10,6 @@ import android.widget.CompoundButton;
 
 import com.example.user.gnc.R;
 
-/**
- * Created by user on 2016-12-13.
- */
 
 public class ManualSettingActivity extends Activity implements CompoundButton.OnCheckedChangeListener{
     CheckBox check_view;
