@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.user.gnc.R;
@@ -29,10 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Jusung on 2016. 11. 30..
- */
 
 public class KeySettingActivity extends Activity {
     String number;
@@ -86,6 +83,13 @@ public class KeySettingActivity extends Activity {
         viewList.add(addKey3);
         viewList.add(addKey4);
         viewList.add(addKey5);
+
+        /*webListView 생성*/
+        webListAdapter=new WebListAdapter(this);
+        webListView=(ListView)findViewById(R.id.webListView);
+        webListView.setAdapter(webListAdapter);
+
+
         FadeIn=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadein);
         FadeOut=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadeout);
         FabRotateClockWise= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
@@ -381,6 +385,7 @@ public class KeySettingActivity extends Activity {
         startActivity(intent);
     }
 
+    /*@webListView 호출@*/
     public void selectWeb(int short_id) {
         Intent intent = new Intent(this, WebListActivity.class);
         intent.putExtra("short_id", Integer.toString(short_id));
