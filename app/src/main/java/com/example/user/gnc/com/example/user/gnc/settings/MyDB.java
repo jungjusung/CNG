@@ -33,6 +33,14 @@ public class MyDB extends SQLiteOpenHelper{
 
         sqLiteDatabase.execSQL("create table initialpos(x int,y int);");
         sqLiteDatabase.execSQL("insert into initialpos(x,y) values(350,600);");
+
+        /*웹리스트 관련 DB*/
+        sqLiteDatabase.execSQL("create table web(web_id int, url varchar(30));");
+
+        sqLiteDatabase.execSQL("insert into table (web_id, url) values(1, 'www.google.com')");
+        sqLiteDatabase.execSQL("insert into table (web_id, url) values(2, 'www.naver.com')");
+        sqLiteDatabase.execSQL("insert into table (web_id, url) values(3, 'www.daum.net')");
+
     }
 
     @Override
