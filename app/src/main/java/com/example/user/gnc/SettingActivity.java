@@ -67,7 +67,7 @@ public class SettingActivity extends Activity {
             startActivity(intent);
         }
 
-        checkAccessPermission();
+        //checkAccessPermission();
 
         setContentView(R.layout.setting_layout);
        /* AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -242,62 +242,6 @@ public class SettingActivity extends Activity {
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.d(TAG, "onresultper "+Integer.toString(requestCode));
-        switch(requestCode){
-            case REQUEST_ACCESS_CALL:
-                if(permissions.length>0&&grantResults[0]== PackageManager.PERMISSION_DENIED){
-                    showMsg("안내", "연락처 사용권한을 주셔야 사용이 가능합니다.");
-                }else if(permissions.length>0&&grantResults[1]==PackageManager.PERMISSION_DENIED){
-                    showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
-                }else if(permissions.length>0&&grantResults[2]==PackageManager.PERMISSION_DENIED){
-                    showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
-                }else{
-                }
-                break;
-            /*case REQUEST_ACCESS_CALL:
-                if(permissions.length>0&&grantResults[1]==PackageManager.PERMISSION_DENIED){
-                    showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
-                }else {
-                    call_flag = true;
-                }
-                break;
-            case REQUEST_ACCESS_CALL:
-                if(permissions.length>0&&grantResults[2]==PackageManager.PERMISSION_DENIED){
-                    showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
-                }else{
-                    storage_flag = true;
-                }
-                break;*/
-        }
-    }
-
-    /*연락처, 전화, 사진 권한 요청*/
-    public void checkAccessPermission() {
-        int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
-        int iconPermission= ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        int accessCall= ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE);
-        if (accessPermission == PackageManager.PERMISSION_DENIED||accessCall==PackageManager.PERMISSION_DENIED||iconPermission== PackageManager.PERMISSION_DENIED) {
-            //유저에게 권한 줄것을 요청
-             /*ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.READ_CONTACTS
-            }, REQUEST_ACCESS_CONTACTS);
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.CALL_PHONE
-            }, REQUEST_ACCESS_CALL);
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-            }, REQUEST_EXTERNAL_STORAGE);*/
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-            }, REQUEST_ACCESS_CALL);
-        }
-        Log.d(TAG, "checkAccess 메서드 종료");
-
-    }
 
     public void showMsg(String title, String msg) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -324,4 +268,5 @@ public class SettingActivity extends Activity {
     public void onBackPressed() {
         this.finish();
     }
+
 }
