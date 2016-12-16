@@ -2,6 +2,7 @@ package com.example.user.gnc.com.example.user.gnc.settings;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
@@ -9,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.SettingActivity;
 import com.example.user.gnc.defaultAct;
 
 /**
@@ -34,6 +36,7 @@ public class ManualAppListActivity extends Activity implements CompoundButton.On
             if (compoundButton.isChecked()) {
                 String sql = "update manual_flags set applist=1";
                 defaultAct.db.execSQL(sql);
+
                 finish();
             }
         }

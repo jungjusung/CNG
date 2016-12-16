@@ -284,6 +284,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
                 windowManager.removeView(layout);
                 windowManager.removeView(title);
                 windowManager.removeView(copyright);
+                defaultAct.defaultAct.finish();
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -449,11 +450,13 @@ public class StartActivity extends Service implements View.OnTouchListener{
 
                     if(params2.x<0) {
                         if (params2.x-icon_width<(dm.widthPixels/2-icon_width/2)*(-1)){
+                            main_li1.removeAllViews();////////
                             main_parameters1.x=main_parameters1.x+icon_width/2;
                             main_li1.addView(sub_li1, sub_parameters1);
                             main_li1.addView(txt_turn,txt_turn_parameters);
                             txt_turn.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
                         }else{
+                            main_li1.removeAllViews();////////
                             main_parameters1.x=main_parameters1.x-icon_width/2;
                             main_li1.addView(txt_turn,txt_turn_parameters);
                             main_li1.addView(sub_li1, sub_parameters1);
