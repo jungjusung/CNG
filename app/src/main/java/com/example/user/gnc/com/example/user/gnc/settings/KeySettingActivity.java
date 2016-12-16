@@ -14,6 +14,8 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ import com.google.android.gms.ads.AdView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jusung on 2016. 11. 30..
@@ -50,132 +54,252 @@ public class KeySettingActivity extends Activity {
     private static final int START_PHONE_CALL = 1;
     private static final int START_APP_CALL = 2;
     private static final int START_WEB_CALL = 3;
+    Animation FabRotateClockWise,FabRotateAntiClockWise,FadeOut,FadeIn;
 
     TextView txt_doubleClick, txt_right, txt_left, txt_bottom, txt_top;
     ImageView img_doubleClick, img_top, img_bottom, img_right, img_left;
+    ImageView addKey1, addKey2, addKey3, addKey4, addKey5;
+    List<ImageView> viewList;
+    List<ImageView> imgList;
+    List<TextView> txtList;
+    boolean[] viewChk;
 
+
+    /*------------------------------------------------------------
+       정리 하기 위한 곳
+    * -------------------------------------------------------------*/
+    String sql,path;
+    Cursor rs;
+
+
+
+    /*---------------------------------------------------------------*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.key_setting_activity);
         TAG = this.getClass().getName();
+        viewList = new ArrayList<>();
+        imgList = new ArrayList<>();
+        txtList = new ArrayList<>();
+        addKey1 = (ImageView) findViewById(R.id.addKey1);
+        addKey2 = (ImageView) findViewById(R.id.addKey2);
+        addKey3 = (ImageView) findViewById(R.id.addKey3);
+        addKey4 = (ImageView) findViewById(R.id.addKey4);
+        addKey5 = (ImageView) findViewById(R.id.addKey5);
 
-        Log.d(TAG, "onCreate호출");
+        viewList.add(addKey1);
+        viewList.add(addKey2);
+        viewList.add(addKey3);
+        viewList.add(addKey4);
+        viewList.add(addKey5);
+        FadeIn=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadein);
+        FadeOut=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadeout);
+        FabRotateClockWise= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
+        FabRotateAntiClockWise= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
+        viewChk = new boolean[viewList.size() + 1];
+        /*-----------------------------------------------------------
+        아이콘 변화
+        * ----------------------------------------------------------*/
+        for (int i = 0; i < viewList.size(); i++) {
+            sql = "select * from shortcut where short_cut=" + (i + 1);
+            rs = defaultAct.db.rawQuery(sql, null);
+            Log.d(TAG,"이거 호출 되는지??");
+            rs.moveToNext();
 
-        if(checkFlag() == 0) {
+            path = rs.getString(rs.getColumnIndex("path"));
+            if (path != null) {
+                if (i == DOUBLE_CLICK - 1) {
+                    viewChk[i+1] = true;
+                    viewList.get(i).setImageResource(R.drawable.chk_ori);
+                }
+                if (i == TOP_CLICK - 1) {
+                    viewChk[i+1] = true;
+                    viewList.get(i).setImageResource(R.drawable.chk_ori);
+                }
+                if (i == BOTTOM_CLICK - 1) {
+                    viewChk[i+1] = true;
+                    viewList.get(i).setImageResource(R.drawable.chk_ori);
+                }
+                if (i == LEFT_CLICK - 1) {
+                    viewChk[i+1] = true;
+                    viewList.get(i).setImageResource(R.drawable.chk_ori);
+                }
+                if (i == RIGHT_CLICK - 1) {
+                    viewChk[i+1] = true;
+                    viewList.get(i).setImageResource(R.drawable.chk_ori);
+                }
+            } else {
+                viewChk[i+1] = false;
+                viewList.get(i).setImageResource(R.drawable.chk_sel);
+            }
+
+        }
+
+        if (checkFlag() == 0) {
             Intent intent = new Intent(this, ManualKeySettingActivity.class);
             startActivity(intent);
         }
 
-        setContentView(R.layout.key_setting_activity);
-
- /*       AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
 
         txt_doubleClick = (TextView) findViewById(R.id.txt_doubleClick);
         txt_right = (TextView) findViewById(R.id.txt_right);
         txt_left = (TextView) findViewById(R.id.txt_left);
         txt_top = (TextView) findViewById(R.id.txt_top);
         txt_bottom = (TextView) findViewById(R.id.txt_bottom);
-
-        txt_doubleClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSelectedDialog(DOUBLE_CLICK);
-            }
-        });
-        txt_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSelectedDialog(RIGHT_CLICK);
-            }
-        });
-        txt_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSelectedDialog(LEFT_CLICK);
-            }
-        });
-        txt_top.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSelectedDialog(TOP_CLICK);
-            }
-        });
-        txt_bottom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSelectedDialog(BOTTOM_CLICK);
-
-            }
-        });
-
+        txtList.add(txt_doubleClick);
+        txtList.add(txt_top);
+        txtList.add(txt_bottom);
+        txtList.add(txt_left);
+        txtList.add(txt_right);
         img_doubleClick = (ImageView) findViewById(R.id.img_doubleClick);
         img_top = (ImageView) findViewById(R.id.img_top);
         img_bottom = (ImageView) findViewById(R.id.img_bottom);
         img_right = (ImageView) findViewById(R.id.img_right);
         img_left = (ImageView) findViewById(R.id.img_left);
+        imgList.add(img_doubleClick);
+        imgList.add(img_top);
+        imgList.add(img_bottom);
+        imgList.add(img_left);
+        imgList.add(img_right);
+
 
         for (int i = 1; i <= 5; i++) {
-            Log.d(TAG, "첫번째 포문");
 
-            String sql = "select * from shortcut where short_cut=" + i;
-            Cursor rs = defaultAct.db.rawQuery(sql, null);
-
+            sql = "select * from shortcut where short_cut=" + i;
+            rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
 
-            int method=rs.getInt(rs.getColumnIndex("method"));
-
-            if(method!=START_PHONE_CALL && method!=START_APP_CALL&& method!=START_WEB_CALL){
-                if(i==1){
+            int method = rs.getInt(rs.getColumnIndex("method"));
+            if (method != START_PHONE_CALL && method != START_APP_CALL && method != START_WEB_CALL) {
+                if (i == 1) {
+                    viewChk[1] = false;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
                     img_doubleClick.setImageResource(R.drawable.logo2);
                 }
-                if(i==2){
+                if (i == 2) {
+                    viewChk[2] = false;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
                     img_top.setImageResource(R.drawable.logo2);
                 }
-                if(i==3){
+                if (i == 3) {
+                    viewChk[3] = false;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
                     img_bottom.setImageResource(R.drawable.logo2);
                 }
-                if(i==4){
+                if (i == 4) {
+                    viewChk[4] = false;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
                     img_left.setImageResource(R.drawable.logo2);
                 }
-                if(i==5){
+                if (i == 5) {
+                    viewChk[5] = false;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
                     img_right.setImageResource(R.drawable.logo2);
                 }
-            } else if(method==START_PHONE_CALL){
-                if(i==1){
+            } else if (method == START_PHONE_CALL) {
+                if (i == 1) {
+                    viewChk[1] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_doubleClick.setImageResource(R.drawable.phone);
                 }
-                if(i==2){
+                if (i == 2) {
+                    viewChk[2] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_top.setImageResource(R.drawable.phone);
                 }
-                if(i==3){
+                if (i == 3) {
+                    viewChk[3] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_bottom.setImageResource(R.drawable.phone);
                 }
-                if(i==4){
+                if (i == 4) {
+                    viewChk[4] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_left.setImageResource(R.drawable.phone);
                 }
-                if(i==5){
+                if (i == 5) {
+                    viewChk[5] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_right.setImageResource(R.drawable.phone);
                 }
-            } else if(method==START_WEB_CALL){
-                if(i==1){
+            } else if (method == START_WEB_CALL) {
+                if (i == 1) {
+                    viewChk[1] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_doubleClick.setImageResource(R.drawable.internet);
                 }
-                if(i==2){
+                if (i == 2) {
+                    viewChk[2] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_top.setImageResource(R.drawable.internet);
                 }
-                if(i==3){
+                if (i == 3) {
+                    viewChk[3] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_bottom.setImageResource(R.drawable.internet);
                 }
-                if(i==4){
+                if (i == 4) {
+                    viewChk[4] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_left.setImageResource(R.drawable.internet);
                 }
-                if(i==5){
+                if (i == 5) {
+                    viewChk[5] = true;
+                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
                     img_right.setImageResource(R.drawable.internet);
                 }
             }
         }
+
+        addKey1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!viewChk[DOUBLE_CLICK])
+                    showSelectedDialog(DOUBLE_CLICK);
+                else
+                    deleteKeySetting(DOUBLE_CLICK);
+
+            }
+        });
+        addKey2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!viewChk[TOP_CLICK])
+                    showSelectedDialog(TOP_CLICK);
+                else {
+                    deleteKeySetting(TOP_CLICK);
+                }
+            }
+        });
+        addKey3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!viewChk[BOTTOM_CLICK])
+                    showSelectedDialog(BOTTOM_CLICK);
+                else
+                    deleteKeySetting(BOTTOM_CLICK);
+
+            }
+        });
+        addKey4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!viewChk[LEFT_CLICK])
+                    showSelectedDialog(LEFT_CLICK);
+                else
+                    deleteKeySetting(LEFT_CLICK);
+            }
+        });
+        addKey5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!viewChk[RIGHT_CLICK])
+                    showSelectedDialog(RIGHT_CLICK);
+                else
+                    deleteKeySetting(RIGHT_CLICK);
+            }
+        });
     }
 
     public void showSelectedDialog(final int short_id) {
@@ -208,24 +332,6 @@ public class KeySettingActivity extends Activity {
                     public void onClick(DialogInterface dialog,
                                         int id) {
 
-                        /*// AlertDialog 안에 있는 AlertDialog
-                        String strName = adapter.getItem(id);
-                        AlertDialog.Builder innBuilder = new AlertDialog.Builder(
-                                KeySettingActivity.this);
-                        innBuilder.setMessage(strName);
-                        innBuilder.setTitle("당신이 선택한 것은 ");
-                        innBuilder
-                                .setPositiveButton(
-                                        "확인",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                        innBuilder.show();*/
-
                         String strName = adapter.getItem(id);
                         if (strName.equals("전화 걸기")) {
                             selectContact(short_id);
@@ -234,9 +340,6 @@ public class KeySettingActivity extends Activity {
                         } else if (strName.equals("웹 실행")) {
                             selectWeb(short_id);
                         }
-
-                        /*Log.d(TAG,"번호"+number);
-                        txt_doubleClick.setText(number);*/
                     }
                 });
         alertBuilder.show();
@@ -251,7 +354,6 @@ public class KeySettingActivity extends Activity {
             startActivityForResult(intent, REQUEST_SELECT_PHONE_NUMBER);
             confirmNum = short_id;
 
-            Log.d(TAG, "shortID는?" + short_id);
         }
     }
 
@@ -261,17 +363,15 @@ public class KeySettingActivity extends Activity {
         startActivity(intent);
     }
 
-    public void selectWeb(int short_id){
-        Intent intent = new Intent(this,WebListActivity.class);
-        intent.putExtra("short_id",Integer.toString(short_id));
+    public void selectWeb(int short_id) {
+        Intent intent = new Intent(this, WebListActivity.class);
+        intent.putExtra("short_id", Integer.toString(short_id));
         startActivity(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.d(TAG, "onStart호출");
     }
 
     @Override
@@ -281,17 +381,18 @@ public class KeySettingActivity extends Activity {
         Log.d(TAG, "onResume호출");
 
         for (int i = 1; i <= 5; i++) {
-            String sql = "select * from shortcut where short_cut=" + i;
-            Cursor rs = defaultAct.db.rawQuery(sql, null);
+            sql = "select * from shortcut where short_cut=" + i;
+            rs = defaultAct.db.rawQuery(sql, null);
             rs.moveToNext();
             String name = rs.getString(rs.getColumnIndex("name"));
             String icon_img = rs.getString(rs.getColumnIndex("path"));
 
-            Log.d(TAG, "이미지는??" + call_img);
 
             if (name != null && i == 1) {
                 txt_doubleClick.setText(name);
                 try {
+                    viewChk[1] = true;
+                    addKey1.setImageResource(R.drawable.chk_ori);
                     img_doubleClick.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
@@ -299,6 +400,8 @@ public class KeySettingActivity extends Activity {
             } else if (name != null && i == 2) {
                 txt_top.setText(name);
                 try {
+                    viewChk[2] = true;
+                    addKey2.setImageResource(R.drawable.chk_ori);
                     img_top.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
@@ -306,6 +409,8 @@ public class KeySettingActivity extends Activity {
             } else if (name != null && i == 3) {
                 txt_bottom.setText(name);
                 try {
+                    viewChk[3] = true;
+                    addKey3.setImageResource(R.drawable.chk_ori);
                     img_bottom.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
@@ -313,6 +418,8 @@ public class KeySettingActivity extends Activity {
             } else if (name != null && i == 4) {
                 txt_left.setText(name);
                 try {
+                    viewChk[4] = true;
+                    addKey4.setImageResource(R.drawable.chk_ori);
                     img_left.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
@@ -320,6 +427,8 @@ public class KeySettingActivity extends Activity {
             } else if (name != null && i == 5) {
                 txt_right.setText(name);
                 try {
+                    viewChk[5] = true;
+                    addKey5.setImageResource(R.drawable.chk_ori);
                     img_right.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
@@ -347,25 +456,34 @@ public class KeySettingActivity extends Activity {
                 name = cursor.getString(nameIndex);
 
                 // Do something with the phone number
-                Log.d(TAG, "number는?" + number);
                 if (confirmNum == 1) {
+                    viewChk[1] = true;
                     txt_doubleClick.setText(number);
+                    addKey1.setImageResource(R.drawable.chk_ori);
                     img_doubleClick.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 2) {
+                    viewChk[2] = true;
                     txt_top.setText(number);
+                    addKey2.setImageResource(R.drawable.chk_ori);
                     img_top.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 3) {
+                    viewChk[3] = true;
                     txt_bottom.setText(number);
+                    addKey3.setImageResource(R.drawable.chk_ori);
                     img_bottom.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 4) {
+                    viewChk[4] = true;
                     txt_left.setText(number);
+                    addKey4.setImageResource(R.drawable.chk_ori);
                     img_left.setImageResource(R.drawable.phone);
                 } else if (confirmNum == 5) {
+                    viewChk[5] = true;
                     txt_right.setText(number);
+                    addKey5.setImageResource(R.drawable.chk_ori);
                     img_right.setImageResource(R.drawable.phone);
                 }
 
-                String sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
+                sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
 
                 defaultAct.db.execSQL(sql, new String[]{
                         name + "에게 전화걸기", number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
@@ -377,50 +495,29 @@ public class KeySettingActivity extends Activity {
     }
 
     public int checkFlag() {
-        String sql = "select key_setting from manual_flags";
-        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        sql = "select key_setting from manual_flags";
+        rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
     }
-    public void xClick(View view){
-        String sql = "update shortcut set path=null,name=?,method=0 where short_cut=?";
-        switch (view.getId()){
-            case R.id.x1:
-                defaultAct.db.execSQL(sql, new String[]{
-                        "추가하기",Integer.toString(1)
-                });
-                txt_doubleClick.setText("추가하기");
-                img_doubleClick.setImageResource(R.drawable.logo2);
-                break;
 
-            case R.id.x2:
-                defaultAct.db.execSQL(sql, new String[]{
-                        "추가하기",Integer.toString(2)
-                });
-                txt_top.setText("추가하기");
-                img_top.setImageResource(R.drawable.logo2);
-                break;
-            case R.id.x3:
-                defaultAct.db.execSQL(sql, new String[]{
-                        "추가하기",Integer.toString(3)
-                });
-                txt_bottom.setText("추가하기");
-                img_bottom.setImageResource(R.drawable.logo2);
-                break;
-            case R.id.x4:
-                defaultAct.db.execSQL(sql, new String[]{
-                        "추가하기",Integer.toString(4)
-                });
-                txt_left.setText("추가하기");
-                img_left.setImageResource(R.drawable.logo2);
-                break;
-            case R.id.x5:
-                defaultAct.db.execSQL(sql, new String[]{
-                        "추가하기",Integer.toString(5)
-                });
-                txt_right.setText("추가하기");
-                img_right.setImageResource(R.drawable.logo2);
-                break;
+    public void deleteKeySetting(int index) {
+        sql = "update shortcut set name=NULL, path=NULL, method=NULL where short_cut=?";
+
+        defaultAct.db.execSQL(sql, new String[]{
+                Integer.toString(index)
+        });
+        viewChk[index]=false;
+        for(int i=1;i<=5;i++) {
+            if(i==index)
+                continue;
+            imgList.get(i-1).clearAnimation();
         }
+        imgList.get(index-1).startAnimation(FadeOut);
+        imgList.get(index-1).setImageResource(R.drawable.logo2);
+        imgList.get(index-1).startAnimation(FadeIn);
+        txtList.get(index-1).setText("");
+        viewList.get(index-1).startAnimation(FabRotateAntiClockWise);
+        viewList.get(index-1).setImageResource(R.drawable.chk_sel);
     }
 }
