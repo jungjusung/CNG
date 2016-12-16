@@ -52,7 +52,5 @@
             android:theme="@style/Theme.Transparent"/>
         <activity android:name=".ManualSettingActivity"
             android:theme="@style/Theme.Transparent"/>
-
     </application>
-
 </manifest>
