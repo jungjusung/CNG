@@ -83,7 +83,5 @@
             android:name=".ManualSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
-
     </application>
-
 </manifest>

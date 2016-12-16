@@ -96,9 +96,11 @@ public class KeySettingActivity extends Activity {
         FabRotateClockWise= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
         FabRotateAntiClockWise= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
         viewChk = new boolean[viewList.size() + 1];
+
         /*-----------------------------------------------------------
         아이콘 변화
         * ----------------------------------------------------------*/
+
         for (int i = 0; i < viewList.size(); i++) {
             sql = "select * from shortcut where short_cut=" + (i + 1);
             rs = defaultAct.db.rawQuery(sql, null);
@@ -351,7 +353,6 @@ public class KeySettingActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_SELECT_PHONE_NUMBER);
             confirmNum = short_id;
-
         }
     }
 

@@ -63,6 +63,7 @@ public class defaultAct extends Activity {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, WINDOW_ALERT_REQUEST);
 
+
             } else {
                 startService(new Intent(this, StartActivity.class));
             }
@@ -75,6 +76,7 @@ public class defaultAct extends Activity {
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "나 디폴트냐??");
+
 
     }
 
