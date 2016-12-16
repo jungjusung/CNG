@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="60dp"
     android:orientation="horizontal"
-    android:background="@drawable/border">
+    android:background="@drawable/border"
+    android:layout_margin="5dp">
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="40dp"
         android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/internet2" />
 
     <TextView
-        sandroid:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:id="@+id/txt_url"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:layout_weight="6"
-        android:gravity="center"
+        android:layout_gravity="center_vertical"
         android:hint="URL"
         android:textSize="20sp" />
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="40dp"
         android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/chk_ori" />
 
 

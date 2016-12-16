@@ -1,8 +1,5 @@
 package com.example.user.gnc.com.example.user.gnc.settings;
 
-/**
- * Created by Sam on 2016-12-15.
- */
 
 public class WebList {
     private int web_id;
