@@ -34,4 +34,11 @@ public class ManualSettingActivity extends Activity implements CompoundButton.On
             }
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
+    }
 }

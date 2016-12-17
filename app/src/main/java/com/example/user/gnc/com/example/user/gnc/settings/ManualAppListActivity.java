@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.RecycleUtils;
 import com.example.user.gnc.SettingActivity;
 import com.example.user.gnc.defaultAct;
 
@@ -40,5 +41,12 @@ public class ManualAppListActivity extends Activity implements CompoundButton.On
                 finish();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
     }
 }

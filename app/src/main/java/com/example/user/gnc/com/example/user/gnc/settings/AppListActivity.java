@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.RecycleUtils;
 import com.example.user.gnc.defaultAct;
 
 import java.util.ArrayList;
@@ -305,6 +306,13 @@ public class AppListActivity extends Activity {
         Cursor rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
     }
 }
 

@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.RecycleUtils;
 import com.example.user.gnc.defaultAct;
 
 /**
@@ -36,5 +37,12 @@ public class ManualKeySettingActivity extends Activity implements CompoundButton
                 finish();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
     }
 }

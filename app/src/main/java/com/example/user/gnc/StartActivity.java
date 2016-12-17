@@ -169,6 +169,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+
         dm = Resources.getSystem().getDisplayMetrics();
         limitY = (dm.heightPixels / 2) - 500;
         limitX = (dm.widthPixels / 2) - icon_width * 2;
@@ -228,6 +229,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
             try {
                 change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(imgPath));
                 StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
+                change_bitmap.recycle();
+                change_bitmap=null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -895,7 +898,5 @@ public class StartActivity extends Service implements View.OnTouchListener {
             e.printStackTrace();
         }
     }
-
-
 }
 
