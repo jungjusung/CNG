@@ -34,11 +34,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartActivity extends Service implements View.OnTouchListener{
+public class StartActivity extends Service implements View.OnTouchListener {
 
     String gestureResult = "";
 
-    boolean startAnimationFlag=false;
+    boolean startAnimationFlag = false;
     private LinearLayout bli;
     public static LinearLayout sub_li1, sub_li2;
     public static LinearLayout main_li1, main_li2;
@@ -50,15 +50,14 @@ public class StartActivity extends Service implements View.OnTouchListener{
     RelativeLayout copyright;
 
     public static WindowManager.LayoutParams params, params2, params3, params4;
-    public static WindowManager.LayoutParams main_parameters1,main_parameters2,sub_parameters1,sub_parameters2,txt_turn_parameters,txt_setting_parameters;
-    public static LinearLayout.LayoutParams main_liParameters1,main_liParameters2,sub_liParameters1,sub_liParameters2;
-    public static TextView txt_setting,txt_turn;
+    public static WindowManager.LayoutParams main_parameters1, main_parameters2, sub_parameters1, sub_parameters2, txt_turn_parameters, txt_setting_parameters;
+    public static LinearLayout.LayoutParams main_liParameters1, main_liParameters2, sub_liParameters1, sub_liParameters2;
+    public static TextView txt_setting, txt_turn;
 
     public static WindowManager windowManager;
     DisplayMetrics dm;
     Boolean longClickOn = false;
     public static StartActivity startActivity;
-
 
 
     static int initialPosX;
@@ -97,7 +96,8 @@ public class StartActivity extends Service implements View.OnTouchListener{
     Bitmap change_bitmap;
     LinearLayout.LayoutParams bliParameters;
     WindowManager.LayoutParams bparameters;
-    WindowManager.LayoutParams btnParameters1,btnParameters2,btnParameters3,btnParameters4;
+    WindowManager.LayoutParams btnParameters1, btnParameters2, btnParameters3, btnParameters4;
+
     /*------------------------------------------------------------------------*/
     @Override
     public IBinder onBind(Intent intent) {
@@ -108,16 +108,20 @@ public class StartActivity extends Service implements View.OnTouchListener{
     @Override
     public void onCreate() {
         TAG = this.getClass().getName();
+
+        /*StartActivity*/
+        Log.d(TAG,"나 스타트엑티비티 생성된다.");
+
         startActivity = this;
         sql = "select * from img_info";
         rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
-        if(icon_width!=rs.getInt(rs.getColumnIndex("size"))) {
+        if (icon_width != rs.getInt(rs.getColumnIndex("size"))) {
             icon_width = rs.getInt(rs.getColumnIndex("size"));
             icon_height = rs.getInt(rs.getColumnIndex("size"));
         }
-        main_parameters1 = new WindowManager.LayoutParams(icon_width*2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-        main_parameters2 = new WindowManager.LayoutParams(icon_width*2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+        main_parameters1 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+        main_parameters2 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
         layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
@@ -125,7 +129,6 @@ public class StartActivity extends Service implements View.OnTouchListener{
         layout = new RelativeLayout(this);
         copyright = new RelativeLayout(this);
         title = new RelativeLayout(this);
-
 
 
         params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
@@ -137,8 +140,8 @@ public class StartActivity extends Service implements View.OnTouchListener{
         bliParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         bparameters = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
-        main_li1=new LinearLayout(StartActivity.this);
-        main_li2=new LinearLayout(StartActivity.this);
+        main_li1 = new LinearLayout(StartActivity.this);
+        main_li2 = new LinearLayout(StartActivity.this);
         sub_li1 = new LinearLayout(StartActivity.this);
         sub_li2 = new LinearLayout(StartActivity.this);
         txt_turn = new TextView(StartActivity.this);
@@ -161,14 +164,14 @@ public class StartActivity extends Service implements View.OnTouchListener{
         btnParameters3 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         btnParameters4 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         super.onCreate();
+
     }
 
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         dm = Resources.getSystem().getDisplayMetrics();
         limitY = (dm.heightPixels / 2) - 500;
-        limitX = (dm.widthPixels / 2)-icon_width*2;
+        limitX = (dm.widthPixels / 2) - icon_width * 2;
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         //초기 위치 설정
@@ -261,7 +264,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
                 float alpha = Float.parseFloat(str);
                 params2.alpha = alpha;
                 windowManager.updateViewLayout(heroIcon, params2);
-                startAnimationFlag=true;
+                startAnimationFlag = true;
             }
         };
 
@@ -353,7 +356,9 @@ public class StartActivity extends Service implements View.OnTouchListener{
                 public boolean onSingleTapUp(MotionEvent e) {
                     return false;
                 }
-                public void onShowPress(MotionEvent e) {}
+
+                public void onShowPress(MotionEvent e) {
+                }
 
                 public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
                     return true;
@@ -364,6 +369,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
                     vibe.vibrate(40);
                     longClickOn = true;
                 }
+
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                     return true;
                 }
@@ -389,9 +395,10 @@ public class StartActivity extends Service implements View.OnTouchListener{
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
-                    }else if(method == START_WEB_CALL){
+                    } else if (method == START_WEB_CALL) {
                         String urlPath = rs.getString(rs.getColumnIndex("path"));
-                        if(!urlPath.equals(null)){
+                        Log.d(TAG, "URL PATh : " + urlPath);
+                        if (!urlPath.equals(null)) {
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setData(Uri.parse(urlPath));
@@ -440,12 +447,12 @@ public class StartActivity extends Service implements View.OnTouchListener{
 
                     txt_turn.setText("종료");
                     txt_turn.setGravity(Gravity.CENTER_VERTICAL);
-                    main_parameters1.x=initialPosX;
+                    main_parameters1.x = initialPosX;
 
                     if (initialPosY < -limitY) {
-                        main_parameters1.y = initialPosY + (icon_height+50);
+                        main_parameters1.y = initialPosY + (icon_height + 50);
                     } else {
-                        main_parameters1.y = initialPosY - (icon_height+50);
+                        main_parameters1.y = initialPosY - (icon_height + 50);
                     }
 
                     if(params2.x<0) {
@@ -461,15 +468,15 @@ public class StartActivity extends Service implements View.OnTouchListener{
                             main_li1.addView(txt_turn,txt_turn_parameters);
                             main_li1.addView(sub_li1, sub_parameters1);
                         }
-                    }else{
-                        main_parameters1.x=main_parameters1.x-icon_width/2;
+                    } else {
+                        main_parameters1.x = main_parameters1.x - icon_width / 2;
                         main_li1.removeAllViews();
-                        main_li1.addView(txt_turn,txt_turn_parameters);
+                        main_li1.addView(txt_turn, txt_turn_parameters);
                         main_li1.addView(sub_li1, sub_parameters1);
                     }
                     sub_li1.setBackgroundResource(R.drawable.turn_on);
 
-                    windowManager.addView(main_li1,main_parameters1);
+                    windowManager.addView(main_li1, main_parameters1);
 
                     sub_li1.setOnClickListener(new View.OnClickListener() {
 
@@ -503,30 +510,29 @@ public class StartActivity extends Service implements View.OnTouchListener{
                     sub_li2.setLayoutParams(sub_liParameters2);
 
 
-
                     main_parameters2.x = initialPosX;
                     if (initialPosY < -limitY) {
-                        main_parameters2.y = initialPosY + (icon_height+50)*2;
+                        main_parameters2.y = initialPosY + (icon_height + 50) * 2;
                     } else {
-                        main_parameters2.y = initialPosY - (icon_height+50)*2;
+                        main_parameters2.y = initialPosY - (icon_height + 50) * 2;
                     }
 
-                    if(params2.x<0) {
-                        if (params2.x-icon_width<(dm.widthPixels/2-icon_width/2)*(-1)){
-                            main_parameters2.x=main_parameters2.x+icon_width/2;
-                            main_li2.addView(sub_li2,sub_parameters2);
-                            main_li2.addView(txt_setting,txt_setting_parameters);
-                            txt_setting.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
-                        }else{
-                            main_parameters2.x=main_parameters2.x-icon_width/2;
-                            main_li2.addView(txt_setting,txt_setting_parameters);
-                            main_li2.addView(sub_li2,sub_parameters2);
+                    if (params2.x < 0) {
+                        if (params2.x - icon_width < (dm.widthPixels / 2 - icon_width / 2) * (-1)) {
+                            main_parameters2.x = main_parameters2.x + icon_width / 2;
+                            main_li2.addView(sub_li2, sub_parameters2);
+                            main_li2.addView(txt_setting, txt_setting_parameters);
+                            txt_setting.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                        } else {
+                            main_parameters2.x = main_parameters2.x - icon_width / 2;
+                            main_li2.addView(txt_setting, txt_setting_parameters);
+                            main_li2.addView(sub_li2, sub_parameters2);
                         }
-                    }else{
-                        main_parameters2.x=main_parameters2.x-icon_width/2;
+                    } else {
+                        main_parameters2.x = main_parameters2.x - icon_width / 2;
                         main_li2.removeAllViews();
-                        main_li2.addView(txt_setting,txt_setting_parameters);
-                        main_li2.addView(sub_li2,sub_parameters2);
+                        main_li2.addView(txt_setting, txt_setting_parameters);
+                        main_li2.addView(sub_li2, sub_parameters2);
                     }
 
                     sub_li2.setBackgroundResource(R.drawable.setting);
@@ -564,6 +570,8 @@ public class StartActivity extends Service implements View.OnTouchListener{
 
         return START_NOT_STICKY;
     }
+
+
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -610,23 +618,23 @@ public class StartActivity extends Service implements View.OnTouchListener{
             case MotionEvent.ACTION_MOVE:
                 updatedParameters.x = (int) (initialPosX + (motionEvent.getRawX() - touchedX));
                 updatedParameters.y = (int) (initialPosY + (motionEvent.getRawY() - touchedY));
-                if(updatedParameters.y<0) {
-                    if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)){
-                        updatedParameters.y=(dm.heightPixels / 2 - icon_height / 2)*(-1);
+                if (updatedParameters.y < 0) {
+                    if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)) {
+                        updatedParameters.y = (dm.heightPixels / 2 - icon_height / 2) * (-1);
                     }
-                }else{
-                    if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)){
-                        updatedParameters.y=(dm.heightPixels / 2 - icon_height / 2);
+                } else {
+                    if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)) {
+                        updatedParameters.y = (dm.heightPixels / 2 - icon_height / 2);
                     }
                 }
 
-                if(updatedParameters.x<0) {
-                    if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)){
-                        updatedParameters.x=(dm.widthPixels / 2 - icon_width / 2)*(-1);
+                if (updatedParameters.x < 0) {
+                    if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)) {
+                        updatedParameters.x = (dm.widthPixels / 2 - icon_width / 2) * (-1);
                     }
-                }else{
-                    if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)){
-                        updatedParameters.x=(dm.widthPixels / 2 - icon_width / 2);
+                } else {
+                    if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)) {
+                        updatedParameters.x = (dm.widthPixels / 2 - icon_width / 2);
                     }
                 }
 
@@ -635,24 +643,24 @@ public class StartActivity extends Service implements View.OnTouchListener{
                 heroIcon.y = updatedParameters.y;
 
                 windowManager.updateViewLayout(heroIcon, updatedParameters);
-                params2=updatedParameters;
-                List<Block> list=new ArrayList<Block>();
+                params2 = updatedParameters;
+                List<Block> list = new ArrayList<Block>();
                 list.add(block_bottom);
                 list.add(block_top);
                 list.add(block_right);
                 list.add(block_left);
 
-                for(int i=0;i<4;i++){
-                    boolean result=hitTest(heroIcon,list.get(i));
-                    if(result){
-                        if(i==0)
-                            gestureResult="위쪽";
-                        else if(i==1)
-                            gestureResult="아래쪽";
-                        else if(i==2)
-                            gestureResult="오른쪽";
-                        else if(i==3)
-                            gestureResult="왼쪽";
+                for (int i = 0; i < 4; i++) {
+                    boolean result = hitTest(heroIcon, list.get(i));
+                    if (result) {
+                        if (i == 0)
+                            gestureResult = "위쪽";
+                        else if (i == 1)
+                            gestureResult = "아래쪽";
+                        else if (i == 2)
+                            gestureResult = "오른쪽";
+                        else if (i == 3)
+                            gestureResult = "왼쪽";
                         break;
                     }
                 }
@@ -677,7 +685,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
 
                         rs.moveToNext();
                         int method = rs.getInt(rs.getColumnIndex("method"));
-                        String number=null;
+                        String number = null;
                         if (method == START_PHONE_CALL) {
                             number = rs.getString(rs.getColumnIndex("path"));
                             if (!number.equals(null))
@@ -692,7 +700,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
                             }
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            if(!urlPath.equals(null)){
+                            if (!urlPath.equals(null)) {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -719,7 +727,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
                             }
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            if(!urlPath.equals(null)){
+                            if (!urlPath.equals(null)) {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -744,7 +752,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
                             }
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            if(!urlPath.equals(null)){
+                            if (!urlPath.equals(null)) {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -771,11 +779,11 @@ public class StartActivity extends Service implements View.OnTouchListener{
 
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
-                            if(!urlPath.equals(null)){
-                                  Intent intent = new Intent(Intent.ACTION_VIEW);
-                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                  intent.setData(Uri.parse(urlPath));
-                                 startActivity(intent);
+                            if (!urlPath.equals(null)) {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse(urlPath));
+                                startActivity(intent);
                             }
 
                         }
@@ -785,22 +793,22 @@ public class StartActivity extends Service implements View.OnTouchListener{
                 } else {
                     updatedParameters.x = (int) (initialPosX + (motionEvent.getRawX() - touchedX));
                     updatedParameters.y = (int) (initialPosY + (motionEvent.getRawY() - touchedY));
-                    if(updatedParameters.y<0) {
-                        if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)){
-                            updatedParameters.y=(dm.heightPixels / 2 - icon_height / 2)*(-1);
+                    if (updatedParameters.y < 0) {
+                        if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)) {
+                            updatedParameters.y = (dm.heightPixels / 2 - icon_height / 2) * (-1);
                         }
-                    }else{
-                        if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)){
-                            updatedParameters.y=(dm.heightPixels / 2 - icon_height / 2);
+                    } else {
+                        if (Math.abs(updatedParameters.y) > (dm.heightPixels / 2 - icon_height / 2)) {
+                            updatedParameters.y = (dm.heightPixels / 2 - icon_height / 2);
                         }
                     }
-                    if(updatedParameters.x<0) {
-                        if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)){
-                            updatedParameters.x=(dm.widthPixels / 2 - icon_width / 2)*(-1);
+                    if (updatedParameters.x < 0) {
+                        if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)) {
+                            updatedParameters.x = (dm.widthPixels / 2 - icon_width / 2) * (-1);
                         }
-                    }else{
-                        if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)){
-                            updatedParameters.x=(dm.widthPixels / 2 - icon_width / 2);
+                    } else {
+                        if (Math.abs(updatedParameters.x) > (dm.widthPixels / 2 - icon_width / 2)) {
+                            updatedParameters.x = (dm.widthPixels / 2 - icon_width / 2);
                         }
                     }
 
@@ -811,7 +819,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
                     initialPosY = updatedParameters.y;
 
                     windowManager.updateViewLayout(heroIcon, updatedParameters);
-                    params2=updatedParameters;
+                    params2 = updatedParameters;
 
 
                     String sqlPos = "update initialpos set x=?, y=?";
@@ -838,6 +846,7 @@ public class StartActivity extends Service implements View.OnTouchListener{
         return mGestureDetector.onTouchEvent(motionEvent);
 
     }
+
     public boolean hitTest(HeroIcon heroIcon, Block block) {
 
         int me_x = heroIcon.x;
@@ -852,18 +861,19 @@ public class StartActivity extends Service implements View.OnTouchListener{
         int target_height = block.height;
 
         //내가 오른쪽에서 왼쪽으로 움직이다가 타겟을 만나면 result1 true
-        boolean result1 = (me_x-me_width/2 >= target_x-target_width/2) && (me_x-me_width/2 <= (target_x + target_width+target_width/2));//나의 x좌표위치가 타겟의 x range 내에 있는지 판단
+        boolean result1 = (me_x - me_width / 2 >= target_x - target_width / 2) && (me_x - me_width / 2 <= (target_x + target_width + target_width / 2));//나의 x좌표위치가 타겟의 x range 내에 있는지 판단
         //내가 왼쪽에서 오른쪽으로 움직이다가 만나면 result2 true
-        boolean result2 = (me_x + me_width/2 >= target_x-target_width/2) && (me_x + me_width/2 <= (target_x + target_width/2));  //나의 가로폭이 타겟의 가로폭 내에 있는지 판단
+        boolean result2 = (me_x + me_width / 2 >= target_x - target_width / 2) && (me_x + me_width / 2 <= (target_x + target_width / 2));  //나의 가로폭이 타겟의 가로폭 내에 있는지 판단
 
         //내가 아래에서 위로
-        boolean result3 = (me_y-me_height/2 >= target_y-target_height/2) && (me_y-me_height/2 <= (target_y + target_height+target_height/2));//나의 y좌표위치가 타겟의 세로폭 내에 있는지 판단
+        boolean result3 = (me_y - me_height / 2 >= target_y - target_height / 2) && (me_y - me_height / 2 <= (target_y + target_height + target_height / 2));//나의 y좌표위치가 타겟의 세로폭 내에 있는지 판단
 
         //내가 위에서 아래로
-        boolean result4 = (me_y + me_height/2 >= target_y-target_height/2) && (me_y + me_height/2 <= (target_y + target_height/2));//나의 y폭이 타겟의 세로폭 내에 있는지 판단
+        boolean result4 = (me_y + me_height / 2 >= target_y - target_height / 2) && (me_y + me_height / 2 <= (target_y + target_height / 2));//나의 y폭이 타겟의 세로폭 내에 있는지 판단
 
-        return (result1||result2)&&(result3||result4);
+        return (result1 || result2) && (result3 || result4);
     }
+
     @Override
     public void onDestroy() {
         Log.d(TAG, "지워짐?");

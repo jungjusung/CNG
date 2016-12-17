@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.user.gnc.R;
@@ -29,10 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Jusung on 2016. 11. 30..
- */
 
 public class KeySettingActivity extends Activity {
     String number;
@@ -365,6 +362,7 @@ public class KeySettingActivity extends Activity {
         startActivity(intent);
     }
 
+    /*@webListView 호출@*/
     public void selectWeb(int short_id) {
         Intent intent = new Intent(this, WebListActivity.class);
         intent.putExtra("short_id", Integer.toString(short_id));
@@ -388,14 +386,18 @@ public class KeySettingActivity extends Activity {
             rs.moveToNext();
             String name = rs.getString(rs.getColumnIndex("name"));
             String icon_img = rs.getString(rs.getColumnIndex("path"));
-
+            int method = rs.getInt(rs.getColumnIndex("method"));
 
             if (name != null && i == 1) {
                 txt_doubleClick.setText(name);
                 try {
                     viewChk[1] = true;
                     addKey1.setImageResource(R.drawable.chk_ori);
-                    img_doubleClick.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    if(method == 3){
+                        img_doubleClick.setImageResource(R.drawable.internet);
+                    }else {
+                        img_doubleClick.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -404,7 +406,11 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[2] = true;
                     addKey2.setImageResource(R.drawable.chk_ori);
-                    img_top.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    if(method == 3){
+                        img_top.setImageResource(R.drawable.internet);
+                    }else{
+                        img_top.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -413,7 +419,11 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[3] = true;
                     addKey3.setImageResource(R.drawable.chk_ori);
-                    img_bottom.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    if(method == 3){
+                        img_bottom.setImageResource(R.drawable.internet);
+                    }else{
+                        img_bottom.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -422,7 +432,11 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[4] = true;
                     addKey4.setImageResource(R.drawable.chk_ori);
-                    img_left.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    if(method == 3){
+                        img_left.setImageResource(R.drawable.internet);
+                    }else{
+                        img_left.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -431,7 +445,11 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[5] = true;
                     addKey5.setImageResource(R.drawable.chk_ori);
-                    img_right.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    if(method == 3){
+                        img_right.setImageResource(R.drawable.internet);
+                    }else{
+                        img_right.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
+                    }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
