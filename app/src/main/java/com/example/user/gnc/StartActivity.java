@@ -65,7 +65,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
     String TAG;
     Handler handler, handler2, handler3;
     Thread thread;
-
     int dy;
     float alpha = 1.0f;
     float alpha2 = 0.0f;
@@ -163,82 +162,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
         btnParameters2 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         btnParameters3 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         btnParameters4 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-        super.onCreate();
 
-    }
-
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-
-        dm = Resources.getSystem().getDisplayMetrics();
-        limitY = (dm.heightPixels / 2) - 500;
-        limitX = (dm.widthPixels / 2) - icon_width * 2;
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-
-        //초기 위치 설정
-        sql = "select * from initialpos";
-        rs = defaultAct.db.rawQuery(sql, null);
-
-        rs.moveToNext();
-        initialPosX = rs.getInt(rs.getColumnIndex("x"));
-        initialPosY = rs.getInt(rs.getColumnIndex("y"));
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-
-        layout.setBackgroundColor(Color.argb(100, 255, 0, 0));
-        layoutParams.setMargins(0, 20, 0, 0);
-        layout.setLayoutParams(layoutParams);
-        copyright.setLayoutParams(layoutParams);
-        title.setLayoutParams(layoutParams);
-
-
-        layout.setBackgroundResource(R.drawable.m_logo);
-        copyright.setBackgroundResource(R.drawable.m_copy);
-        title.setBackgroundResource(R.drawable.m_title);
-
-
-        params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-
-        //크기 조절 문제점이 여기에 있다.!! params2
-
-        params2.alpha = 0f;
-        params2.x = initialPosX;
-        params2.y = initialPosY;
-
-        params3.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-        params4.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-        params.y = 150;
-        params3.y = 150;
-        params4.y = 150;
-
-        windowManager.addView(title, params3);
-        windowManager.addView(copyright, params4);
-        windowManager.addView(layout, params);
-
-        parameters.x = initialPosX;
-        parameters.y = initialPosY;
-        parameters.alpha = 0f;
-        heroIcon = new HeroIcon(this, initialPosX, initialPosY, icon_width, icon_height);
-
-        sql = "select path from img_info";
-        Cursor cursor = defaultAct.db.rawQuery(sql, null);
-        cursor.moveToNext();
-        String imgPath = cursor.getString(cursor.getColumnIndex("path"));
-        if (imgPath.equals("")) {
-            heroIcon.setImageResource(R.drawable.logo2);
-        } else {
-            try {
-                change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(imgPath));
-                StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-                change_bitmap.recycle();
-                change_bitmap=null;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        windowManager.addView(heroIcon, parameters);
-
-
-        dy = params.y;
         handler = new Handler() {
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
@@ -248,6 +172,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 windowManager.updateViewLayout(layout, params);
             }
         };
+
 
         handler2 = new Handler() {
             public void handleMessage(Message msg) {
@@ -351,6 +276,85 @@ public class StartActivity extends Service implements View.OnTouchListener {
             }
 
         };
+
+
+        super.onCreate();
+
+    }
+
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+
+        dm = Resources.getSystem().getDisplayMetrics();
+        limitY = (dm.heightPixels / 2) - 500;
+        limitX = (dm.widthPixels / 2) - icon_width * 2;
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+
+        //초기 위치 설정
+        sql = "select * from initialpos";
+        rs = defaultAct.db.rawQuery(sql, null);
+
+        rs.moveToNext();
+        initialPosX = rs.getInt(rs.getColumnIndex("x"));
+        initialPosY = rs.getInt(rs.getColumnIndex("y"));
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+
+        layout.setBackgroundColor(Color.argb(100, 255, 0, 0));
+        layoutParams.setMargins(0, 20, 0, 0);
+        layout.setLayoutParams(layoutParams);
+        copyright.setLayoutParams(layoutParams);
+        title.setLayoutParams(layoutParams);
+
+
+        layout.setBackgroundResource(R.drawable.m_logo);
+        copyright.setBackgroundResource(R.drawable.m_copy);
+        title.setBackgroundResource(R.drawable.m_title);
+
+
+        params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
+
+        //크기 조절 문제점이 여기에 있다.!! params2
+
+        params2.alpha = 0f;
+        params2.x = initialPosX;
+        params2.y = initialPosY;
+
+        params3.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
+        params4.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
+        params.y = 150;
+        params3.y = 150;
+        params4.y = 150;
+
+        windowManager.addView(title, params3);
+        windowManager.addView(copyright, params4);
+        windowManager.addView(layout, params);
+
+        parameters.x = initialPosX;
+        parameters.y = initialPosY;
+        parameters.alpha = 0f;
+        heroIcon = new HeroIcon(this, initialPosX, initialPosY, icon_width, icon_height);
+
+        sql = "select path from img_info";
+        Cursor cursor = defaultAct.db.rawQuery(sql, null);
+        cursor.moveToNext();
+        String imgPath = cursor.getString(cursor.getColumnIndex("path"));
+        if (imgPath.equals("")) {
+            heroIcon.setImageResource(R.drawable.logo2);
+        } else {
+            try {
+                change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(imgPath));
+                StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
+                change_bitmap.recycle();
+                change_bitmap=null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        windowManager.addView(heroIcon, parameters);
+
+
+        dy = params.y;
+
         thread = new Thread(task);
         thread.start();
 
@@ -523,11 +527,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     if (params2.x < 0) {
                         if (params2.x - icon_width < (dm.widthPixels / 2 - icon_width / 2) * (-1)) {
                             main_parameters2.x = main_parameters2.x + icon_width / 2;
+                            main_li2.removeAllViews();
                             main_li2.addView(sub_li2, sub_parameters2);
                             main_li2.addView(txt_setting, txt_setting_parameters);
                             txt_setting.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                         } else {
                             main_parameters2.x = main_parameters2.x - icon_width / 2;
+                            main_li2.removeAllViews();
                             main_li2.addView(txt_setting, txt_setting_parameters);
                             main_li2.addView(sub_li2, sub_parameters2);
                         }
@@ -881,8 +887,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
     public void onDestroy() {
         Log.d(TAG, "지워짐?");
         //android.os.Process.killProcess(android.os.Process.myPid());
-        System.runFinalizersOnExit(true);
-
+        System.gc();
         System.exit(0);
         super.onDestroy();
     }
@@ -898,5 +903,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
             e.printStackTrace();
         }
     }
+
 }
 

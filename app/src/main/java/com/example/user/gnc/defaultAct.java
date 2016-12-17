@@ -215,6 +215,7 @@ public class defaultAct extends Activity {
 
     @Override
     protected void onDestroy() {
+
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
