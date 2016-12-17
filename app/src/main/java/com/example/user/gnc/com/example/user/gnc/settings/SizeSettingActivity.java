@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.user.gnc.HeroIcon;
 import com.example.user.gnc.R;
 
+import com.example.user.gnc.RecycleUtils;
 import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
 import com.google.android.gms.ads.AdRequest;
@@ -125,5 +126,11 @@ public class SizeSettingActivity extends Activity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
+    }
 }
 

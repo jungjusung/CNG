@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.RecycleUtils;
 import com.example.user.gnc.defaultAct;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -481,6 +482,7 @@ public class KeySettingActivity extends Activity {
                     txt_doubleClick.setText(number);
                     addKey1.setImageResource(R.drawable.chk_ori);
                     img_doubleClick.setImageResource(R.drawable.phone);
+
                 } else if (confirmNum == 2) {
                     viewChk[2] = true;
                     txt_top.setText(number);
@@ -539,5 +541,13 @@ public class KeySettingActivity extends Activity {
         txtList.get(index-1).setText("");
         viewList.get(index-1).startAnimation(FabRotateAntiClockWise);
         viewList.get(index-1).setImageResource(R.drawable.chk_sel);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
     }
 }

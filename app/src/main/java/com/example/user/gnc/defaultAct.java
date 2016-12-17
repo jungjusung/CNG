@@ -213,7 +213,14 @@ public class defaultAct extends Activity {
 
     }
 
-//    public void showMsg1(String title, String msg) {
+    @Override
+    protected void onDestroy() {
+
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
+    }
+    //    public void showMsg1(String title, String msg) {
 //        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 //        alert.setTitle(title).setMessage(msg).setCancelable(true)
 //                .setNegativeButton("닫기", null)

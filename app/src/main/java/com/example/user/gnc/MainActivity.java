@@ -37,9 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     protected void onDestroy() {
-        Log.d(TAG,"액티비티 지워짐");
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
         finish();
         super.onDestroy();
     }

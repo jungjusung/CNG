@@ -15,4 +15,5 @@ public class LocationSettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location_setting_activity);
     }
+
 }

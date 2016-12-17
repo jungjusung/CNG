@@ -59,4 +59,5 @@ public class AppInfo {
             return sCollator.compare(object1.mAppName, object2.mAppName);
         }
     };
+
 }

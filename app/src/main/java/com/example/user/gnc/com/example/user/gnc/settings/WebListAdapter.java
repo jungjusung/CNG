@@ -28,7 +28,8 @@ public class WebListAdapter extends BaseAdapter{
     public WebListAdapter(Context context) {
         this.context = context;
         /*인플레이터 생성*/
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(inflater==null)
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         init();
 

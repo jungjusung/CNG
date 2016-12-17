@@ -58,6 +58,8 @@ public class SettingActivity extends Activity {
     LinearLayout layout;
     LinearLayout.LayoutParams layoutParams;
     Bitmap bitmap;
+    Bitmap change_bitmap;
+    Bitmap src;
     /*------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +189,8 @@ public class SettingActivity extends Activity {
 
                     image.setImageBitmap(bitmap);
                     uri = data.getData();
-
+                    bitmap.recycle();
+                    bitmap=null;
                     sql = "update img_info set path=?";
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
@@ -200,13 +203,17 @@ public class SettingActivity extends Activity {
                     Log.d(TAG, StartActivity.startActivity.heroIcon+"스타트액티비티");
                     */
                     BitmapFactory.Options options = new BitmapFactory.Options();
+
                     if(options.outWidth>200||options.outHeight>200) {
                         options.inSampleSize = 4;
                     }
-                    Bitmap src = BitmapFactory.decodeFile(uri_path, options);
-                    Bitmap change_bitmap = Bitmap.createScaledBitmap( src, 150, 150, true );
+                    src = BitmapFactory.decodeFile(uri_path, options);
+                    change_bitmap = Bitmap.createScaledBitmap( src, 150, 150, true );
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-
+                    src.recycle();
+                    change_bitmap.recycle();
+                    src=null;
+                    change_bitmap=null;
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -259,6 +266,14 @@ public class SettingActivity extends Activity {
 //                })
 //                .show();
 //    }
+
+
+    @Override
+    protected void onDestroy() {
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
+    }
 
     public void onBackPressed() {
         this.finish();
