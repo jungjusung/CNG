@@ -17,6 +17,8 @@
             android:layout_weight="1" />
 
         <EditText
+
+            android:theme="@style/Theme.App.Base"
             android:textSize="20dp"
             android:id="@+id/edit_url"
             android:layout_width="0dp"

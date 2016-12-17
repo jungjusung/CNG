@@ -38,6 +38,7 @@ public class WebListAdapter extends BaseAdapter{
         String sql="select * from web";
         Cursor rs=defaultAct.db.rawQuery(sql,null);
 
+        list.clear();
         while(rs.moveToNext()){
             list.add(rs.getString(rs.getColumnIndex("url")));
         }
