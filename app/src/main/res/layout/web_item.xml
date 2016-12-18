@@ -22,13 +22,16 @@
         android:layout_gravity="center_vertical"
         android:hint="URL"
         android:textSize="20sp" />
+<!--
 
     <ImageView
+        android:id="@+id/img_delete_web"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:src="@drawable/chk_ori" />
+-->
 
 
 </LinearLayout>

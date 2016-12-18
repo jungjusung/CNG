@@ -7,12 +7,15 @@ package com.example.user.gnc.com.example.user.gnc.settings;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -25,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user.gnc.R;
 import com.example.user.gnc.RecycleUtils;
@@ -34,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AppListActivity extends Activity {
+public class AppListActivity extends Activity implements AdapterView.OnItemClickListener{
     private static final String TAG = AppListActivity.class.getSimpleName();
     // 메뉴 KEY
     private final int MENU_DOWNLOAD = 0;
@@ -70,6 +74,7 @@ public class AppListActivity extends Activity {
         mAdapter = new IAAdapter(this);
 
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
         Log.d(TAG,Integer.toString(mAdapter.getCount()));
         registerForContextMenu(mListView);
 
@@ -268,7 +273,7 @@ public class AppListActivity extends Activity {
         }
 
     }
-
+/*
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
@@ -280,9 +285,36 @@ public class AppListActivity extends Activity {
         menu.setHeaderTitle(title);
         menu.add(Menu.NONE, ONE, Menu.NONE, "이 앱을 연동");
         menu.add(Menu.NONE, TWO, Menu.NONE, "취소");
-    }
+    }*/
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
+        title = mListData.get(position).mAppName;
+        pkg = mListData.get(position).mAppPackage;
+
+        try {
+            alert_confirm.setTitle(title)
+                    .setIcon(getPackageManager().getApplicationIcon(pkg))
+                    .setMessage("이 앱을").setCancelable(true)
+                    .setPositiveButton("제스쳐와 연동",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 'YES'
+                                    String sql = "update shortcut set path=?, name=?, method=2 where short_cut=?";
+                                    defaultAct.db.execSQL(sql, new String[]{pkg, title, Integer.toString(short_cut)});
+                                    AppListActivity.this.finish();
+                                }
+                            })
+                    .setNegativeButton("취소", null);
+            AlertDialog alert = alert_confirm.create();
+            alert.show();
+        }catch (PackageManager.NameNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    /*@Override
     public boolean onContextItemSelected(MenuItem item) {
         String data = item.toString();
         switch (item.getItemId()) {
@@ -299,7 +331,7 @@ public class AppListActivity extends Activity {
         }
 
         return super.onContextItemSelected(item);
-    }
+    }*/
 
     private int checkFlag() {
         String sql = "select applist from manual_flags";
