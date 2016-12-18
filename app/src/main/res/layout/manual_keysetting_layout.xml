@@ -94,7 +94,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="6"
             android:gravity="right"
-            android:text="다시보지 않기"
+            android:text="@string/do_not_show_again"
             android:textSize="18sp" />
 
         <CheckBox
