@@ -173,7 +173,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:text="웹 즐겨찾기 추가"
+            android:text="@string/add_bookmark"
             android:textAlignment="center"
             android:textColor="#ffffff"
             android:textSize="18sp"
