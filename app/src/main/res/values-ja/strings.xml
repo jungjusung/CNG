@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">CnG</string>
+    <string name="loading" >로딩중</string>
+    <string name="menu_download" >다운로드</string>
+    <string name="menu_all" >전체</string>
+    <string name="banner_ad_unit_id_choice">ca-app-pub-5272695963972081/8136058254</string>
+    <string name="double_click">ダブルクリック</string>
+    <string name="move_to_up">上にスワイプする</string>
+    <string name="move_to_down">スワイプダウン</string>
+    <string name="move_to_left">左にスワイプする</string>
+    <string name="move_to_right">右にスワイプする</string>
+    <string name="do_not_show_again">再び表示しない。</string>
+    <string name="setting_shortcut_key">ショールカットキーの設定</string>
+    <string name="setting_icons">アイコンの設定</string>
+    <string name="setting_location">設置場所</string>
+    <string name="setting_size">設定サイズ</string>
+    <string name="setting_language">言語の設定</string>
+    <string name="reset_all_setting">すべての設定をリセットする</string>
+    <string name="apply">適用する</string>
+    <string name="add_bookmark">ブックマークを追加</string>
+    <string name="setting">設定</string>
+    <string name="exit">出口</string>
+    <string name="Set_your_location_with_flag">フラグを立ててあなたの位置を設定する</string>
+</resources>

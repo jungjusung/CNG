@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class WebListAdapter extends BaseAdapter{
         String sql="select * from web";
         Cursor rs=defaultAct.db.rawQuery(sql,null);
 
+        list.clear();
         while(rs.moveToNext()){
             list.add(rs.getString(rs.getColumnIndex("url")));
         }
@@ -61,6 +63,7 @@ public class WebListAdapter extends BaseAdapter{
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.web_item, null);
+            view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200));
         } else {
             view = convertView;
         }

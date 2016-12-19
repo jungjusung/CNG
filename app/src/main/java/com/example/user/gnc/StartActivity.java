@@ -452,7 +452,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     sub_li1.setBackgroundColor(Color.argb(66, 255, 0, 0));
                     sub_li1.setLayoutParams(sub_liParameters1);
 
-                    txt_turn.setText("종료");
+                    txt_turn.setText(R.string.exit);
                     txt_turn.setGravity(Gravity.CENTER_VERTICAL);
                     main_parameters1.x = initialPosX;
 
@@ -507,7 +507,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
                     txt_setting.setGravity(Gravity.CENTER_VERTICAL);
-                    txt_setting.setText("설정");
+                    txt_setting.setText(R.string.setting);
 
                     main_li2.setLayoutParams(main_liParameters2);
                     main_li2.setOrientation(LinearLayout.HORIZONTAL);

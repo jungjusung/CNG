@@ -14,7 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:text="설정"
+            android:text="@string/setting"
             android:textAlignment="center"
             android:textColor="#ffffff"
             android:textSize="18sp"
@@ -62,7 +62,6 @@
                 android:id="@+id/bt_key"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
@@ -79,14 +78,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:text="키 설정" />
+                    android:text="@string/setting_shortcut_key" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/bt_icon"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@drawable/border3"
                 android:gravity="center"
@@ -105,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:text="아이콘 설정" />
+                    android:text="@string/setting_icons" />
 
             </LinearLayout>
 
@@ -120,7 +118,6 @@
                 android:id="@+id/bt_location"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@drawable/border6"
                 android:gravity="center"
@@ -137,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:text="초기위치 설정" />
+                    android:text="@string/setting_location" />
 
             </LinearLayout>
 
@@ -145,7 +142,6 @@
                 android:id="@+id/bt_size"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:onClick="btnClick"
@@ -161,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:text="크기 설정" />
+                    android:text="@string/setting_size" />
 
             </LinearLayout>
         </LinearLayout>
@@ -173,7 +169,6 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@drawable/border4"
                 android:gravity="center"
@@ -190,14 +185,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:text="언어 설정" />
+                    android:text="@string/setting_language" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@drawable/border5"
                 android:gravity="center"
@@ -214,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:text="설정 초기화" />
+                    android:text="@string/reset_all_setting" />
 
             </LinearLayout>
         </LinearLayout>

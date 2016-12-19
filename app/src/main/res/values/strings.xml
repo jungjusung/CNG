@@ -4,4 +4,22 @@
     <string name="menu_download" >다운로드</string>
     <string name="menu_all" >전체</string>
     <string name="banner_ad_unit_id_choice">ca-app-pub-5272695963972081/8136058254</string>
+    <string name="double_click">더블클릭</string>
+    <string name="move_to_up">위로이동</string>
+    <string name="move_to_down">아래로이동</string>
+    <string name="move_to_left">왼쪽이동</string>
+    <string name="move_to_right">오른쪽이동</string>
+    <string name="do_not_show_again">다시보지 않기</string>
+    <string name="setting_shortcut_key">키 설정</string>
+    <string name="setting_icons">아이콘 설정</string>
+    <string name="setting_location">초기위치 설정</string>
+    <string name="setting_size">크기 설정</string>
+    <string name="setting_language">언어 설정</string>
+    <string name="reset_all_setting">설정 초기화</string>
+    <string name="apply">적용</string>
+    <string name="add_bookmark">웹 즐겨찾기 추가</string>
+    <string name="setting">설정</string>
+    <string name="exit">종료</string>
+    <string name="call_someone">에게 전화걸기</string>
+    <string name="Set_your_location_with_flag">깃발로 초기위치를 설정하세요~</string>
 </resources>

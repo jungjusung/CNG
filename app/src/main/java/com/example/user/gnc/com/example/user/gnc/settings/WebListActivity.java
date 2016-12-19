@@ -1,9 +1,12 @@
 package com.example.user.gnc.com.example.user.gnc.settings;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +35,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
     EditText edit_url;
 
     ImageView add_url;
-
+    Cursor rs;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,33 +56,66 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         add_url.setOnClickListener(this);
 
         edit_url = (EditText) findViewById(R.id.edit_url);
+        edit_url.setSelection(edit_url.length());
+
     }
 
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
         txt_url = (TextView) view.findViewById(R.id.txt_url);
-        String url = txt_url.getText().toString();
-        String TAG = this.getClass().getName();
-        Log.d(TAG, "웹리스트" + url);
-        String sql = "update shortcut set name = ?, path=?, method=3 where short_cut=?";
-        defaultAct.db.execSQL(sql, new String[]{
-                url, url, Integer.toString(short_id)
-        });
-        Intent intent = new Intent(this, KeySettingActivity.class);
-        startActivity(intent);
-        this.finish();
+        final String url = txt_url.getText().toString();
+
+        alert_confirm.setTitle(url).setMessage("이 주소를").setCancelable(true)
+                .setPositiveButton("제스쳐와 연동",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'YES'
+                        String sql = "update shortcut set name = ?, path=?, method=3 where short_cut=?";
+                        defaultAct.db.execSQL(sql, new String[]{
+                                url, url, Integer.toString(short_id)
+                        });
+                        Intent intent = new Intent(WebListActivity.this, KeySettingActivity.class);
+                        startActivity(intent);
+                        WebListActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("목록에서 삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String sql = "delete from web where url = ?";
+                        defaultAct.db.execSQL(sql, new String[]{url});
+                        webListAdapter.init();
+                        webListAdapter.notifyDataSetChanged();
+                        Toast.makeText(WebListActivity.this, url + "이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                        edit_url.setText("http://");
+                    }
+                });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
     }
 
     public void onClick(View view) {
+        String sql=null;
         if (view.getId() == R.id.add_url) {
             String url = edit_url.getText().toString();
-
-            String sql = "insert into web(url) values(?)";
-            defaultAct.db.execSQL(sql, new String[]{
-                    url
-            });
-            webListAdapter.init();
-            webListAdapter.notifyDataSetChanged();
-            Toast.makeText(this, url+"이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+            sql = "select * from web where url=\""+url+"\"";
+            rs = defaultAct.db.rawQuery(sql,null);
+            if (rs.getCount()!=0) {
+                Toast.makeText(this, "입력하신 " + url + "이 중복됩니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                sql = "insert into web(url) values(?)";
+                defaultAct.db.execSQL(sql, new String[]{
+                        url
+                });
+                webListAdapter.init();
+                webListAdapter.notifyDataSetChanged();
+                Toast.makeText(this, url + "이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                edit_url.setText("http://");
+                edit_url.setSelection(edit_url.length());
+            }
+            if(rs!=null)
+                rs.close();
         }
     }
+
 }
