@@ -189,8 +189,8 @@ public class SettingActivity extends Activity {
 
                     image.setImageBitmap(bitmap);
                     uri = data.getData();
-                    bitmap.recycle();
-                    bitmap=null;
+                    /*bitmap.recycle();
+                    bitmap=null;*/
                     sql = "update img_info set path=?";
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
@@ -210,10 +210,10 @@ public class SettingActivity extends Activity {
                     src = BitmapFactory.decodeFile(uri_path, options);
                     change_bitmap = Bitmap.createScaledBitmap( src, 150, 150, true );
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-                    src.recycle();
+                    /*src.recycle();
                     change_bitmap.recycle();
                     src=null;
-                    change_bitmap=null;
+                    change_bitmap=null;*/
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
