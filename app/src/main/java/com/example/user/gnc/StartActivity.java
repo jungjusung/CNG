@@ -907,5 +907,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
             e.printStackTrace();
         }
     }
+
 }
 

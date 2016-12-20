@@ -258,4 +258,9 @@ public class SettingActivity extends Activity {
         this.finish();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG,"강제종료된다.");
+
+    }
 }
