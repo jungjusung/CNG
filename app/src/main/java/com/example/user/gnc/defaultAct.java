@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
+import com.example.user.gnc.com.example.user.gnc.settings.TestService;
 
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
@@ -33,7 +34,6 @@ public class defaultAct extends Activity {
     public static com.example.user.gnc.defaultAct defaultAct;
     MyDB myDB;
     public static SQLiteDatabase db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +62,12 @@ public class defaultAct extends Activity {
 
             } else {
                 startService(new Intent(this, StartActivity.class));
+                startService(new Intent(this, TestService.class));
+
             }
         } else {
             startService(new Intent(this, StartActivity.class));
+            startService(new Intent(this, TestService.class));
         }
     }
 
@@ -174,6 +177,7 @@ public class defaultAct extends Activity {
     protected void onDestroy() {
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
+        Log.d(TAG,"defaultAct꺼지냐?");
         super.onDestroy();
     }
 }

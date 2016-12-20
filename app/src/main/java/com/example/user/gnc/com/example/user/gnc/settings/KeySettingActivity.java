@@ -548,6 +548,7 @@ public class KeySettingActivity extends Activity {
     protected void onDestroy() {
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
+        Log.d(TAG,"KeySettingActivity 꺼지냐?");
         super.onDestroy();
     }
 }

@@ -37,8 +37,6 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
     String TAG;
     View view;
 
-
-
     ImageView urlImage;
     TextView urlText;
     TextView urlTitle;

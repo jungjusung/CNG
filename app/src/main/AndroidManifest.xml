@@ -29,11 +29,11 @@
                 android:value="@integer/google_play_services_version" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <service android:name=".StartActivity" />
+        <service android:name=".com.example.user.gnc.settings.TestService" />
 
         <activity
             android:name=".SettingActivity"
