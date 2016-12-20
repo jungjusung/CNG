@@ -21,19 +21,24 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".defaultAct"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".initPermissionActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".StartActivity" />
+        <activity
+            android:name=".defaultAct"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <service android:name=".StartActivity" >
+    </service>
 
         <activity
             android:name=".SettingActivity"
