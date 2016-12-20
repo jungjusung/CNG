@@ -340,8 +340,8 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
         return rs.getInt(0);
     }
 
-    @Override
     protected void onDestroy() {
+        Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();

@@ -3,6 +3,7 @@ package com.example.user.gnc;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -107,6 +108,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
     @Override
     public void onCreate() {
         TAG = this.getClass().getName();
+
 
         /*StartActivity*/
         Log.d(TAG,"나 스타트엑티비티 생성된다.");
@@ -497,7 +499,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             if (windowManager != null) {
                                 windowManager.removeView(main_li2);
                             }
-
+                            /*String updateSql = "update flag set x=0";
+                            initPermissionActivity.sub_db.execSQL(updateSql);
+                            Log.d(TAG,"디비 x=0했음.");*/
                             windowManager.removeView(bli);
                         }
                     });
@@ -885,7 +889,11 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     @Override
     public void onDestroy() {
+        Log.d(TAG,"내가 켜졌다~~");
         Log.d(TAG, "지워짐?");
+        String updateSql = "update flag set x=0";
+        initPermissionActivity.sub_db.execSQL(updateSql);
+        Log.d(TAG,"디비 x=0했음.");
         //android.os.Process.killProcess(android.os.Process.myPid());
         System.gc();
         System.exit(0);
