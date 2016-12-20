@@ -37,10 +37,10 @@ public class MyDB extends SQLiteOpenHelper {
 
         /*웹리스트 관련 DB*/
         sqLiteDatabase.execSQL("create table web(web_id integer primary key autoincrement, url varchar(30));");
-        sqLiteDatabase.execSQL("insert into web(url) values('http://naver.com')");
-        sqLiteDatabase.execSQL("insert into web(url) values('http://daum.net')");
-        sqLiteDatabase.execSQL("insert into web(url) values('http://google.com')");
-        sqLiteDatabase.execSQL("insert into web(url) values('http://youtube.com')");
+        sqLiteDatabase.execSQL("insert into web(url) values('http://www.naver.com')");
+        sqLiteDatabase.execSQL("insert into web(url) values('http://www.daum.net')");
+        sqLiteDatabase.execSQL("insert into web(url) values('http://www.google.com')");
+        sqLiteDatabase.execSQL("insert into web(url) values('http://www.youtube.com')");
     }
 
     @Override

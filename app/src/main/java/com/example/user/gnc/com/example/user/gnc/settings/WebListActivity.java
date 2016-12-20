@@ -2,6 +2,7 @@ package com.example.user.gnc.com.example.user.gnc.settings;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -34,7 +35,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
     EditText edit_url;
 
     ImageView add_url;
-
+    Cursor rs;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,18 +95,26 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void onClick(View view) {
+        String sql=null;
         if (view.getId() == R.id.add_url) {
             String url = edit_url.getText().toString();
-
-            String sql = "insert into web(url) values(?)";
-            defaultAct.db.execSQL(sql, new String[]{
-                    url
-            });
-            webListAdapter.init();
-            webListAdapter.notifyDataSetChanged();
-            Toast.makeText(this, url + "이 추가되었습니다.", Toast.LENGTH_SHORT).show();
-            edit_url.setText("http://");
-            edit_url.setSelection(edit_url.length());
+            sql = "select * from web where url=\""+url+"\"";
+            rs = defaultAct.db.rawQuery(sql,null);
+            if (rs.getCount()!=0) {
+                Toast.makeText(this, "입력하신 " + url + "이 중복됩니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                sql = "insert into web(url) values(?)";
+                defaultAct.db.execSQL(sql, new String[]{
+                        url
+                });
+                webListAdapter.init();
+                webListAdapter.notifyDataSetChanged();
+                Toast.makeText(this, url + "이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                edit_url.setText("http://");
+                edit_url.setSelection(edit_url.length());
+            }
+            if(rs!=null)
+                rs.close();
         }
     }
 

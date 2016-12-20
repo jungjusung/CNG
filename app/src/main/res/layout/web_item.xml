@@ -1,37 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:orientation="horizontal"
-    android:background="@drawable/border"
-    android:layout_margin="5dp">
+    android:layout_height="180dp"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/internet2" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_marginTop="5dp"
-        android:id="@+id/txt_url"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_weight="6"
-        android:layout_gravity="center_vertical"
-        android:hint="URL"
-        android:textSize="20sp" />
-<!--
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/internet2" />
 
-    <ImageView
-        android:id="@+id/img_delete_web"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/chk_ori" />
--->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"></LinearLayout>
 
+        <TextView
+            android:id="@+id/txt_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="9"
+            android:hint="URL"
+            android:textSize="15dp" />
 
+        <ImageView
+            android:id="@+id/img_delete_web"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/chk_ori" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"></LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="10dp"
+            android:id="@+id/UrlImage"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="10dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:hint="title"
+                android:textSize="15dp"
+                android:id="@+id/UrlTitle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="정보"
+                android:textSize="13dp"
+                android:id="@+id/UrlText"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
