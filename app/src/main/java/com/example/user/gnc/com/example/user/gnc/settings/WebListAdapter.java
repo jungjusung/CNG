@@ -21,9 +21,12 @@ import com.example.user.gnc.MyAsyncTask;
 import com.example.user.gnc.R;
 import com.example.user.gnc.defaultAct;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.combineMeasuredStates;
 import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 /*
@@ -37,8 +40,14 @@ public class WebListAdapter extends BaseAdapter{
     ArrayList<String> list = new ArrayList<String>();
     TextView txt_url;
     ImageView urlImage;
+    TextView urlTitle;
+    TextView urlContent;
 
+    public ArrayList<MemoryCache> caches=new ArrayList<>();
+
+    Cache cache=Cache.getInstance();
     public WebListAdapter(Context context) {
+
         this.context = context;
         /*인플레이터 생성*/
         if(inflater==null)
@@ -53,6 +62,7 @@ public class WebListAdapter extends BaseAdapter{
         Cursor rs=defaultAct.db.rawQuery(sql,null);
 
         list.clear();
+        caches.clear();
         while(rs.moveToNext()){
             list.add(rs.getString(rs.getColumnIndex("url")));
         }
@@ -83,9 +93,25 @@ public class WebListAdapter extends BaseAdapter{
             view=convertView;
         }
         txt_url = (TextView) view.findViewById(R.id.txt_url);
+        urlImage=(ImageView)view.findViewById(R.id.UrlImage);
+        urlTitle=(TextView)view.findViewById(R.id.UrlTitle);
+        urlContent=(TextView)view.findViewById(R.id.UrlText);
         txt_url.setText(list.get(i));
-        MyAsyncTask myAsyncTask = new MyAsyncTask(view);
-        myAsyncTask.execute(txt_url.getText().toString());
+
+        Bitmap bitmap = (Bitmap)Cache.getInstance().getLru().get(txt_url.getText().toString());
+        String title=Cache.getInstance().getTitle().get(txt_url.getText().toString());
+        String content=Cache.getInstance().getContent().get(txt_url.getText().toString());
+        if(bitmap!=null&&title!=null&&content!=null){
+            urlImage.setImageBitmap(bitmap);
+            urlTitle.setText(title);
+            urlContent.setText(content);
+        }else{
+            MyAsyncTask myAsyncTask = new MyAsyncTask(view, this);
+            myAsyncTask.execute(txt_url.getText().toString());
+        }
+
+
+
         return view;
     }
     public void recycleBitmap(ImageView iv) {

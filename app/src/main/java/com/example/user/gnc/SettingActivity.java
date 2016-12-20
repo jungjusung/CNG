@@ -8,6 +8,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -39,6 +40,7 @@ import java.io.IOException;
 
 
 public class SettingActivity extends Activity {
+
     String TAG;
     String data;
     Uri uri;
@@ -68,7 +70,9 @@ public class SettingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (checkFlag() == 0) {
+
+        if(checkFlag() == 0){
+
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
         }
@@ -176,12 +180,103 @@ public class SettingActivity extends Activity {
                 finish();
                 break;
 
+            case R.id.backToDefault: // 설정 초기화
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
+
+                builder.setTitle("초기화 설정").setMessage("초기화 하시겠습니까?").setCancelable(false)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                doBackToDefault();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();    // 알림창 띄우기
+
+
+
             case R.id.bt_language:
                 Intent lang_intent = new Intent(Intent.ACTION_MAIN);
                 lang_intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
                 startActivity(lang_intent);
                 break;
+
         }
+    }
+
+    public void doBackToDefault(){
+
+        StartActivity.initialPosX=350;
+        StartActivity.initialPosY=600;
+        StartActivity.icon_width=150;
+        StartActivity.icon_height=150;
+        StartActivity.params2.x=350;
+        StartActivity.params2.y=600;
+        StartActivity.params2.width=150;
+        StartActivity.params2.height=150;
+        StartActivity.main_parameters1.width=SizeSettingActivity.iconParam.width*2;
+        StartActivity.main_parameters1.height=SizeSettingActivity.iconParam.height;
+        StartActivity.main_parameters2.width=SizeSettingActivity.iconParam.width*2;
+        StartActivity.main_parameters2.height=SizeSettingActivity.iconParam.height;
+        StartActivity.sub_parameters1.width=SizeSettingActivity.iconParam.width;
+        StartActivity.sub_parameters1.height=SizeSettingActivity.iconParam.height;
+        StartActivity.sub_parameters2.width=SizeSettingActivity.iconParam.width;
+        StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
+        StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
+        StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,StartActivity.params2);
+        StartActivity.heroIcon.setImageResource(R.drawable.logo2);
+
+        String deleteImg_info = "delete from img_info";
+        String deleteManual_flags = "delete from manual_flags";
+        String deleteShortCut = "delete from shortcut";
+        String deleteInitialPos = "delete from initialpos";
+        String deleteWeb = "delete from web";
+
+        defaultAct.db.execSQL(deleteImg_info);
+        defaultAct.db.execSQL(deleteManual_flags);
+        defaultAct.db.execSQL(deleteShortCut);
+        defaultAct.db.execSQL(deleteInitialPos);
+        defaultAct.db.execSQL(deleteWeb);
+
+        String insertDefaultImg_info = "insert into img_info(x,y,size,path) values(350,600,150,'')";
+        String insertDefaultManual_flags="insert into manual_flags values( 0, 0, 0)";
+        String insertDefaultShortCut1="insert into shortcut ( short_cut) values (1)";
+        String insertDefaultShortCut2="insert into shortcut ( short_cut) values (2)";
+        String insertDefaultShortCut3="insert into shortcut ( short_cut) values (3)";
+        String insertDefaultShortCut4="insert into shortcut ( short_cut) values (4)";
+        String insertDefaultShortCut5="insert into shortcut ( short_cut) values (5)";
+        String insertDefaultInitailPos = "insert into initialpos(x,y) values(350,600)";
+        String insertDefaultWeb1="insert into web(url) values('http://naver.com')";
+        String insertDefaultWeb2="insert into web(url) values('http://daum.net')";
+        String insertDefaultWeb3="insert into web(url) values('http://google.com')";
+        String insertDefaultWeb4="insert into web(url) values('http://youtube.com')";
+
+        defaultAct.db.execSQL(insertDefaultImg_info);
+        defaultAct.db.execSQL(insertDefaultManual_flags);
+        defaultAct.db.execSQL(insertDefaultShortCut1);
+        defaultAct.db.execSQL(insertDefaultShortCut2);
+        defaultAct.db.execSQL(insertDefaultShortCut3);
+        defaultAct.db.execSQL(insertDefaultShortCut4);
+        defaultAct.db.execSQL(insertDefaultShortCut5);
+        defaultAct.db.execSQL(insertDefaultInitailPos);
+        defaultAct.db.execSQL(insertDefaultWeb1);
+        defaultAct.db.execSQL(insertDefaultWeb2);
+        defaultAct.db.execSQL(insertDefaultWeb3);
+        defaultAct.db.execSQL(insertDefaultWeb4);
+
+
+
+        Toast.makeText(this, "초기화 완료", Toast.LENGTH_SHORT).show();
+
     }
 
     /* 세팅에 아이콘 이미지 변경 및 경로*/
@@ -198,8 +293,10 @@ public class SettingActivity extends Activity {
 
                     image.setImageBitmap(bitmap);
                     uri = data.getData();
-                    //          bitmap.recycle();
-                    //          bitmap=null;
+
+                    /*bitmap.recycle();
+                    bitmap=null;*/
+
                     sql = "update img_info set path=?";
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
@@ -216,10 +313,13 @@ public class SettingActivity extends Activity {
                     src = BitmapFactory.decodeFile(uri_path, options);
                     change_bitmap = Bitmap.createScaledBitmap(src, 150, 150, true);
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-                    //        src.recycle();
-                    //      change_bitmap.recycle();
-                    //      src=null;
-                    //      change_bitmap=null;
+
+
+                    /*src.recycle();
+                    change_bitmap.recycle();
+                    src=null;
+                    change_bitmap=null;*/
+
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -255,9 +355,36 @@ public class SettingActivity extends Activity {
         return rs.getInt(0);
     }
 
+
+//    public void showMsg(String title, String msg) {
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        alert.setTitle(title).setMessage(msg).setCancelable(true)
+//                .setNegativeButton("닫기", null)
+//                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        try {
+//                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                                    .setData(Uri.parse("package:" + getPackageName()));
+//                            startActivity(intent);
+//                        }catch (ActivityNotFoundException e) {
+//                            e.printStackTrace();
+//                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+//                            startActivity(intent);
+//                        }
+//                    }
+//                })
+//                .show();
+//    }
+
+
+
     protected void onDestroy() {
+        Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
+
+        Log.d(TAG,"SettingActivity 꺼지냐?");
         super.onDestroy();
     }
 
@@ -265,4 +392,9 @@ public class SettingActivity extends Activity {
         this.finish();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG,"강제종료된다.");
+
+    }
 }

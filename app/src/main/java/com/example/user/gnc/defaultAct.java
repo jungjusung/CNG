@@ -21,6 +21,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 
 public class defaultAct extends Activity {
@@ -33,11 +35,22 @@ public class defaultAct extends Activity {
     public static com.example.user.gnc.defaultAct defaultAct;
     MyDB myDB;
     public static SQLiteDatabase db;
+    String exitData;
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TAG = this.getClass().getName();
+        if(savedInstanceState!=null) {
+
+            Bundle bundle = savedInstanceState.getParcelable("exitBundle");
+
+            if (bundle != null) {
+
+                exitData = bundle.getString("exit");
+                Toast.makeText(defaultAct, exitData, Toast.LENGTH_SHORT).show();
+            }
+        }
+                //위의 데이터를 가지고 복원처리
         init();
 
         preferences = getSharedPreferences("what", MODE_PRIVATE);
@@ -47,7 +60,7 @@ public class defaultAct extends Activity {
             addShortcut(this);
         }
 
-        TAG = this.getClass().getName();
+
         defaultAct = this;
         //권한 주기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -71,6 +84,7 @@ public class defaultAct extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        Toast.makeText(defaultAct, "온 리쥬매"+exitData, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "나 디폴트냐??");
 
 
@@ -78,6 +92,7 @@ public class defaultAct extends Activity {
 
     @Override
     protected void onRestart() {
+        Log.d(TAG,"재시작됩니다.");
         super.onRestart();
 
     }
@@ -175,5 +190,30 @@ public class defaultAct extends Activity {
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG,"강제종료");
+        super.onSaveInstanceState(outState);
+        Bundle bundle=new Bundle();
+        bundle.putString("exit","강제종료됬습니다.");
+        outState.putParcelable("exitBundle",bundle);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState!=null) {
+
+            Bundle bundle = savedInstanceState.getParcelable("exitBundle");
+
+            if (bundle != null) {
+
+                exitData = bundle.getString("exit");
+                Log.d(TAG,exitData);
+            }
+        }
+
     }
 }

@@ -26,7 +26,7 @@ public class SizeSettingActivity extends Activity {
 
     SeekBar sizeBar;
     ImageView imageView;
-    WindowManager.LayoutParams iconParam;
+    public static WindowManager.LayoutParams iconParam;
     ViewGroup.LayoutParams params;
     WindowManager wm;
     HeroIcon heroIcon;
@@ -36,10 +36,11 @@ public class SizeSettingActivity extends Activity {
     int step = 1;
     int min = 80;
     int max = 220;
+    String TAG;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TAG = this.getClass().getName();
         setContentView(R.layout.size_setting_activity);
      /*   AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -126,8 +127,8 @@ public class SizeSettingActivity extends Activity {
     }
 
 
-    @Override
     protected void onDestroy() {
+        Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
