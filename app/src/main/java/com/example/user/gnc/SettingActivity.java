@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -46,8 +47,9 @@ public class SettingActivity extends Activity {
     static String name;
     LinearLayout bt_icon, bt_key, bt_size, bt_location, bt_language;
     static final int REQ_CODE_SELECT_IMAGE = 100;
+    static final int SOME_RANDOM_REQUEST_CODE = 1;
     WindowManager.LayoutParams windowParameters;
-    int iconX,iconY;
+    int iconX, iconY;
     ImageView flagImg;
 
 
@@ -60,12 +62,13 @@ public class SettingActivity extends Activity {
     Bitmap bitmap;
     Bitmap change_bitmap;
     Bitmap src;
+
     /*------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(checkFlag() == 0){
+        if (checkFlag() == 0) {
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
         }
@@ -97,7 +100,7 @@ public class SettingActivity extends Activity {
                 startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                 break;
             case R.id.bt_location:
-                if(flagImg==null){
+                if (flagImg == null) {
                     Toast.makeText(this, R.string.Set_your_location_with_flag, Toast.LENGTH_SHORT).show();
                     windowParameters = new WindowManager.LayoutParams(200, 200, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
                     layout = new LinearLayout(this);
@@ -108,11 +111,12 @@ public class SettingActivity extends Activity {
                     flagImg.setImageResource(R.drawable.initlocationflag);
                     flagImg.setLayoutParams(layoutParams);
                     layout.addView(flagImg);
-                    StartActivity.windowManager.addView(layout,windowParameters);
+                    StartActivity.windowManager.addView(layout, windowParameters);
 
                     layout.setOnTouchListener(new View.OnTouchListener() {
                         private WindowManager.LayoutParams updatedParameters = windowParameters;
                         float touchedX, touchedY;
+
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
 
@@ -134,25 +138,25 @@ public class SettingActivity extends Activity {
                                     StartActivity.initialPosX = updatedParameters.x;
                                     StartActivity.initialPosY = updatedParameters.y;
                                     StartActivity.windowManager.removeView(layout);
-                                    updatedParameters.width=StartActivity.icon_width;
-                                    updatedParameters.height=StartActivity.icon_height;
-                                    StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,updatedParameters);
-                                    sql="update initialpos set x=?, y=?";
+                                    updatedParameters.width = StartActivity.icon_width;
+                                    updatedParameters.height = StartActivity.icon_height;
+                                    StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon, updatedParameters);
+                                    sql = "update initialpos set x=?, y=?";
 
-                                    defaultAct.db.execSQL(sql,new String[]{
-                                            Integer.toString(StartActivity.initialPosX),Integer.toString(StartActivity.initialPosY)
+                                    defaultAct.db.execSQL(sql, new String[]{
+                                            Integer.toString(StartActivity.initialPosX), Integer.toString(StartActivity.initialPosY)
                                     });
 
                                     sql = "select * from initialpos";
                                     rs = defaultAct.db.rawQuery(sql, null);
 
                                     rs.moveToNext();
-                                    StartActivity.initialPosX= rs.getInt(rs.getColumnIndex("x"));
+                                    StartActivity.initialPosX = rs.getInt(rs.getColumnIndex("x"));
                                     StartActivity.initialPosY = rs.getInt(rs.getColumnIndex("y"));
-                                    StartActivity.params2.x=StartActivity.initialPosX;
-                                    StartActivity.params2.y=StartActivity.initialPosY;
+                                    StartActivity.params2.x = StartActivity.initialPosX;
+                                    StartActivity.params2.y = StartActivity.initialPosY;
 
-                                    flagImg=null;
+                                    flagImg = null;
                                     break;
                             }
                             return false;
@@ -194,28 +198,28 @@ public class SettingActivity extends Activity {
 
                     image.setImageBitmap(bitmap);
                     uri = data.getData();
-                    bitmap.recycle();
-                    bitmap=null;
+                    //          bitmap.recycle();
+                    //          bitmap=null;
                     sql = "update img_info set path=?";
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
 
                     String uri_path = getImageNameToUri(uri);
-                    Log.d(TAG, "uri_path는? "+uri_path);
+                    Log.d(TAG, "uri_path는? " + uri_path);
 
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
-                    if(options.outWidth>200||options.outHeight>200) {
+                    if (options.outWidth > 200 || options.outHeight > 200) {
                         options.inSampleSize = 4;
                     }
                     src = BitmapFactory.decodeFile(uri_path, options);
-                    change_bitmap = Bitmap.createScaledBitmap( src, 150, 150, true );
+                    change_bitmap = Bitmap.createScaledBitmap(src, 150, 150, true);
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
-                    src.recycle();
-                    change_bitmap.recycle();
-                    src=null;
-                    change_bitmap=null;
+                    //        src.recycle();
+                    //      change_bitmap.recycle();
+                    //      src=null;
+                    //      change_bitmap=null;
 
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -230,7 +234,9 @@ public class SettingActivity extends Activity {
         }
     }
 
-   public String getImageNameToUri(Uri data) {
+
+
+    public String getImageNameToUri(Uri data) {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(data, proj, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -241,7 +247,8 @@ public class SettingActivity extends Activity {
         imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
         return imgPath;
     }
-    public int checkFlag(){
+
+    public int checkFlag() {
         sql = "select setting from manual_flags";
         rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
