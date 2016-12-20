@@ -85,6 +85,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     public static HeroIcon heroIcon;
 
+    /*카운트*/
+    Thread countThread;
+
 
     /*------------------------------- 코드 정리 ----------------------------------*/
 
@@ -281,6 +284,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
         super.onCreate();
 
     }
+
 
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -903,6 +907,5 @@ public class StartActivity extends Service implements View.OnTouchListener {
             e.printStackTrace();
         }
     }
-
 }
 

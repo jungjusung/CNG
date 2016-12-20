@@ -21,4 +21,10 @@
     <string name="setting">Settings</string>
     <string name="exit">Exit</string>
     <string name="Set_your_location_with_flag">Set your location with flag</string>
+    <string name="cancel">Cancel</string>
+    <string name="link_with_gesture">Link with gesture</string>
+    <string name="calling">Call</string>
+    <string name="launch_app">Launch App</string>
+    <string name="launch_web_browser">Launch Web Browser</string>
+
 </resources>
