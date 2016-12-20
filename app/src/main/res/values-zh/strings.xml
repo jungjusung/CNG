@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">CnG</string>
+    <string name="loading">로딩중</string>
+    <string name="menu_download">다운로드</string>
+    <string name="menu_all">전체</string>
+    <string name="banner_ad_unit_id_choice">ca-app-pub-5272695963972081/8136058254</string>
+    <string name="double_click">双击</string>
+    <string name="move_to_up">向上</string>
+    <string name="move_to_down">向下</string>
+    <string name="move_to_left">向左</string>
+    <string name="move_to_right">向右</string>
+    <string name="do_not_show_again">不想再看</string>
+    <string name="setting_shortcut_key">键盘设定</string>
+    <string name="setting_icons">图标设定</string>
+    <string name="setting_location">首次定位设定</string>
+    <string name="setting_size">大小设定</string>
+    <string name="setting_language">语言设定</string>
+    <string name="reset_all_setting">设定初始化</string>
+    <string name="apply">适用</string>
+    <string name="add_bookmark">设电子书签</string>
+    <string name="setting">设定</string>
+    <string name="exit">结束</string>
+    <string name="Set_your_location_with_flag">设置您的位置与标志</string>
+    <string name="cancel">取消</string>
+    <string name="link_with_gesture">链接手势</string>
+    <string name="calling">呼叫</string>
+    <string name="launch_app">运行应用程序</string>
+    <string name="launch_web_browser">运行网络</string>
+</resources>
