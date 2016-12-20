@@ -22,4 +22,10 @@
     <string name="exit">종료</string>
     <string name="call_someone">에게 전화걸기</string>
     <string name="Set_your_location_with_flag">깃발로 초기위치를 설정하세요~</string>
+    <string name="cancel">취소</string>
+    <string name="link_with_gesture">제스쳐와 연동</string>
+    <string name="calling">전화 걸기</string>
+    <string name="launch_app">앱 실행</string>
+    <string name="launch_web_browser">웹 실행</string>
+
 </resources>

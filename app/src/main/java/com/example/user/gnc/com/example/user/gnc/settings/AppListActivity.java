@@ -63,10 +63,10 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(checkFlag() == 0) {
+       /* if(checkFlag() == 0) {
             Intent intent = new Intent(this, ManualAppListActivity.class);
             startActivity(intent);
-        }
+        }*/
         setContentView(R.layout.app_list_layout);
         short_cut = Integer.parseInt(getIntent().getStringExtra("short_cut"));
         mLoadingContainer = findViewById(R.id.loading_container);
@@ -273,19 +273,6 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
         }
 
     }
-/*
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, view, menuInfo);
-
-        int nPosition = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
-        title = mListData.get(nPosition).mAppName;
-        pkg = mListData.get(nPosition).mAppPackage;
-
-        menu.setHeaderTitle(title);
-        menu.add(Menu.NONE, ONE, Menu.NONE, "이 앱을 연동");
-        menu.add(Menu.NONE, TWO, Menu.NONE, "취소");
-    }*/
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -296,8 +283,8 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
         try {
             alert_confirm.setTitle(title)
                     .setIcon(getPackageManager().getApplicationIcon(pkg))
-                    .setMessage("이 앱을").setCancelable(true)
-                    .setPositiveButton("제스쳐와 연동",
+                    .setMessage(title).setCancelable(true)
+                    .setPositiveButton(R.string.link_with_gesture,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // 'YES'
@@ -306,32 +293,13 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
                                     AppListActivity.this.finish();
                                 }
                             })
-                    .setNegativeButton("취소", null);
+                    .setNegativeButton(R.string.cancel, null);
             AlertDialog alert = alert_confirm.create();
             alert.show();
         }catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
         }
     }
-
-    /*@Override
-    public boolean onContextItemSelected(MenuItem item) {
-        String data = item.toString();
-        switch (item.getItemId()) {
-            case ONE:
-               //디비에 넣어야되
-                String sql = "update shortcut set path=?, name=?, method=2 where short_cut=?";
-                defaultAct.db.execSQL(sql, new String[]{pkg, title, Integer.toString(short_cut)});
-                this.finish();
-                break;
-
-            case TWO:
-
-                break;
-        }
-
-        return super.onContextItemSelected(item);
-    }*/
 
     private int checkFlag() {
         String sql = "select applist from manual_flags";

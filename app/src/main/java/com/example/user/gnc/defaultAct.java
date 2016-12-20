@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 
 public class defaultAct extends Activity {
@@ -35,7 +36,7 @@ public class defaultAct extends Activity {
     public static SQLiteDatabase db;
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
 
@@ -115,11 +116,73 @@ public class defaultAct extends Activity {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+
+    private void addShortcut(Context context) {
+        Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+        shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        shortcutIntent.setClassName(context, getClass().getName());
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME,
+                getResources().getString(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(context,
+                        R.drawable.logo2));
+        intent.putExtra("duplicate", false);
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+
+        sendBroadcast(intent);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isInstalled", true);
+        editor.commit();
+    }
+
+    /*권한 설정!! 사진, 전화, 외부저장소*/
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.d(TAG, "onresultper " + Integer.toString(requestCode));
+        switch (requestCode) {
+            case REQUEST_ACCESS_CALL:
+                if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    showMsg("안내", "연락처 사용권한을 주셔야 사용이 가능합니다.");
+                } else if (permissions.length > 0 && grantResults[1] == PackageManager.PERMISSION_DENIED) {
+                    showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
+                } else if (permissions.length > 0 && grantResults[2] == PackageManager.PERMISSION_DENIED) {
+                    showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
+                } else {
+                }
+                break;
+        }
+    }
+
+    /*연락처, 전화, 사진 권한 요청*/
+    public void checkAccessPermission() {
+        int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+        if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.CALL_PHONE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            }, REQUEST_ACCESS_CALL);
+        }
+        Log.d(TAG, "checkAccess 메서드 종료");
+
+    }
+
+
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
-
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
     }
+
+
 }
+

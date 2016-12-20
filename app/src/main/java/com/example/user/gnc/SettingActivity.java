@@ -46,7 +46,7 @@ public class SettingActivity extends Activity {
     String imgName;
 
     static String name;
-    LinearLayout bt_icon, bt_key, bt_size, bt_location;
+    LinearLayout bt_icon, bt_key, bt_size, bt_location, bt_language;
     static final int REQ_CODE_SELECT_IMAGE = 100;
     WindowManager.LayoutParams windowParameters;
     int iconX,iconY;
@@ -78,13 +78,12 @@ public class SettingActivity extends Activity {
 
 
         setContentView(R.layout.setting_layout);
-       /* AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
+
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
         bt_size = (LinearLayout) findViewById(R.id.bt_size);
         bt_location = (LinearLayout) findViewById(R.id.bt_location);
+        bt_language = (LinearLayout) findViewById(R.id.bt_language);
 
         TAG = this.getClass().getName();
     }
@@ -176,6 +175,7 @@ public class SettingActivity extends Activity {
                 startService(serviceIntent);
                 finish();
                 break;
+
             case R.id.backToDefault: // 설정 초기화
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
@@ -196,6 +196,14 @@ public class SettingActivity extends Activity {
                         });
                 AlertDialog dialog = builder.create();    // 알림창 객체 생성
                 dialog.show();    // 알림창 띄우기
+
+
+
+            case R.id.bt_language:
+                Intent lang_intent = new Intent(Intent.ACTION_MAIN);
+                lang_intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
+                startActivity(lang_intent);
+                break;
 
         }
     }
@@ -290,10 +298,7 @@ public class SettingActivity extends Activity {
 
                     String uri_path = getImageNameToUri(uri);
                     Log.d(TAG, "uri_path는? "+uri_path);
-                    /*
-                    Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                    Log.d(TAG, StartActivity.startActivity.heroIcon+"스타트액티비티");
-                    */
+
                     BitmapFactory.Options options = new BitmapFactory.Options();
 
                     if(options.outWidth>200||options.outHeight>200) {
@@ -338,6 +343,7 @@ public class SettingActivity extends Activity {
         return rs.getInt(0);
     }
 
+
 //    public void showMsg(String title, String msg) {
 //        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 //        alert.setTitle(title).setMessage(msg).setCancelable(true)
@@ -358,6 +364,7 @@ public class SettingActivity extends Activity {
 //                })
 //                .show();
 //    }
+
 
 
     protected void onDestroy() {

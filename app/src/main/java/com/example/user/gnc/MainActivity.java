@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_setting = (Button)this.findViewById(R.id.bt_setting);
         bt_setting.setOnClickListener(this);
 
+
     }
 
     @Override

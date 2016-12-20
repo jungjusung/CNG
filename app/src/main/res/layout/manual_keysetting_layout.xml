@@ -33,11 +33,6 @@
         android:layout_weight="2"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -51,56 +46,137 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"
-            android:orientation="vertical">
+            android:layout_weight="7"
+            android:background="@drawable/border_curve"
+            android:orientation="vertical"
+            android:padding="13dp">
 
-            <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.8"
+                    android:text="1."
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.5"
+                    android:text="사용할 모션의"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/i_add_white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:text=" 버튼을 누른다."
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.8"
+                    android:text="2."
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="4"
+                    android:text="연동시킬 동작을 선택한다."
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.8"
+                    android:text="3."
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/chk_ori_white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3.5"
+                    android:text="버튼을 눌러 연동된 동작을 삭제한다"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="- 사용할 모션의 추가하기를 누른다."
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="- 연동시킬 동작을 선택한다."
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="6"
+                    android:gravity="right"
+                    android:text="@string/do_not_show_again"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="- 삭제 버튼을 눌러 동작을 삭제한다."
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+                <CheckBox
+                    android:id="@+id/key_check_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="6"
-            android:gravity="right"
-            android:text="@string/do_not_show_again"
-            android:textSize="18sp" />
-
-        <CheckBox
-            android:id="@+id/key_check_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
 
     </LinearLayout>
 </LinearLayout>

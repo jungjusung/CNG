@@ -21,4 +21,9 @@
     <string name="setting">設定</string>
     <string name="exit">出口</string>
     <string name="Set_your_location_with_flag">フラグを立ててあなたの位置を設定する</string>
+    <string name="cancel">キャンセル</string>
+    <string name="link_with_gesture">ジェスチャーとリンク</string>
+    <string name="calling">電話する</string>
+    <string name="launch_app">アプリケーションを起動する</string>
+    <string name="launch_web_browser">ウェブブラウザを起動する</string>
 </resources>
