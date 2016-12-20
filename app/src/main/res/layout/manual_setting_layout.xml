@@ -44,7 +44,7 @@
 
         <LinearLayout
             android:padding="13dp"
-            android:background="@drawable/border_web_search"
+            android:background="@drawable/border_curve"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="7"
