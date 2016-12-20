@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.gnc.com.example.user.gnc.settings.Cache;
 import com.example.user.gnc.com.example.user.gnc.settings.ItemDAO;
+import com.example.user.gnc.com.example.user.gnc.settings.MemoryCache;
 import com.example.user.gnc.com.example.user.gnc.settings.WebListAdapter;
 
 import org.jsoup.Jsoup;
@@ -43,8 +45,9 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
     TextView url_text;
     BitmapFactory.Options ops;
     ItemDAO itemDAO;
-    public MyAsyncTask(View view) {
+    public MyAsyncTask(View view,WebListAdapter webListAdapter) {
         this.view=view;
+        this.webListAdapter=webListAdapter;
         TAG = this.getClass().getName();
     }
 
@@ -94,10 +97,10 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Log.d(TAG,"비트맵? : "+bitmap.toString());
         if (doc != null) {
             String[] retParams = {
-                    data.getDescription(), data.getTitle(), data.getDomain(), data.getImage()
+                    data.getDescription(), data.getTitle(), data.getDomain(), params[0]
             };
             return retParams;
         }
@@ -114,11 +117,19 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
         urlImage = (ImageView) view.findViewById(R.id.UrlImage);
         urlText = (TextView) view.findViewById(R.id.UrlText);
         urlTitle = (TextView) view.findViewById(R.id.UrlTitle);
-//        if (s != null) {
-//            urlImage.setImageBitmap(bitmap);
-//            urlText.setText(s[0]);
-//            urlTitle.setText(s[1]);
-//        }
+        url_text=(TextView)view.findViewById(R.id.txt_url);
+
+        if (s != null) {
+            urlImage.setImageBitmap(bitmap);
+
+            Log.d(TAG,"캐시파일 : "+s[3]);
+            Cache.getInstance().getLru().put(s[3], bitmap);
+            Cache.getInstance().getTitle().put(s[3],s[0]);
+            Cache.getInstance().getContent().put(s[3],s[1]);
+            //webListAdapter.caches.add(memoryCache);
+            urlText.setText(s[0]);
+            urlTitle.setText(s[1]);
+        }
     }
 
     private Bitmap getBitmap(String url) {

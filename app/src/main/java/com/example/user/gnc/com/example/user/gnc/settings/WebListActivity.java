@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.gnc.R;
+import com.example.user.gnc.RecycleUtils;
 import com.example.user.gnc.defaultAct;
 
 import java.util.List;
@@ -36,10 +37,11 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
 
     ImageView add_url;
     Cursor rs;
+    String TAG;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TAG = this.getClass().getName();
         Intent intent = getIntent();
         short_id = Integer.parseInt(intent.getStringExtra("short_id"));
 
@@ -116,6 +118,13 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
             if(rs!=null)
                 rs.close();
         }
+    }
+
+    protected void onDestroy() {
+        Log.d(TAG, "내가 꺼졌따~");
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
+        super.onDestroy();
     }
 
 }
