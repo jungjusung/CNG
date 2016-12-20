@@ -313,13 +313,13 @@ public class KeySettingActivity extends Activity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 KeySettingActivity.this,
                 android.R.layout.select_dialog_singlechoice);
-        adapter.add("전화 걸기");
-        adapter.add("앱 실행");
-        adapter.add("웹 실행");
+        adapter.add(getString(R.string.calling));
+        adapter.add(getString(R.string.launch_app));
+        adapter.add(getString(R.string.launch_web_browser));
 
 
         // 버튼 생성
-        alertBuilder.setNegativeButton("취소",
+        alertBuilder.setNegativeButton(R.string.cancel,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int which) {
@@ -334,11 +334,11 @@ public class KeySettingActivity extends Activity {
                                         int id) {
 
                         String strName = adapter.getItem(id);
-                        if (strName.equals("전화 걸기")) {
+                        if (strName.equals(getString(R.string.calling))) {
                             selectContact(short_id);
-                        } else if (strName.equals("앱 실행")) {
+                        } else if (strName.equals(getString(R.string.launch_app))) {
                             selectApp(short_id);
-                        } else if (strName.equals("웹 실행")) {
+                        } else if (strName.equals(getString(R.string.launch_web_browser))) {
                             selectWeb(short_id);
                         }
                     }
