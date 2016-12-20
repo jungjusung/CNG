@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,12 +37,10 @@ public class WebListAdapter extends BaseAdapter{
     ArrayList<String> list = new ArrayList<String>();
     TextView txt_url;
     ImageView urlImage;
-    List<MyAsyncTask> myAsyncTaskList;
 
     public WebListAdapter(Context context) {
         this.context = context;
         /*인플레이터 생성*/
-        myAsyncTaskList=new ArrayList<>();
         if(inflater==null)
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -62,36 +61,31 @@ public class WebListAdapter extends BaseAdapter{
 
     public int getCount() {
         return list.size();
+
     }
 
     public Object getItem(int i) {
         return list.get(i);
+
     }
 
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         View view = null;
-
         if (convertView == null) {
+
             view = inflater.inflate(R.layout.web_item, null);
             view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,400));
-        } else {
-            view = convertView;
+        }else{
+            view=convertView;
         }
         txt_url = (TextView) view.findViewById(R.id.txt_url);
-
-
         txt_url.setText(list.get(i));
-        MyAsyncTask myAsyncTask=new MyAsyncTask(view);
+        MyAsyncTask myAsyncTask = new MyAsyncTask(view);
         myAsyncTask.execute(txt_url.getText().toString());
-        //myAsyncTaskList.add(myAsyncTask);
-        //myAsyncTaskList.get(i).execute(txt_url.getText().toString());
-        urlImage=(ImageView)view.findViewById(R.id.UrlImage);
-      //  if(urlImage!=null)
-        //    recycleBitmap(urlImage);
         return view;
     }
     public void recycleBitmap(ImageView iv) {
