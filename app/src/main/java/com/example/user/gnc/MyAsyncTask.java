@@ -127,7 +127,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
             Log.d(TAG,"캐시파일 : "+s[3]);
             Cache.getInstance().getLru().put(s[3], bitmap);
             Cache.getInstance().getTitle().put(s[3],s[0]);
-            Cache.getInstance().getTitle().put(s[3],s[1]);
+            Cache.getInstance().getContent().put(s[3],s[1]);
             //webListAdapter.caches.add(memoryCache);
             urlText.setText(s[0]);
             urlTitle.setText(s[1]);

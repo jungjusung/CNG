@@ -100,7 +100,7 @@ public class WebListAdapter extends BaseAdapter{
 
         Bitmap bitmap = (Bitmap)Cache.getInstance().getLru().get(txt_url.getText().toString());
         String title=Cache.getInstance().getTitle().get(txt_url.getText().toString());
-        String content=Cache.getInstance().getTitle().get(txt_url.getText().toString());
+        String content=Cache.getInstance().getContent().get(txt_url.getText().toString());
         if(bitmap!=null&&title!=null&&content!=null){
             urlImage.setImageBitmap(bitmap);
             urlTitle.setText(title);
