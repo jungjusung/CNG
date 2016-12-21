@@ -308,10 +308,12 @@ public class KeySettingActivity extends Activity {
         alertBuilder.setIcon(R.drawable.logo);
         alertBuilder.setTitle(R.string.select_one_of_list);
 
+
         // List Adapter 생성
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 KeySettingActivity.this,
                 android.R.layout.select_dialog_singlechoice);
+
         adapter.add(getString(R.string.calling));
         adapter.add(getString(R.string.launch_app));
         adapter.add(getString(R.string.launch_web_browser));

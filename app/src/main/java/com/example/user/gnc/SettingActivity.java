@@ -14,6 +14,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -304,6 +306,7 @@ public class SettingActivity extends Activity {
                     //배치해놓은 ImageView에 set
 
                     sql = "update img_info set path=?";
+                    Log.d(TAG,"uri입니다.:"+uri.toString());
                     Log.d(TAG, "2");
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
@@ -348,7 +351,11 @@ public class SettingActivity extends Activity {
         Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
-
+//        bitmap.recycle();
+//        bitmap=null;
+//        change_bitmap.recycle();
+//        change_bitmap=null;
+//        recycleBitmap(flagImg);
         Log.d(TAG,"SettingActivity 꺼지냐?");
 
         flagImg=null;
@@ -363,7 +370,17 @@ public class SettingActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.d(TAG,"강제종료된다.");
+       // Log.d(TAG,"강제종료된다.");
 
     }
+    private static void recycleBitmap(ImageView iv) {
+        Drawable d = iv.getDrawable();
+        if (d instanceof BitmapDrawable) {
+            Bitmap b = ((BitmapDrawable)d).getBitmap();
+            b.recycle();
+        } // 현재로서는 BitmapDrawable 이외의 drawable 들에 대한 직접적인 메모리 해제는 불가능하다.
+
+        d.setCallback(null);
+    }
+
 }

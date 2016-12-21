@@ -220,15 +220,16 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
 
                 if (filter == null || filter.filterApp(info)) {
                     // 필터된 데이터
-
-                    addInfo = new AppInfo();
-                    // App Icon
-                    addInfo.mIcon = app.loadIcon(pm);
-                    // App Name
-                    addInfo.mAppName = app.loadLabel(pm).toString();
-                    // App Package Name
-                    addInfo.mAppPackage = app.packageName;
-                    mListData.add(addInfo);
+                    if(!app.packageName.equals("com.example.user.gnc")) {
+                        addInfo = new AppInfo();
+                        // App Icon
+                        addInfo.mIcon = app.loadIcon(pm);
+                        // App Name
+                        addInfo.mAppName = app.loadLabel(pm).toString();
+                        // App Package Name
+                        addInfo.mAppPackage = app.packageName;
+                        mListData.add(addInfo);
+                    }
                 }
             }
 
@@ -306,6 +307,7 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
 
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
+
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();

@@ -3,18 +3,20 @@ package com.example.user.gnc.com.example.user.gnc.settings;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,8 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
     int short_id;
 
     /*WebList 변수*/
+    View webLoadingContainer;
+    LinearLayout webCompleteContainer;
     WebListAdapter webListAdapter;
     ListView webListView;
     EditText edit_url;
@@ -46,23 +50,28 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         TAG = this.getClass().getName();
         Intent intent = getIntent();
         short_id = Integer.parseInt(intent.getStringExtra("short_id"));
-
+        Log.d(TAG,"여기오냐고?1");
         setContentView(R.layout.web_list_layout);
-
-        /*webListView 생성*/
-
-        webListAdapter = new WebListAdapter(this);
-        webListView = (ListView) findViewById(R.id.webListView);
+        webListView=(ListView)findViewById(R.id.webListView);
+        webListAdapter=new WebListAdapter(this,this);
         webListView.setAdapter(webListAdapter);
         webListView.setOnItemClickListener(this);
-
+        Log.d(TAG,"여기오냐고?");
         add_url = (ImageView) findViewById(R.id.add_url);
         add_url.setOnClickListener(this);
+
 
         edit_url = (EditText) findViewById(R.id.edit_url);
         edit_url.setSelection(edit_url.length());
 
+        webLoadingContainer=findViewById(R.id.web_loading_container);
+        /*webListView 생성*/
+        setLoadingView(false);
+
+
     }
+
+
 
     public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
@@ -135,6 +144,21 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
+    }
+    public void setLoadingView(boolean isView) {
+        if (isView) {
+            // 화면 로딩뷰 표시
+            webLoadingContainer.setVisibility(View.VISIBLE);
+            webListView.setVisibility(View.GONE);
+            add_url.setVisibility(View.GONE);
+            edit_url.setVisibility(View.GONE);
+        } else {
+            // 화면 어플 리스트 표시
+            webListView.setVisibility(View.VISIBLE);
+            add_url.setVisibility(View.VISIBLE);
+            edit_url.setVisibility(View.VISIBLE);
+            webLoadingContainer.setVisibility(View.GONE);
+        }
     }
 
 }

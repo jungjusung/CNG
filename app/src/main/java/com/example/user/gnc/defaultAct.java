@@ -66,6 +66,7 @@ public class defaultAct extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onactivityresult " + Integer.toString(resultCode));
         restartApp();
+
         switch (requestCode) {
             case WINDOW_ALERT_REQUEST:
                 if (resultCode == RESULT_OK) {
@@ -109,10 +110,16 @@ public class defaultAct extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
-       /* RecycleUtils.recursiveRecycle(getWindow().getDecorView());
-        System.gc();*/
+
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
         super.onDestroy();
     }
 

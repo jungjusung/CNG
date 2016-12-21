@@ -46,8 +46,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
     RelativeLayout layout;
     RelativeLayout title;
     RelativeLayout copyright;
-
-    public static WindowManager.LayoutParams params, params2, params3, params4;
+    RelativeLayout main_layout;
+    public static WindowManager.LayoutParams params, params2, params3, params4,main_layout_params;
     public static WindowManager.LayoutParams main_parameters1, main_parameters2, sub_parameters1, sub_parameters2, txt_turn_parameters, txt_setting_parameters;
     public static LinearLayout.LayoutParams main_liParameters1, main_liParameters2, sub_liParameters1, sub_liParameters2;
     public static TextView txt_setting, txt_turn;
@@ -87,7 +87,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     String sql;
     Cursor rs;
-    RelativeLayout.LayoutParams layoutParams;
+    LinearLayout.LayoutParams layoutParams;
     WindowManager.LayoutParams parameters;
     Bitmap change_bitmap;
     LinearLayout.LayoutParams bliParameters;
@@ -120,14 +120,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
         main_parameters1 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         main_parameters2 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
-        layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 
         layout = new RelativeLayout(this);
         copyright = new RelativeLayout(this);
         title = new RelativeLayout(this);
-
-
+        main_layout=new RelativeLayout(this);
+        main_layout_params=new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params2 = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params3 = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
@@ -178,9 +178,12 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 String str = bundle.getString("threadAlpha");
                 float alpha = Float.parseFloat(str);
                 params.alpha = alpha;
+                params4.alpha=alpha;
+                main_layout_params.alpha=alpha;
                 windowManager.updateViewLayout(layout, params);
                 windowManager.updateViewLayout(title, params);
-                windowManager.updateViewLayout(copyright, params);
+                windowManager.updateViewLayout(main_layout,main_layout_params);
+                windowManager.updateViewLayout(copyright, params4);
             }
         };
         handler3 = new Handler() {
@@ -210,6 +213,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     message.setData(bundle);
                     handler2.sendMessage(message);
                 }
+                windowManager.removeView(main_layout);
                 windowManager.removeView(layout);
                 windowManager.removeView(title);
                 windowManager.removeView(copyright);
@@ -218,6 +222,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                handler.removeMessages(0);
+                handler2.removeMessages(0);
+                handler3.removeMessages(0);
+                handler=null;
+                handler2=null;
+                task=null;
+                task3=null;
             }
         };
         task3 = new Runnable() {
@@ -283,9 +294,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
         dm = Resources.getSystem().getDisplayMetrics();
-        limitY = (dm.heightPixels / 2) - 500;
+        limitY = (dm.heightPixels / 2) - icon_height*2;
         limitX = (dm.widthPixels / 2) - icon_width * 2;
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
@@ -308,7 +318,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
         layout.setBackgroundResource(R.drawable.m_logo);
         copyright.setBackgroundResource(R.drawable.m_copy);
         title.setBackgroundResource(R.drawable.m_title);
-
+        main_layout.setBackgroundColor(Color.WHITE);
 
         params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
 
@@ -322,11 +332,15 @@ public class StartActivity extends Service implements View.OnTouchListener {
         params4.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
         params.y = 150;
         params3.y = 150;
-        params4.y = 150;
+        params4.y = dm.heightPixels-200;
 
-        windowManager.addView(title, params3);
+
+        windowManager.addView(main_layout, main_layout_params);
+        windowManager.addView(title,params3);
         windowManager.addView(copyright, params4);
         windowManager.addView(layout, params);
+
+
 
         parameters.x = initialPosX;
         parameters.y = initialPosY;
@@ -463,11 +477,28 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     txt_turn.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
                     main_parameters1.x = initialPosX;
 
-                    if (initialPosY < -limitY) {
-                        main_parameters1.y = initialPosY + (icon_height + 50);
-                    } else {
+
+                    Log.d(TAG,-limitY+"최대한도?");
+                    Log.d(TAG,"초기 y : "+initialPosY);
+                    if(params2.y<0){
+                        if(params2.y-icon_height<(dm.heightPixels/2-icon_height*2-100)*(-1)){
+                            //위에 놓일 칸이 없다.
+                            main_parameters1.y= initialPosY+(icon_height+50);
+                        }else{
+                            main_parameters1.y = initialPosY - (icon_height + 50);
+                        }
+
+                    }else{
                         main_parameters1.y = initialPosY - (icon_height + 50);
                     }
+
+
+//                    if (initialPosY < -limitY) {
+//
+//                        main_parameters1.y = initialPosY + (icon_height + 50);
+//                    } else {
+//                        main_parameters1.y = initialPosY - (icon_height + 50);
+//                    }
 
                     if(params2.x<0) {
                         if (params2.x-icon_width<(dm.widthPixels/2-icon_width/2)*(-1)){
@@ -531,11 +562,24 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
                     main_parameters2.x = initialPosX;
-                    if (initialPosY < -limitY) {
-                        main_parameters2.y = initialPosY + (icon_height + 50) * 2;
-                    } else {
-                        main_parameters2.y = initialPosY - (icon_height + 50) * 2;
+
+                    if(params2.y<0){
+                        if(params2.y-icon_height<(dm.heightPixels/2-icon_height*2-100)*(-1)){
+                            //위에 놓일 칸이 없다.
+                            main_parameters2.y= initialPosY+(icon_height*2+100);
+                        }else{
+                            main_parameters2.y = initialPosY - (icon_height*2 + 100);
+                        }
+
+                    }else{
+                        main_parameters2.y = initialPosY - (icon_height*2 + 100);
                     }
+
+//                    if (initialPosY < -limitY) {
+//                        main_parameters2.y = initialPosY + (icon_height + 50) * 2;
+//                    } else {
+//                        main_parameters2.y = initialPosY - (icon_height + 50) * 2;
+//                    }
 
                     if (params2.x < 0) {
                         if (params2.x - icon_width < (dm.widthPixels / 2 - icon_width / 2) * (-1)) {
@@ -899,10 +943,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
     @Override
     public void onDestroy() {
         Log.d(TAG,"내가 켜졌다~~");
-        Log.d(TAG, "지워짐?");
-        //String updateSql = "update flag set x=0";
-        //initPermissionActivity.sub_db.execSQL(updateSql);
-        Log.d(TAG,"디비 x=0했음.");
         android.os.Process.killProcess(android.os.Process.myPid());
 
         /*close*/

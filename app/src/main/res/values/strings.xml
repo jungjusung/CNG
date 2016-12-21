@@ -24,7 +24,7 @@
     <string name="Set_your_location_with_flag">깃발로 초기위치를 설정하세요~</string>
     <string name="cancel">취소</string>
     <string name="link_with_gesture">제스쳐와 연동</string>
-    <string name="calling">전화 걸기</string>
+    <string name="calling" >전화 걸기</string>
     <string name="launch_app">앱 실행</string>
     <string name="launch_web_browser">웹 실행</string>
     <!--Tips 스트링-->
@@ -42,7 +42,7 @@
     <string name="keysetting_tips_2">연동시킬 동작을 선택한다.</string>
     <string name="keysetting_tips_3">버튼을 눌러 연동된 동작을 삭제한다</string>
 
-    <string name="this_address">이 주소를</string>
+    <string name="this_address" >이 주소를</string>
     <string name="deleted_from_list">목록에서 삭제</string>
     <string name="was_deleted">이 삭제되었습니다.</string>
     <string name="was_added">이 추가되었습니다.</string>

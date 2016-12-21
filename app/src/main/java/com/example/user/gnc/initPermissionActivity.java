@@ -86,7 +86,7 @@ public class initPermissionActivity extends AppCompatActivity {
             }, REQUEST_ACCESS_CALL);
         }
 
-        if (accessPermission == PackageManager.PERMISSION_GRANTED || accessCall == PackageManager.PERMISSION_GRANTED && iconPermission == PackageManager.PERMISSION_GRANTED) {
+        if (accessPermission == PackageManager.PERMISSION_GRANTED && accessCall == PackageManager.PERMISSION_GRANTED && iconPermission == PackageManager.PERMISSION_GRANTED) {
             if (isRunning) {
                 Toast.makeText(this, "이미 실행 중입니다.", Toast.LENGTH_SHORT).show();
                 finish();
@@ -109,13 +109,10 @@ public class initPermissionActivity extends AppCompatActivity {
             case REQUEST_ACCESS_CALL:
                 if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     showMsg("안내", "연락처 사용권한을 주셔야 사용이 가능합니다.");
-                    finish();
                 } else if (permissions.length > 0 && grantResults[1] == PackageManager.PERMISSION_DENIED) {
                     showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
-                    finish();
                 } else if (permissions.length > 0 && grantResults[2] == PackageManager.PERMISSION_DENIED) {
                     showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
-                    finish();
                 } else {
                     finish();
                 }
@@ -130,9 +127,6 @@ public class initPermissionActivity extends AppCompatActivity {
             if (!isInstalled) {
                 addShortcut(this);
             }
-
-            // String updateSql = "update flag set x=1";
-            // sub_db.execSQL(updateSql);
         }
 
     }
@@ -163,8 +157,8 @@ public class initPermissionActivity extends AppCompatActivity {
 
     protected void onDestroy() {
         Log.d(TAG, "마지막에 내가 꺼졌따~");
-        /*RecycleUtils.recursiveRecycle(getWindow().getDecorView());
-        System.gc();*/
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
         super.onDestroy();
     }
 
@@ -180,10 +174,21 @@ public class initPermissionActivity extends AppCompatActivity {
     }
 
     public void showMsg(String title, String msg) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(title).setMessage(msg).setCancelable(true)
-                .setNegativeButton("닫기", null)
-                .show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
+
+        builder.setTitle(title).setMessage(msg).setCancelable(false)
+                .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                    // 확인 버튼 클릭시 설정
+                    public void onClick(DialogInterface dialog, int whichButton){
+                        finish();
+                    }
+                });
+        AlertDialog dialog = builder.create();    // 알림창 객체 생성
+        dialog.show();    // 알림창 띄우기
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
