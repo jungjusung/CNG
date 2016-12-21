@@ -918,5 +918,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
         }
     }
 
+
+
 }
 

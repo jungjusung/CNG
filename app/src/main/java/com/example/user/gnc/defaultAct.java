@@ -40,16 +40,6 @@ public class defaultAct extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
-        if(savedInstanceState!=null) {
-
-            Bundle bundle = savedInstanceState.getParcelable("exitBundle");
-
-            if (bundle != null) {
-
-                exitData = bundle.getString("exit");
-                Toast.makeText(defaultAct, exitData, Toast.LENGTH_SHORT).show();
-            }
-        }
                 //위의 데이터를 가지고 복원처리
         init();
 
@@ -187,33 +177,12 @@ public class defaultAct extends Activity {
     }
 
     protected void onDestroy() {
+        Log.d(TAG,"디폴트가 죽어요?");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        Log.d(TAG,"강제종료");
-        super.onSaveInstanceState(outState);
-        Bundle bundle=new Bundle();
-        bundle.putString("exit","강제종료됬습니다.");
-        outState.putParcelable("exitBundle",bundle);
-    }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if(savedInstanceState!=null) {
 
-            Bundle bundle = savedInstanceState.getParcelable("exitBundle");
-
-            if (bundle != null) {
-
-                exitData = bundle.getString("exit");
-                Log.d(TAG,exitData);
-            }
-        }
-
-    }
 }

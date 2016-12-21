@@ -45,6 +45,19 @@ public class initPermissionActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
+
+
+        if(savedInstanceState!=null) {
+
+            Bundle bundle = savedInstanceState.getParcelable("exitBundle");
+
+            if (bundle != null) {
+
+                String data = bundle.getString("exit");
+                Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
+            }
+        }
+
         Log.d(TAG, "온크리에이트 시작");
         init();
         String sql = "select * from flag";
@@ -198,9 +211,16 @@ public class initPermissionActivity extends AppCompatActivity{
         editor.putBoolean("isInstalled", true);
         editor.commit();
     }
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG,"강제종료");
+        super.onSaveInstanceState(outState);
+        Bundle bundle=new Bundle();
+        bundle.putString("exit","강제종료됬습니다.");
+        outState.putParcelable("exitBundle",bundle);
+    }
     protected void onDestroy() {
-        Log.d(TAG, "내가 꺼졌따~");
+        Log.d(TAG, "마지막에 내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
