@@ -79,10 +79,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent" />
         <activity
-            android:name=".com.example.user.gnc.settings.ManualAppListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent" />
-        <activity
             android:name=".com.example.user.gnc.settings.ManualKeySettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />

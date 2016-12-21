@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1.5"
-                    android:text="사용할 모션의"
+                    android:text="@string/keysetting_tips_1"
                     android:textSize="15sp"
                     android:textStyle="italic" />
 
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
-                    android:text=" 버튼을 누른다."
+                    android:text="@string/keysetting_tips_1_1"
                     android:textSize="15sp"
                     android:textStyle="italic" />
 
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="4"
-                    android:text="연동시킬 동작을 선택한다."
+                    android:text="@string/keysetting_tips_2"
                     android:textSize="15sp"
                     android:textStyle="italic" />
 
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="3.5"
-                    android:text="버튼을 눌러 연동된 동작을 삭제한다"
+                    android:text="@string/keysetting_tips_3"
                     android:textSize="15sp"
                     android:textStyle="italic" />
 
@@ -159,6 +159,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

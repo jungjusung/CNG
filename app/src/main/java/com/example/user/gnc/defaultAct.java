@@ -23,7 +23,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
-import com.example.user.gnc.com.example.user.gnc.settings.TestService;
 
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
@@ -71,11 +70,9 @@ public class defaultAct extends Activity {
             } else {
 
                 startService(new Intent(this, StartActivity.class));
-                startService(new Intent(this, TestService.class));
             }
         } else {
             startService(new Intent(this, StartActivity.class));
-            startService(new Intent(this, TestService.class));
         }
     }
 

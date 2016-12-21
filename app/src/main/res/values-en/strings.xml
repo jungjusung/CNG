@@ -15,7 +15,7 @@
     <string name="setting_location">Setting Location</string>
     <string name="setting_size">Setting Size</string>
     <string name="setting_language">Setting Language</string>
-    <string name="reset_all_setting">Reset All Settings</string>
+    <string name="reset_all_setting">Reset</string>
     <string name="apply">Apply</string>
     <string name="add_bookmark">Add Bookmarks</string>
     <string name="setting">Settings</string>
@@ -24,7 +24,22 @@
     <string name="cancel">Cancel</string>
     <string name="link_with_gesture">Link with gesture</string>
     <string name="calling">Call</string>
-    <string name="launch_app">Launch App</string>
-    <string name="launch_web_browser">Launch Web Browser</string>
+    <string name="launch_app">Run app</string>
+    <string name="launch_web_browser">Run web browser</string>
+    <!--Tips 스트링-->
+    <string name="tips_setting_key">Setting actions to link</string>
+    <string name="tips_setting_icons">Changing icon images</string>
+    <string name="tips_setting_location">Setting icon location</string>
+    <string name="tips_setting_size">Setting icon size</string>
+    <string name="tips_setting_language">Setting a language to use</string>
+    <string name="tips_reset_all_settings">Reset all settings</string>
+
+    <string name="select_one_of_list">Select one of list</string>
+
+    <!--keySetting tips-->
+    <string name="keysetting_tips_1">Please touch</string>
+    <string name="keysetting_tips_1_1"> on the list</string>
+    <string name="keysetting_tips_2">Select an action you want to link</string>
+    <string name="keysetting_tips_3"> can delete selected actions</string>
 
 </resources>

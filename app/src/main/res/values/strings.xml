@@ -15,7 +15,7 @@
     <string name="setting_location">초기위치 설정</string>
     <string name="setting_size">크기 설정</string>
     <string name="setting_language">언어 설정</string>
-    <string name="reset_all_setting">설정 초기화</string>
+    <string name="reset_all_setting">초기화</string>
     <string name="apply">적용</string>
     <string name="add_bookmark">웹 즐겨찾기 추가</string>
     <string name="setting">설정</string>
@@ -27,5 +27,19 @@
     <string name="calling">전화 걸기</string>
     <string name="launch_app">앱 실행</string>
     <string name="launch_web_browser">웹 실행</string>
+    <!--Tips 스트링-->
+    <string name="tips_setting_key">연동시킬 동작 설정</string>
+    <string name="tips_setting_icons">아이콘 이미지 변경</string>
+    <string name="tips_setting_location">아이콘 초기위치 설정</string>
+    <string name="tips_setting_size">아이콘 크기 설정</string>
+    <string name="tips_setting_language">사용할 언어 설정</string>
+    <string name="tips_reset_all_settings">모든 설정 초기화</string>
+    <string name="select_one_of_list">항목중에 하나를 선택하세요.</string>
+
+    <!--keySetting tips-->
+    <string name="keysetting_tips_1">사용할 모션의</string>
+    <string name="keysetting_tips_1_1">버튼을 누른다.</string>
+    <string name="keysetting_tips_2">연동시킬 동작을 선택한다.</string>
+    <string name="keysetting_tips_3">버튼을 눌러 연동된 동작을 삭제한다</string>
 
 </resources>
