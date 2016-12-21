@@ -111,6 +111,11 @@ public class defaultAct extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
 
