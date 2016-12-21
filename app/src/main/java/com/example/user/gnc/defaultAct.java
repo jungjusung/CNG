@@ -66,6 +66,7 @@ public class defaultAct extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onactivityresult " + Integer.toString(resultCode));
         restartApp();
+
         switch (requestCode) {
             case WINDOW_ALERT_REQUEST:
                 if (resultCode == RESULT_OK) {
@@ -87,7 +88,8 @@ public class defaultAct extends Activity {
 
     public void restartApp() {
         finish();
-        startService(new Intent(this, StartActivity.class));
+        setContentView(R.layout.init_permission_activity);
+
     }
 
 
@@ -111,6 +113,7 @@ public class defaultAct extends Activity {
 
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
+
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
