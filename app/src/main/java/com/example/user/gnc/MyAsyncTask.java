@@ -45,9 +45,10 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
     TextView url_text;
     BitmapFactory.Options ops;
     ItemDAO itemDAO;
-
-    public MyAsyncTask(View view,WebListAdapter webListAdapter) {
+    int index;
+    public MyAsyncTask(View view,WebListAdapter webListAdapter,int index) {
         this.view=view;
+        this.index=index;
         this.webListAdapter=webListAdapter;
         TAG = this.getClass().getName();
     }
@@ -55,6 +56,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
     @Override
 
     protected void onPreExecute() {
+        //webListAdapter.webListActivity.setLoadingView(true);
         ops = new BitmapFactory.Options();
         ops.inJustDecodeBounds = true;
 
@@ -133,6 +135,10 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
             //webListAdapter.caches.add(memoryCache);
             urlText.setText(s[0]);
             urlTitle.setText(s[1]);
+        }
+        Log.d(TAG,"인데스 값은 : "+index);
+        if(index==webListAdapter.list.size()-1) {
+            webListAdapter.webListActivity.setLoadingView(false);
         }
     }
 

@@ -187,4 +187,8 @@ public class initPermissionActivity extends AppCompatActivity {
         dialog.show();    // 알림창 띄우기
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

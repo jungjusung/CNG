@@ -36,19 +36,22 @@ import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 public class WebListAdapter extends BaseAdapter{
     Context context;
     LayoutInflater inflater;
-
-    ArrayList<String> list = new ArrayList<String>();
+    public WebListActivity webListActivity;
+    MyAsyncTask myAsyncTask;
+    public ArrayList<String> list = new ArrayList<String>();
     TextView txt_url;
     ImageView urlImage;
     TextView urlTitle;
     TextView urlContent;
-
+    String TAG;
     public ArrayList<MemoryCache> caches=new ArrayList<>();
 
     Cache cache=Cache.getInstance();
-    public WebListAdapter(Context context) {
-
+    public WebListAdapter(Context context,WebListActivity webListActivity) {
+        TAG=this.getClass().getName();
+        Log.d(TAG,"어답터생성");
         this.context = context;
+        this.webListActivity=webListActivity;
         /*인플레이터 생성*/
         if(inflater==null)
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,10 +63,11 @@ public class WebListAdapter extends BaseAdapter{
     public void init(){
         String sql="select * from web";
         Cursor rs=defaultAct.db.rawQuery(sql,null);
-
+        Log.d(TAG,"이닛?");
         list.clear();
         caches.clear();
         while(rs.moveToNext()){
+            Log.d(TAG,"이닛?");
             list.add(rs.getString(rs.getColumnIndex("url")));
         }
         //myAsyncTaskList=new MyAsyncTask[list.size()];
@@ -85,6 +89,8 @@ public class WebListAdapter extends BaseAdapter{
 
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         View view = null;
+        Log.d(TAG,"겟뷰");
+        webListActivity.setLoadingView(true);
         if (convertView == null) {
 
             view = inflater.inflate(R.layout.web_item, null);
@@ -106,7 +112,7 @@ public class WebListAdapter extends BaseAdapter{
             urlTitle.setText(title);
             urlContent.setText(content);
         }else{
-            MyAsyncTask myAsyncTask = new MyAsyncTask(view, this);
+            myAsyncTask = new MyAsyncTask(view, this,i);
             myAsyncTask.execute(txt_url.getText().toString());
         }
 

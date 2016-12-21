@@ -50,8 +50,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
     RelativeLayout layout;
     RelativeLayout title;
     RelativeLayout copyright;
-
-    public static WindowManager.LayoutParams params, params2, params3, params4;
+    RelativeLayout main_layout;
+    public static WindowManager.LayoutParams params, params2, params3, params4,main_layout_params;
     public static WindowManager.LayoutParams main_parameters1, main_parameters2, sub_parameters1, sub_parameters2, txt_turn_parameters, txt_setting_parameters;
     public static LinearLayout.LayoutParams main_liParameters1, main_liParameters2, sub_liParameters1, sub_liParameters2;
     public static TextView txt_setting, txt_turn;
@@ -95,7 +95,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     String sql;
     Cursor rs;
-    RelativeLayout.LayoutParams layoutParams;
+    LinearLayout.LayoutParams layoutParams;
     WindowManager.LayoutParams parameters;
     Bitmap change_bitmap;
     LinearLayout.LayoutParams bliParameters;
@@ -128,14 +128,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
         main_parameters1 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         main_parameters2 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
-        layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 
         layout = new RelativeLayout(this);
         copyright = new RelativeLayout(this);
         title = new RelativeLayout(this);
-
-
+        main_layout=new RelativeLayout(this);
+        main_layout_params=new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params2 = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         params3 = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
@@ -186,9 +186,12 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 String str = bundle.getString("threadAlpha");
                 float alpha = Float.parseFloat(str);
                 params.alpha = alpha;
+                params4.alpha=alpha;
+                main_layout_params.alpha=alpha;
                 windowManager.updateViewLayout(layout, params);
                 windowManager.updateViewLayout(title, params);
-                windowManager.updateViewLayout(copyright, params);
+                windowManager.updateViewLayout(main_layout,main_layout_params);
+                windowManager.updateViewLayout(copyright, params4);
             }
         };
         handler3 = new Handler() {
@@ -218,6 +221,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     message.setData(bundle);
                     handler2.sendMessage(message);
                 }
+                windowManager.removeView(main_layout);
                 windowManager.removeView(layout);
                 windowManager.removeView(title);
                 windowManager.removeView(copyright);
@@ -226,6 +230,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                handler.removeMessages(0);
+                handler2.removeMessages(0);
+                handler3.removeMessages(0);
+                handler=null;
+                handler2=null;
+                task=null;
+                task3=null;
             }
         };
         task3 = new Runnable() {
@@ -291,7 +302,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
         dm = Resources.getSystem().getDisplayMetrics();
         limitY = (dm.heightPixels / 2) - icon_height*2;
         limitX = (dm.widthPixels / 2) - icon_width * 2;
@@ -316,7 +326,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
         layout.setBackgroundResource(R.drawable.m_logo);
         copyright.setBackgroundResource(R.drawable.m_copy);
         title.setBackgroundResource(R.drawable.m_title);
-
+        main_layout.setBackgroundColor(Color.WHITE);
 
         params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
 
@@ -330,11 +340,15 @@ public class StartActivity extends Service implements View.OnTouchListener {
         params4.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
         params.y = 150;
         params3.y = 150;
-        params4.y = 150;
+        params4.y = dm.heightPixels-200;
 
-        windowManager.addView(title, params3);
+
+        windowManager.addView(main_layout, main_layout_params);
+        windowManager.addView(title,params3);
         windowManager.addView(copyright, params4);
         windowManager.addView(layout, params);
+
+
 
         parameters.x = initialPosX;
         parameters.y = initialPosY;
