@@ -41,11 +41,8 @@
     <string name="keysetting_tips_1_1">버튼을 누른다.</string>
     <string name="keysetting_tips_2">연동시킬 동작을 선택한다.</string>
     <string name="keysetting_tips_3">버튼을 눌러 연동된 동작을 삭제한다</string>
-
     <string name="this_address">이 주소를</string>
     <string name="deleted_from_list">목록에서 삭제</string>
     <string name="was_deleted">이 삭제되었습니다.</string>
-    <string name="was_added">이 추가되었습니다.</string>
-    <string name="add">추가</string>
 
 </resources>
