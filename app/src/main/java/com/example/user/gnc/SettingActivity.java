@@ -216,16 +216,18 @@ public class SettingActivity extends Activity {
         StartActivity.params2.y=600;
         StartActivity.params2.width=150;
         StartActivity.params2.height=150;
-        StartActivity.main_parameters1.width=SizeSettingActivity.iconParam.width*2;
-        StartActivity.main_parameters1.height=SizeSettingActivity.iconParam.height;
-        StartActivity.main_parameters2.width=SizeSettingActivity.iconParam.width*2;
-        StartActivity.main_parameters2.height=SizeSettingActivity.iconParam.height;
-        StartActivity.sub_parameters1.width=SizeSettingActivity.iconParam.width;
-        StartActivity.sub_parameters1.height=SizeSettingActivity.iconParam.height;
-        StartActivity.sub_parameters2.width=SizeSettingActivity.iconParam.width;
-        StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
-        StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
-        StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        if(SizeSettingActivity.iconParam!=null){
+            StartActivity.main_parameters1.width=SizeSettingActivity.iconParam.width*2;
+            StartActivity.main_parameters1.height=SizeSettingActivity.iconParam.height;
+            StartActivity.main_parameters2.width=SizeSettingActivity.iconParam.width*2;
+            StartActivity.main_parameters2.height=SizeSettingActivity.iconParam.height;
+            StartActivity.sub_parameters1.width=SizeSettingActivity.iconParam.width;
+            StartActivity.sub_parameters1.height=SizeSettingActivity.iconParam.height;
+            StartActivity.sub_parameters2.width=SizeSettingActivity.iconParam.width;
+            StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
+            StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
+            StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        }
         StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,StartActivity.params2);
         StartActivity.heroIcon.setImageResource(R.drawable.logo2);
 
