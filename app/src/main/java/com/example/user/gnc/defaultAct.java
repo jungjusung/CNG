@@ -2,6 +2,7 @@ package com.example.user.gnc;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
@@ -38,8 +39,6 @@ public class defaultAct extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
     }
 
     @Override
@@ -59,7 +58,7 @@ public class defaultAct extends Activity {
 */
         TAG = this.getClass().getName();
         defaultAct = this;
-        //권한 주기
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean floatingWindowPermission = Settings.canDrawOverlays(this);
             Log.d(TAG, floatingWindowPermission + " permission");
@@ -68,12 +67,12 @@ public class defaultAct extends Activity {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, WINDOW_ALERT_REQUEST);
             } else {
-
                 startService(new Intent(this, StartActivity.class));
             }
         } else {
             startService(new Intent(this, StartActivity.class));
         }
+        //권한 주기
     }
 
     @Override
@@ -106,16 +105,12 @@ public class defaultAct extends Activity {
     }
 
     public void restartApp() {
-        PendingIntent i = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getIntent()), getIntent().getFlags());
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC, System.currentTimeMillis() + 50, i);
-        moveTaskToBack(true);
         finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        startService(new Intent(this, StartActivity.class));
     }
 
-/*
-    private void addShortcut(Context context) {
+
+    /*private void addShortcut(Context context) {
         Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
         shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         shortcutIntent.setClassName(context, getClass().getName());
@@ -176,12 +171,9 @@ public class defaultAct extends Activity {
 
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
-        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
-        System.gc();
-        Log.d(TAG,"defaultAct꺼지냐?");
+       /* RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();*/
         super.onDestroy();
     }
 
-
 }
-
