@@ -28,7 +28,7 @@
     <string name="calling">電話をかける</string>
     <string name="launch_app">アプリ実行</string>
     <string name="launch_web_browser">ウェブ実行</string>
-    
+
     <!--Tips String-->
     <string name="tips_setting_key">連動させる動作設定</string>
     <string name="tips_setting_icons">アイコンのイメージ変更</string>
