@@ -287,6 +287,7 @@ public class SettingActivity extends Activity {
 
                     image.setImageBitmap(bitmap);
                     uri = data.getData();
+                    Log.d(TAG,uri.toString());
                     /*bitmap.recycle();
                     bitmap=null;*/
                     sql = "update img_info set path=?";
