@@ -78,7 +78,6 @@ public class SettingActivity extends Activity {
 
 
         setContentView(R.layout.setting_layout);
-
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
         bt_size = (LinearLayout) findViewById(R.id.bt_size);
@@ -198,7 +197,7 @@ public class SettingActivity extends Activity {
                 dialog.show();    // 알림창 띄우기
 
 
-
+                break;
             case R.id.bt_language:
                 Intent lang_intent = new Intent(Intent.ACTION_MAIN);
                 lang_intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
@@ -339,9 +338,9 @@ public class SettingActivity extends Activity {
     }
     public int checkFlag(){
         sql = "select setting from manual_flags";
-        rs = defaultAct.db.rawQuery(sql, null);
-        rs.moveToNext();
-        return rs.getInt(0);
+        Cursor cs = defaultAct.db.rawQuery(sql, null);
+        cs.moveToNext();
+        return cs.getInt(0);
     }
 
 

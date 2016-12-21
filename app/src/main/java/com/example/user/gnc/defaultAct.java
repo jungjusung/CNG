@@ -21,75 +21,68 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
 
-    public SharedPreferences preferences;
-    public boolean isInstalled;
+    /*public SharedPreferences preferences;
+    public boolean isInstalled;*/
     private static final int REQUEST_ACCESS_CALL = 2;
     String TAG;
     public static com.example.user.gnc.defaultAct defaultAct;
     MyDB myDB;
     public static SQLiteDatabase db;
-    String exitData;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TAG = this.getClass().getName();
-                //위의 데이터를 가지고 복원처리
         init();
 
-        preferences = getSharedPreferences("what", MODE_PRIVATE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "나 디폴트냐??");
+
+        /*preferences = getSharedPreferences("what", MODE_PRIVATE);
         isInstalled = preferences.getBoolean("isInstalled", false);
-
-        if (!isInstalled) {
-            addShortcut(this);
-        }
-
-
+*/
+        TAG = this.getClass().getName();
         defaultAct = this;
         //권한 주기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkAccessPermission();
             boolean floatingWindowPermission = Settings.canDrawOverlays(this);
             Log.d(TAG, floatingWindowPermission + " permission");
             if (floatingWindowPermission == false) {
                 Log.d(TAG, "windowPermission if문");
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, WINDOW_ALERT_REQUEST);
-
-
             } else {
                 startService(new Intent(this, StartActivity.class));
             }
         } else {
             startService(new Intent(this, StartActivity.class));
+
         }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(defaultAct, "온 리쥬매"+exitData, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "나 디폴트냐??");
-
-
-    }
-
-    @Override
     protected void onRestart() {
-        Log.d(TAG,"재시작됩니다.");
         super.onRestart();
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onacivityresult " + Integer.toString(resultCode));
+        Log.d(TAG, "onactivityresult " + Integer.toString(resultCode));
         restartApp();
         switch (requestCode) {
             case WINDOW_ALERT_REQUEST:
@@ -111,15 +104,12 @@ public class defaultAct extends Activity {
     }
 
     public void restartApp() {
-        PendingIntent i = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getIntent()), getIntent().getFlags());
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC, System.currentTimeMillis() + 50, i);
-        moveTaskToBack(true);
         finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        startService(new Intent(this, StartActivity.class));
     }
 
-    private void addShortcut(Context context) {
+
+    /*private void addShortcut(Context context) {
         Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
         shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         shortcutIntent.setClassName(context, getClass().getName());
@@ -140,7 +130,7 @@ public class defaultAct extends Activity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("isInstalled", true);
         editor.commit();
-    }
+    }*/
 
     /*권한 설정!! 사진, 전화, 외부저장소*/
     @Override
@@ -159,6 +149,7 @@ public class defaultAct extends Activity {
                 break;
         }
     }
+
     /*연락처, 전화, 사진 권한 요청*/
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
@@ -176,13 +167,13 @@ public class defaultAct extends Activity {
 
     }
 
+
     protected void onDestroy() {
-        Log.d(TAG,"디폴트가 죽어요?");
+        Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
     }
-
 
 
 }
