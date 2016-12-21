@@ -88,8 +88,7 @@ public class defaultAct extends Activity {
 
     public void restartApp() {
         finish();
-        setContentView(R.layout.init_permission_activity);
-
+        startService(new Intent(this, StartActivity.class));
     }
 
 
