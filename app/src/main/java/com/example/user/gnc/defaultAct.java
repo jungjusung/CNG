@@ -38,8 +38,6 @@ public class defaultAct extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
     }
 
     @Override
@@ -68,9 +66,7 @@ public class defaultAct extends Activity {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, WINDOW_ALERT_REQUEST);
             } else {
-
                 startService(new Intent(this, StartActivity.class));
-
             }
         } else {
             startService(new Intent(this, StartActivity.class));
@@ -108,16 +104,12 @@ public class defaultAct extends Activity {
     }
 
     public void restartApp() {
-        PendingIntent i = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getIntent()), getIntent().getFlags());
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC, System.currentTimeMillis() + 50, i);
-        moveTaskToBack(true);
         finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        startService(new Intent(this, StartActivity.class));
     }
 
 
-    private void addShortcut(Context context) {
+    /*private void addShortcut(Context context) {
         Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
         shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         shortcutIntent.setClassName(context, getClass().getName());
@@ -138,7 +130,7 @@ public class defaultAct extends Activity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("isInstalled", true);
         editor.commit();
-    }
+    }*/
 
     /*권한 설정!! 사진, 전화, 외부저장소*/
     @Override

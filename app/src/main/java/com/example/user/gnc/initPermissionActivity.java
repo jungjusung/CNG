@@ -19,6 +19,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
@@ -45,15 +47,18 @@ public class initPermissionActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
-        Log.d(TAG, "온크리에이트 시작");
+        //LinearLayout init_layout = (LinearLayout)findViewById(R.id.init_layout);
+        //init_layout.setVisibility(View.GONE);
+
+        /*Log.d(TAG, "온크리에이트 시작");
         init();
         String sql = "select * from flag";
         Cursor rs = sub_db.rawQuery(sql,null);
         rs.moveToNext();
         int count=rs.getInt(rs.getColumnIndex("x"));
         Log.d(TAG,Integer.toString(count)+"카운트다");
-
-        if(count==0) {//맨처음
+*/
+        //if(count==0) {//맨처음
             //setContentView(R.layout.init_permission_activity);
             preferences = getSharedPreferences("what", MODE_PRIVATE);
             isInstalled = preferences.getBoolean("isInstalled", false);
@@ -62,6 +67,7 @@ public class initPermissionActivity extends AppCompatActivity{
                 Log.d(TAG, "하이유 하이유~~");
                 checkAccessPermission();
             } else {
+                finish();
                 Intent intent = new Intent(this, defaultAct.class);
                 startActivity(intent);
 
@@ -70,9 +76,10 @@ public class initPermissionActivity extends AppCompatActivity{
                 }
             }
 
-        }else if(count==1){//2번째 실행
-            finish();
-            Toast.makeText(this, "이미 실행되고 있습니다.", Toast.LENGTH_SHORT).show();
+
+        //}else if(count==1){//2번째 실행
+            //finish();
+            //Toast.makeText(this, "이미 실행되고 있습니다.", Toast.LENGTH_SHORT).show();
             /*if(StartActivity.heroIcon==null){
                 Log.d(TAG,"나야 나 없으면 나 실행시켜~");
                 Intent intent = new Intent(this,defaultAct.class);
@@ -81,7 +88,7 @@ public class initPermissionActivity extends AppCompatActivity{
             /*Intent intent = new Intent(this, SettingActivity.class);
             startActivity(intent);*/
 
-        }
+       // }
 
     }
 
@@ -125,13 +132,14 @@ public class initPermissionActivity extends AppCompatActivity{
                     Manifest.permission.READ_EXTERNAL_STORAGE
             }, REQUEST_ACCESS_CALL);
         }else{
+            finish();
             Intent intent = new Intent(this,defaultAct.class);
             startActivity(intent);
             if (!isInstalled) {
                 addShortcut(this);
             }
-            String updateSql = "update flag set x=1";
-            sub_db.execSQL(updateSql);
+            //String updateSql = "update flag set x=1";
+            //sub_db.execSQL(updateSql);
         }
         Log.d(TAG, "checkAccess 메서드 종료");
     }
@@ -165,8 +173,8 @@ public class initPermissionActivity extends AppCompatActivity{
             if (!isInstalled) {
                 addShortcut(this);
             }
-            String updateSql = "update flag set x=1";
-            sub_db.execSQL(updateSql);
+           // String updateSql = "update flag set x=1";
+           // sub_db.execSQL(updateSql);
         }
 
     }
