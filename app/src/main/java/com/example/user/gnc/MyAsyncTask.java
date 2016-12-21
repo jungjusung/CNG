@@ -167,7 +167,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
             return retBitmap;
         }
     }
-    @Override
+
     protected void onCancelled() {
         super.onCancelled();
     }
