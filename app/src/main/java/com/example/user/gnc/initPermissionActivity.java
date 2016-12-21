@@ -5,14 +5,18 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -32,7 +36,7 @@ import java.util.List;
  * Created by wbhlkc0 on 2016-12-19.
  */
 
-public class initPermissionActivity extends AppCompatActivity{
+public class initPermissionActivity extends AppCompatActivity {
     String TAG;
 
     private static final int REQUEST_ACCESS_CALL = 2;
@@ -68,16 +72,6 @@ public class initPermissionActivity extends AppCompatActivity{
         }
     }
 
-    public boolean isActivityTop(){
-        ActivityManager activityManager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> info;
-        info = activityManager.getRunningTasks(1);
-        if(info.get(0).topActivity.getClassName().equals(initPermissionActivity.this.getClass().getName())){
-            return true;
-        }else{
-            return false;
-        }
-    }
 
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
@@ -85,18 +79,18 @@ public class initPermissionActivity extends AppCompatActivity{
         int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
         if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
 
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.CALL_PHONE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                }, REQUEST_ACCESS_CALL);
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.CALL_PHONE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            }, REQUEST_ACCESS_CALL);
         }
 
-        if(accessPermission == PackageManager.PERMISSION_GRANTED || accessCall == PackageManager.PERMISSION_GRANTED && iconPermission == PackageManager.PERMISSION_GRANTED){
-            if(isRunning){
+        if (accessPermission == PackageManager.PERMISSION_GRANTED || accessCall == PackageManager.PERMISSION_GRANTED && iconPermission == PackageManager.PERMISSION_GRANTED) {
+            if (isRunning) {
                 Toast.makeText(this, "이미 실행 중입니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }else {
+            } else {
                 finish();
                 Intent intent = new Intent(this, defaultAct.class);
                 startActivity(intent);
@@ -128,24 +122,21 @@ public class initPermissionActivity extends AppCompatActivity{
                 break;
         }
 
-        Log.d(TAG,"여기는 오는데?");
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED&& grantResults[1] == PackageManager.PERMISSION_GRANTED&& grantResults[2] == PackageManager.PERMISSION_GRANTED){
-            Log.d(TAG,"여기는 안오니??");
-            Intent intent = new Intent(this,defaultAct.class);
+        Log.d(TAG, "여기는 오는데?");
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "여기는 안오니??");
+            Intent intent = new Intent(this, defaultAct.class);
             startActivity(intent);
             if (!isInstalled) {
                 addShortcut(this);
             }
-           // String updateSql = "update flag set x=1";
-           // sub_db.execSQL(updateSql);
+
+            // String updateSql = "update flag set x=1";
+            // sub_db.execSQL(updateSql);
         }
 
     }
 
-    public void showMsg(String title, String msg) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(title).setMessage(msg).show();
-    }
 
     private void addShortcut(Context context) {
         Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
@@ -187,4 +178,12 @@ public class initPermissionActivity extends AppCompatActivity{
         }
         return false;
     }
+
+    public void showMsg(String title, String msg) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(title).setMessage(msg).setCancelable(true)
+                .setNegativeButton("닫기", null)
+                .show();
+    }
+
 }

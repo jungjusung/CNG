@@ -27,9 +27,6 @@ import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
 
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
-
-    /*public SharedPreferences preferences;
-    public boolean isInstalled;*/
     private static final int REQUEST_ACCESS_CALL = 2;
     String TAG;
     public static com.example.user.gnc.defaultAct defaultAct;
@@ -37,25 +34,15 @@ public class defaultAct extends Activity {
     public static SQLiteDatabase db;
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "나 디폴트냐??");
-
-        /*preferences = getSharedPreferences("what", MODE_PRIVATE);
-        isInstalled = preferences.getBoolean("isInstalled", false);
-*/
         TAG = this.getClass().getName();
         defaultAct = this;
 
@@ -73,12 +60,6 @@ public class defaultAct extends Activity {
             startService(new Intent(this, StartActivity.class));
         }
         //권한 주기
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
     }
 
     @Override
@@ -110,29 +91,6 @@ public class defaultAct extends Activity {
     }
 
 
-    /*private void addShortcut(Context context) {
-        Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
-        shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        shortcutIntent.setClassName(context, getClass().getName());
-        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-
-        Intent intent = new Intent();
-        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME,
-                getResources().getString(R.string.app_name));
-        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(context,
-                        R.drawable.logo2));
-        intent.putExtra("duplicate", false);
-        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-
-        sendBroadcast(intent);
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("isInstalled", true);
-        editor.commit();
-    }*/
-
     /*권한 설정!! 사진, 전화, 외부저장소*/
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -150,24 +108,6 @@ public class defaultAct extends Activity {
                 break;
         }
     }
-
-    /*연락처, 전화, 사진 권한 요청*/
-    public void checkAccessPermission() {
-        int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
-        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
-        if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-            }, REQUEST_ACCESS_CALL);
-        }
-        Log.d(TAG, "checkAccess 메서드 종료");
-
-    }
-
 
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
