@@ -47,6 +47,7 @@ public class initPermissionActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
+
         //LinearLayout init_layout = (LinearLayout)findViewById(R.id.init_layout);
         //init_layout.setVisibility(View.GONE);
 
@@ -208,7 +209,7 @@ public class initPermissionActivity extends AppCompatActivity{
     }
 
     protected void onDestroy() {
-        Log.d(TAG, "내가 꺼졌따~");
+        Log.d(TAG, "마지막에 내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();

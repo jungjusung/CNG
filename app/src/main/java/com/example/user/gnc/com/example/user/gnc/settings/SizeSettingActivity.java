@@ -49,8 +49,9 @@ public class SizeSettingActivity extends Activity {
         sql = "select * from img_info";
         rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
-        int size = rs.getInt(rs.getColumnIndex("size"));
-        init=size;
+        init = rs.getInt(rs.getColumnIndex("size"));
+        sizeBar.setProgress(init);
+        Log.d(TAG,"초기사이즈 : "+init);
         iconParam = StartActivity.params2;
         heroIcon = StartActivity.heroIcon;
 
@@ -61,8 +62,9 @@ public class SizeSettingActivity extends Activity {
         params.width=init;
         params.height=init;
         imageView.setLayoutParams(params);
-        sizeBar.setProgress(init);
         sizeBar.setMax((max - min) / step);
+
+
 
         sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

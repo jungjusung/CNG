@@ -177,4 +177,3 @@ public class defaultAct extends Activity {
 
 
 }
-

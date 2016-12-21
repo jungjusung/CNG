@@ -306,6 +306,7 @@ public class SettingActivity extends Activity {
                     src = BitmapFactory.decodeFile(uri_path, options);
                     change_bitmap = Bitmap.createScaledBitmap( src, 150, 150, true );
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
+
                     /*src.recycle();
                     change_bitmap.recycle();
                     src=null;
@@ -370,6 +371,8 @@ public class SettingActivity extends Activity {
         Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
+
+        Log.d(TAG,"SettingActivity 꺼지냐?");
         super.onDestroy();
     }
 
@@ -377,4 +380,9 @@ public class SettingActivity extends Activity {
         this.finish();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG,"강제종료된다.");
+
+    }
 }

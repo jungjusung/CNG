@@ -350,8 +350,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
             try {
                 change_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(imgPath));
                 StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
+
                 /*change_bitmap.recycle();
                 change_bitmap=null;*/
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -915,5 +917,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
             e.printStackTrace();
         }
     }
+
+
+
 }
 
