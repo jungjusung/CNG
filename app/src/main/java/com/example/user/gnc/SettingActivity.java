@@ -203,7 +203,6 @@ public class SettingActivity extends Activity {
                 lang_intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
                 startActivity(lang_intent);
                 break;
-
         }
     }
 
