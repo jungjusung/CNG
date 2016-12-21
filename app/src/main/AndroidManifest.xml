@@ -23,10 +23,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".initPermissionActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:taskAffinity="">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -78,10 +75,6 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent" />
-        <activity
-            android:name=".com.example.user.gnc.settings.ManualAppListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent" />
         <activity
             android:name=".com.example.user.gnc.settings.ManualKeySettingActivity"
             android:screenOrientation="portrait"

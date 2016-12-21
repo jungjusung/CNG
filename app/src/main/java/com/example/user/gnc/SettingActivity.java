@@ -196,8 +196,8 @@ public class SettingActivity extends Activity {
                 AlertDialog dialog = builder.create();    // 알림창 객체 생성
                 dialog.show();    // 알림창 띄우기
 
-
                 break;
+
             case R.id.bt_language:
                 Intent lang_intent = new Intent(Intent.ACTION_MAIN);
                 lang_intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");

@@ -2,6 +2,7 @@ package com.example.user.gnc;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
@@ -57,7 +58,7 @@ public class defaultAct extends Activity {
 */
         TAG = this.getClass().getName();
         defaultAct = this;
-        //권한 주기
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean floatingWindowPermission = Settings.canDrawOverlays(this);
             Log.d(TAG, floatingWindowPermission + " permission");
@@ -70,8 +71,8 @@ public class defaultAct extends Activity {
             }
         } else {
             startService(new Intent(this, StartActivity.class));
-
         }
+        //권한 주기
     }
 
     @Override
@@ -170,10 +171,9 @@ public class defaultAct extends Activity {
 
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
-        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
-        System.gc();
+       /* RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();*/
         super.onDestroy();
     }
-
 
 }

@@ -63,10 +63,6 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* if(checkFlag() == 0) {
-            Intent intent = new Intent(this, ManualAppListActivity.class);
-            startActivity(intent);
-        }*/
         setContentView(R.layout.app_list_layout);
         short_cut = Integer.parseInt(getIntent().getStringExtra("short_cut"));
         mLoadingContainer = findViewById(R.id.loading_container);

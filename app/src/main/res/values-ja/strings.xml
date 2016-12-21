@@ -4,26 +4,43 @@
     <string name="menu_download" >다운로드</string>
     <string name="menu_all" >전체</string>
     <string name="banner_ad_unit_id_choice">ca-app-pub-5272695963972081/8136058254</string>
-    <string name="double_click">ダブルクリック</string>
-    <string name="move_to_up">上にスワイプする</string>
-    <string name="move_to_down">スワイプダウン</string>
-    <string name="move_to_left">左にスワイプする</string>
-    <string name="move_to_right">右にスワイプする</string>
-    <string name="do_not_show_again">再び表示しない。</string>
-    <string name="setting_shortcut_key">ショールカットキーの設定</string>
-    <string name="setting_icons">アイコンの設定</string>
-    <string name="setting_location">設置場所</string>
-    <string name="setting_size">設定サイズ</string>
-    <string name="setting_language">言語の設定</string>
-    <string name="reset_all_setting">すべての設定をリセットする</string>
-    <string name="apply">適用する</string>
-    <string name="add_bookmark">ブックマークを追加</string>
-    <string name="setting">設定</string>
-    <string name="exit">出口</string>
-    <string name="Set_your_location_with_flag">フラグを立ててあなたの位置を設定する</string>
+     <string name = "double_click">ダブルクリック</string>
+    <string name = "move_to_up">上に移動</string>
+    <string name = "move_to_down">の下に移動</string>
+    <string name = "move_to_left">左に移動</string>
+    <string name = "move_to_right">右に移動</string>
+    <string name = "do_not_show_again">説明を表示しない</string>
+    <string name = "setting_shortcut_key">キーの設定</string>
+    <string name = "setting_icons">アイコンの設定</string>
+    <string name = "setting_location">初期位置設定</string>
+    <string name = "setting_size">サイズの設定</string>
+    <string name = "setting_language">言語設定</string>
+    <string name = "reset_all_setting">設定の初期化</string>
+    <string name = "apply">適用</string>
+    <string name = "add_bookmark">ウェブお気に入りに追加</string>
+    <string name = "setting">設定</string>
+    <string name = "exit">終了</string>
+    <string name = "call_someone">に電話をかける</string>
+    <string name = "Set_your_location_with_flag">フラグで初期位置を設定してください</string>
+
     <string name="cancel">キャンセル</string>
-    <string name="link_with_gesture">ジェスチャーとリンク</string>
-    <string name="calling">電話する</string>
-    <string name="launch_app">アプリケーションを起動する</string>
-    <string name="launch_web_browser">ウェブブラウザを起動する</string>
+    <string name="link_with_gesture">ジェスチャーと連動</string>
+    <string name="calling">電話をかける</string>
+    <string name="launch_app">アプリ実行</string>
+    <string name="launch_web_browser">ウェブ実行</string>
+    
+    <!--Tips String-->
+    <string name="tips_setting_key">連動させる動作設定</string>
+    <string name="tips_setting_icons">アイコンのイメージ変更</string>
+    <string name="tips_setting_location">アイコンの初期位置設定</string>
+    <string name="tips_setting_size">アイコンのサイズ設定</string>
+    <string name="tips_setting_language">ランゲージ設定</string>
+    <string name="tips_reset_all_settings">全ての設定初期化</string>
+    <string name="select_one_of_list">項目の中で一つ選んでください</string>
+
+    <!--keySetting tips-->
+    <string name="keysetting_tips_1">使用するモーションの</string>
+    <string name="keysetting_tips_1_1">ボタンを押す</string>
+    <string name="keysetting_tips_2">連動させる動作を選択する</string>
+    <string name="keysetting_tips_3">ボタンを押して連動させた動作を削除する</string>
 </resources>
