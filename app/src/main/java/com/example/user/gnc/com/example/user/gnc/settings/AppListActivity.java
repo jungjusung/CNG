@@ -280,7 +280,7 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
             alert_confirm.setTitle(title)
                     .setIcon(getPackageManager().getApplicationIcon(pkg))
                     .setMessage(title).setCancelable(true)
-                    .setPositiveButton(R.string.link_with_gesture,
+                    .setPositiveButton(R.string.add,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // 'YES'

@@ -42,4 +42,10 @@
     <string name="keysetting_tips_2">Select an action you want to link</string>
     <string name="keysetting_tips_3"> can delete selected actions</string>
 
+    <string name="this_address">This url</string>
+    <string name="deleted_from_list">delete</string>
+    <string name="was_deleted"> was deleted</string>
+    <string name="was_added"> was added</string>
+    <string name="add">add</string>
+
 </resources>
