@@ -251,10 +251,10 @@ public class SettingActivity extends Activity {
         String insertDefaultShortCut4="insert into shortcut ( short_cut) values (4)";
         String insertDefaultShortCut5="insert into shortcut ( short_cut) values (5)";
         String insertDefaultInitailPos = "insert into initialpos(x,y) values(350,600)";
-        String insertDefaultWeb1="insert into web(url) values('http://naver.com')";
-        String insertDefaultWeb2="insert into web(url) values('http://daum.net')";
-        String insertDefaultWeb3="insert into web(url) values('http://google.com')";
-        String insertDefaultWeb4="insert into web(url) values('http://youtube.com')";
+        String insertDefaultWeb1="insert into web(url) values('http://www.naver.com')";
+        String insertDefaultWeb2="insert into web(url) values('http://www.daum.net')";
+        String insertDefaultWeb3="insert into web(url) values('http://www.google.com')";
+        String insertDefaultWeb4="insert into web(url) values('http://www.youtube.com')";
 
         defaultAct.db.execSQL(insertDefaultImg_info);
         defaultAct.db.execSQL(insertDefaultManual_flags);
@@ -343,28 +343,6 @@ public class SettingActivity extends Activity {
         cs.moveToNext();
         return cs.getInt(0);
     }
-
-
-//    public void showMsg(String title, String msg) {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-//        alert.setTitle(title).setMessage(msg).setCancelable(true)
-//                .setNegativeButton("닫기", null)
-//                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        try {
-//                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-//                                    .setData(Uri.parse("package:" + getPackageName()));
-//                            startActivity(intent);
-//                        }catch (ActivityNotFoundException e) {
-//                            e.printStackTrace();
-//                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-//                            startActivity(intent);
-//                        }
-//                    }
-//                })
-//                .show();
-//    }
 
 
 
