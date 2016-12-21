@@ -55,6 +55,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         webListView=(ListView)findViewById(R.id.webListView);
         webListAdapter=new WebListAdapter(this,this);
         webListView.setAdapter(webListAdapter);
+        webListView.setOnItemClickListener(this);
         Log.d(TAG,"여기오냐고?");
         add_url = (ImageView) findViewById(R.id.add_url);
         add_url.setOnClickListener(this);

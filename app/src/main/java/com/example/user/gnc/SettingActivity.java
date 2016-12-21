@@ -308,6 +308,7 @@ public class SettingActivity extends Activity {
                     //배치해놓은 ImageView에 set
 
                     sql = "update img_info set path=?";
+                    Log.d(TAG,"uri입니다.:"+uri.toString());
                     Log.d(TAG, "2");
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
@@ -367,7 +368,7 @@ public class SettingActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.d(TAG,"강제종료된다.");
+       // Log.d(TAG,"강제종료된다.");
 
     }
     private static void recycleBitmap(ImageView iv) {
