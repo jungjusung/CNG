@@ -52,7 +52,7 @@ public class KeySettingActivity extends Activity {
     private static final int START_PHONE_CALL = 1;
     private static final int START_APP_CALL = 2;
     private static final int START_WEB_CALL = 3;
-    Animation FabRotateClockWise,FabRotateAntiClockWise,FadeOut,FadeIn;
+    Animation FabRotateClockWise, FabRotateAntiClockWise, FadeOut, FadeIn;
 
     TextView txt_doubleClick, txt_right, txt_left, txt_bottom, txt_top;
     ImageView img_doubleClick, img_top, img_bottom, img_right, img_left;
@@ -66,9 +66,8 @@ public class KeySettingActivity extends Activity {
     /*------------------------------------------------------------
        정리 하기 위한 곳
     * -------------------------------------------------------------*/
-    String sql,path;
+    String sql, path;
     Cursor rs;
-
 
 
     /*---------------------------------------------------------------*/
@@ -92,10 +91,10 @@ public class KeySettingActivity extends Activity {
         viewList.add(addKey4);
         viewList.add(addKey5);
 
-        FadeIn=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadein);
-        FadeOut=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadeout);
-        FabRotateClockWise= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
-        FabRotateAntiClockWise= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
+        FadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+        FadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+        FabRotateClockWise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
+        FabRotateAntiClockWise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
         viewChk = new boolean[viewList.size() + 1];
 
         /*-----------------------------------------------------------
@@ -105,33 +104,33 @@ public class KeySettingActivity extends Activity {
         for (int i = 0; i < viewList.size(); i++) {
             sql = "select * from shortcut where short_cut=" + (i + 1);
             rs = defaultAct.db.rawQuery(sql, null);
-            Log.d(TAG,"이거 호출 되는지??");
+            Log.d(TAG, "이거 호출 되는지??");
             rs.moveToNext();
 
             path = rs.getString(rs.getColumnIndex("path"));
             if (path != null) {
                 if (i == DOUBLE_CLICK - 1) {
-                    viewChk[i+1] = true;
+                    viewChk[i + 1] = true;
                     viewList.get(i).setImageResource(R.drawable.chk_ori);
                 }
                 if (i == TOP_CLICK - 1) {
-                    viewChk[i+1] = true;
+                    viewChk[i + 1] = true;
                     viewList.get(i).setImageResource(R.drawable.chk_ori);
                 }
                 if (i == BOTTOM_CLICK - 1) {
-                    viewChk[i+1] = true;
+                    viewChk[i + 1] = true;
                     viewList.get(i).setImageResource(R.drawable.chk_ori);
                 }
                 if (i == LEFT_CLICK - 1) {
-                    viewChk[i+1] = true;
+                    viewChk[i + 1] = true;
                     viewList.get(i).setImageResource(R.drawable.chk_ori);
                 }
                 if (i == RIGHT_CLICK - 1) {
-                    viewChk[i+1] = true;
+                    viewChk[i + 1] = true;
                     viewList.get(i).setImageResource(R.drawable.chk_ori);
                 }
             } else {
-                viewChk[i+1] = false;
+                viewChk[i + 1] = false;
                 viewList.get(i).setImageResource(R.drawable.chk_sel);
             }
 
@@ -175,79 +174,79 @@ public class KeySettingActivity extends Activity {
             if (method != START_PHONE_CALL && method != START_APP_CALL && method != START_WEB_CALL) {
                 if (i == 1) {
                     viewChk[1] = false;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_sel);
                     img_doubleClick.setImageResource(R.drawable.logo2);
                 }
                 if (i == 2) {
                     viewChk[2] = false;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_sel);
                     img_top.setImageResource(R.drawable.logo2);
                 }
                 if (i == 3) {
                     viewChk[3] = false;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_sel);
                     img_bottom.setImageResource(R.drawable.logo2);
                 }
                 if (i == 4) {
                     viewChk[4] = false;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_sel);
                     img_left.setImageResource(R.drawable.logo2);
                 }
                 if (i == 5) {
                     viewChk[5] = false;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_sel);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_sel);
                     img_right.setImageResource(R.drawable.logo2);
                 }
             } else if (method == START_PHONE_CALL) {
                 if (i == 1) {
                     viewChk[1] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_doubleClick.setImageResource(R.drawable.phone);
                 }
                 if (i == 2) {
                     viewChk[2] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_top.setImageResource(R.drawable.phone);
                 }
                 if (i == 3) {
                     viewChk[3] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_bottom.setImageResource(R.drawable.phone);
                 }
                 if (i == 4) {
                     viewChk[4] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_left.setImageResource(R.drawable.phone);
                 }
                 if (i == 5) {
                     viewChk[5] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_right.setImageResource(R.drawable.phone);
                 }
             } else if (method == START_WEB_CALL) {
                 if (i == 1) {
                     viewChk[1] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_doubleClick.setImageResource(R.drawable.internet);
                 }
                 if (i == 2) {
                     viewChk[2] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_top.setImageResource(R.drawable.internet);
                 }
                 if (i == 3) {
                     viewChk[3] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_bottom.setImageResource(R.drawable.internet);
                 }
                 if (i == 4) {
                     viewChk[4] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_left.setImageResource(R.drawable.internet);
                 }
                 if (i == 5) {
                     viewChk[5] = true;
-                    viewList.get(i-1).setImageResource(R.drawable.chk_ori);
+                    viewList.get(i - 1).setImageResource(R.drawable.chk_ori);
                     img_right.setImageResource(R.drawable.internet);
                 }
             }
@@ -394,9 +393,9 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[1] = true;
                     addKey1.setImageResource(R.drawable.chk_ori);
-                    if(method == 3){
+                    if (method == 3) {
                         img_doubleClick.setImageResource(R.drawable.internet);
-                    }else {
+                    } else {
                         img_doubleClick.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
@@ -407,9 +406,9 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[2] = true;
                     addKey2.setImageResource(R.drawable.chk_ori);
-                    if(method == 3){
+                    if (method == 3) {
                         img_top.setImageResource(R.drawable.internet);
-                    }else{
+                    } else {
                         img_top.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
@@ -420,9 +419,9 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[3] = true;
                     addKey3.setImageResource(R.drawable.chk_ori);
-                    if(method == 3){
+                    if (method == 3) {
                         img_bottom.setImageResource(R.drawable.internet);
-                    }else{
+                    } else {
                         img_bottom.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
@@ -433,9 +432,9 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[4] = true;
                     addKey4.setImageResource(R.drawable.chk_ori);
-                    if(method == 3){
+                    if (method == 3) {
                         img_left.setImageResource(R.drawable.internet);
-                    }else{
+                    } else {
                         img_left.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
@@ -446,9 +445,9 @@ public class KeySettingActivity extends Activity {
                 try {
                     viewChk[5] = true;
                     addKey5.setImageResource(R.drawable.chk_ori);
-                    if(method == 3){
+                    if (method == 3) {
                         img_right.setImageResource(R.drawable.internet);
-                    }else{
+                    } else {
                         img_right.setImageDrawable(getPackageManager().getApplicationIcon(icon_img));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
@@ -529,26 +528,44 @@ public class KeySettingActivity extends Activity {
         defaultAct.db.execSQL(sql, new String[]{
                 Integer.toString(index)
         });
-        viewChk[index]=false;
-        for(int i=1;i<=5;i++) {
-            if(i==index)
+        viewChk[index] = false;
+        for (int i = 1; i <= 5; i++) {
+            if (i == index)
                 continue;
-            imgList.get(i-1).clearAnimation();
+            imgList.get(i - 1).clearAnimation();
         }
-        imgList.get(index-1).startAnimation(FadeOut);
-        imgList.get(index-1).setImageResource(R.drawable.logo2);
-        imgList.get(index-1).startAnimation(FadeIn);
-        txtList.get(index-1).setText("");
-        viewList.get(index-1).startAnimation(FabRotateAntiClockWise);
-        viewList.get(index-1).setImageResource(R.drawable.chk_sel);
+        imgList.get(index - 1).startAnimation(FadeOut);
+        imgList.get(index - 1).setImageResource(R.drawable.logo2);
+        imgList.get(index - 1).startAnimation(FadeIn);
+        txtList.get(index - 1).setText("");
+        viewList.get(index - 1).startAnimation(FabRotateAntiClockWise);
+        viewList.get(index - 1).setImageResource(R.drawable.chk_sel);
     }
 
 
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+
+        /*close*/
+        txt_doubleClick = null;
+        txt_right = null;
+        txt_left = null;
+        txt_bottom = null;
+        txt_top = null;
+        img_doubleClick = null;
+        img_top = null;
+        img_bottom = null;
+        img_right = null;
+        img_left = null;
+        addKey1=null;
+        addKey2=null;
+        addKey3=null;
+        addKey4=null;
+        addKey5=null;
+
         System.gc();
-        Log.d(TAG,"KeySettingActivity 꺼지냐?");
+        Log.d(TAG, "KeySettingActivity 꺼지냐?");
         super.onDestroy();
     }
 }

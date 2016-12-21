@@ -59,7 +59,7 @@ public class initPermissionActivity extends AppCompatActivity {
             checkAccessPermission();
         } else {
             if (isRunning) {
-                Toast.makeText(this, "이미 실행 중입니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.already_running, Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 finish();

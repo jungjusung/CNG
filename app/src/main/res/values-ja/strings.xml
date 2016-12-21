@@ -49,4 +49,6 @@
     <string name="was_deleted">が削除されました</string>
     <string name="was_added">が追加されました</string>
     <string name="add">追加</string>
+
+    <string name="already_running">このアプリは既に実行中です</string>
 </resources>

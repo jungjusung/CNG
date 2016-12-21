@@ -3,11 +3,9 @@ package com.example.user.gnc;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
@@ -22,7 +20,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +27,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,10 +82,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
     float touchedX, touchedY;
 
     public static HeroIcon heroIcon;
-
-    /*카운트*/
-    Thread countThread;
-
 
     /*------------------------------- 코드 정리 ----------------------------------*/
 
@@ -912,8 +904,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
         //initPermissionActivity.sub_db.execSQL(updateSql);
         Log.d(TAG,"디비 x=0했음.");
         android.os.Process.killProcess(android.os.Process.myPid());
+
+        /*close*/
+        change_bitmap=null;
+
         System.gc();
         System.exit(0);
+
         super.onDestroy();
     }
 

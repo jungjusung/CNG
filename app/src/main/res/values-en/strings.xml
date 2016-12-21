@@ -48,4 +48,6 @@
     <string name="was_added"> was added</string>
     <string name="add">add</string>
 
+    <string name="already_running">This app is already running</string>
+
 </resources>

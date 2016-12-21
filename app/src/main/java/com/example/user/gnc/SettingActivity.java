@@ -65,8 +65,6 @@ public class SettingActivity extends Activity {
     LinearLayout layout;
     LinearLayout.LayoutParams layoutParams;
     Bitmap bitmap;
-    Bitmap change_bitmap;
-    Bitmap src;
 
     /*------------------------------------------------------*/
     @Override
@@ -352,6 +350,10 @@ public class SettingActivity extends Activity {
         System.gc();
 
         Log.d(TAG,"SettingActivity 꺼지냐?");
+
+        flagImg=null;
+        bitmap=null;
+
         super.onDestroy();
     }
 
