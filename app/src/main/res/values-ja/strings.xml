@@ -28,7 +28,7 @@
     <string name="calling">電話をかける</string>
     <string name="launch_app">アプリ実行</string>
     <string name="launch_web_browser">ウェブ実行</string>
-    
+
     <!--Tips String-->
     <string name="tips_setting_key">連動させる動作設定</string>
     <string name="tips_setting_icons">アイコンのイメージ変更</string>
@@ -43,4 +43,10 @@
     <string name="keysetting_tips_1_1">ボタンを押す</string>
     <string name="keysetting_tips_2">連動させる動作を選択する</string>
     <string name="keysetting_tips_3">ボタンを押して連動させた動作を削除する</string>
+
+    <string name="this_address">このアドレスを</string>
+    <string name="deleted_from_list">リストから削除</string>
+    <string name="was_deleted">が削除されました</string>
+    <string name="was_added">が追加されました</string>
+    <string name="add">追加</string>
 </resources>

@@ -220,15 +220,16 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
 
                 if (filter == null || filter.filterApp(info)) {
                     // 필터된 데이터
-
-                    addInfo = new AppInfo();
-                    // App Icon
-                    addInfo.mIcon = app.loadIcon(pm);
-                    // App Name
-                    addInfo.mAppName = app.loadLabel(pm).toString();
-                    // App Package Name
-                    addInfo.mAppPackage = app.packageName;
-                    mListData.add(addInfo);
+                    if(!app.packageName.equals("com.example.user.gnc")) {
+                        addInfo = new AppInfo();
+                        // App Icon
+                        addInfo.mIcon = app.loadIcon(pm);
+                        // App Name
+                        addInfo.mAppName = app.loadLabel(pm).toString();
+                        // App Package Name
+                        addInfo.mAppPackage = app.packageName;
+                        mListData.add(addInfo);
+                    }
                 }
             }
 
@@ -280,7 +281,7 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
             alert_confirm.setTitle(title)
                     .setIcon(getPackageManager().getApplicationIcon(pkg))
                     .setMessage(title).setCancelable(true)
-                    .setPositiveButton(R.string.link_with_gesture,
+                    .setPositiveButton(R.string.add,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // 'YES'

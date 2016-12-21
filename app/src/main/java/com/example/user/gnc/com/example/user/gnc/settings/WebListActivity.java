@@ -69,8 +69,8 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         txt_url = (TextView) view.findViewById(R.id.txt_url);
         final String url = txt_url.getText().toString();
 
-        alert_confirm.setTitle(url).setMessage("이 주소를").setCancelable(true)
-                .setPositiveButton("제스쳐와 연동",
+        alert_confirm.setTitle(url).setMessage(R.string.this_address).setCancelable(true)
+                .setPositiveButton(R.string.add,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // 'YES'
@@ -83,14 +83,14 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                                 WebListActivity.this.finish();
                             }
                         })
-                .setNegativeButton("목록에서 삭제", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.deleted_from_list, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String sql = "delete from web where url = ?";
                         defaultAct.db.execSQL(sql, new String[]{url});
                         webListAdapter.init();
                         webListAdapter.notifyDataSetChanged();
-                        Toast.makeText(WebListActivity.this, url + "이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WebListActivity.this, url +" "+ getString(R.string.was_deleted), Toast.LENGTH_SHORT).show();
                         edit_url.setText("http://");
                     }
                 });
@@ -116,7 +116,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                     });
                     webListAdapter.init();
                     webListAdapter.notifyDataSetChanged();
-                    Toast.makeText(this, url + "이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, url + getString(R.string.was_added), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Url 주소가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
                 }

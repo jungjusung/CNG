@@ -45,6 +45,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
     TextView url_text;
     BitmapFactory.Options ops;
     ItemDAO itemDAO;
+
     public MyAsyncTask(View view,WebListAdapter webListAdapter) {
         this.view=view;
         this.webListAdapter=webListAdapter;

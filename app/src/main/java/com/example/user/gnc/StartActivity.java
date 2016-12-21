@@ -907,10 +907,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
     @Override
     public void onDestroy() {
         Log.d(TAG,"내가 켜졌다~~");
-        Log.d(TAG, "지워짐?");
-        //String updateSql = "update flag set x=0";
-        //initPermissionActivity.sub_db.execSQL(updateSql);
-        Log.d(TAG,"디비 x=0했음.");
         android.os.Process.killProcess(android.os.Process.myPid());
         System.gc();
         System.exit(0);
