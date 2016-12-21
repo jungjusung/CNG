@@ -19,6 +19,7 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -339,7 +340,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
         parameters.y = initialPosY;
         parameters.alpha = 0f;
         heroIcon = new HeroIcon(this, initialPosX, initialPosY, icon_width, icon_height);
-
         sql = "select path from img_info";
         Cursor cursor = defaultAct.db.rawQuery(sql, null);
         cursor.moveToNext();
@@ -461,7 +461,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     sub_li1.setLayoutParams(sub_liParameters1);
 
                     txt_turn.setText(R.string.exit);
-                    txt_turn.setGravity(Gravity.CENTER_VERTICAL);
+
+                    if(icon_width<120)
+                        txt_turn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+                    if(120<=icon_width&&icon_width<=180)
+                        txt_turn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
+                    if(icon_width>180)
+                        txt_turn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                    txt_turn.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
                     main_parameters1.x = initialPosX;
 
                     if (initialPosY < -limitY) {
@@ -476,7 +483,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             main_parameters1.x=main_parameters1.x+icon_width/2;
                             main_li1.addView(sub_li1, sub_parameters1);
                             main_li1.addView(txt_turn,txt_turn_parameters);
-                            txt_turn.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
                         }else{
                             main_li1.removeAllViews();////////
                             main_parameters1.x=main_parameters1.x-icon_width/2;
@@ -516,9 +522,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
 
-                    txt_setting.setGravity(Gravity.CENTER_VERTICAL);
+                    txt_setting.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
                     txt_setting.setText(R.string.setting);
-
+                    if(icon_width<120)
+                        txt_setting.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+                    if(120<=icon_width&&icon_width<=180)
+                        txt_setting.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
+                    if(icon_width>180)
+                        txt_setting.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                     main_li2.setLayoutParams(main_liParameters2);
                     main_li2.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -540,12 +551,12 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             main_li2.removeAllViews();
                             main_li2.addView(sub_li2, sub_parameters2);
                             main_li2.addView(txt_setting, txt_setting_parameters);
-                            txt_setting.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                         } else {
                             main_parameters2.x = main_parameters2.x - icon_width / 2;
                             main_li2.removeAllViews();
                             main_li2.addView(txt_setting, txt_setting_parameters);
                             main_li2.addView(sub_li2, sub_parameters2);
+
                         }
                     } else {
                         main_parameters2.x = main_parameters2.x - icon_width / 2;
