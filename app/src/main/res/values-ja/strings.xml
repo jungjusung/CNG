@@ -24,23 +24,23 @@
     <string name = "Set_your_location_with_flag">フラグで初期位置を設定してください</string>
 
     <string name="cancel">キャンセル</string>
-    <string name="link_with_gesture">ジェスチャーとリンク</string>
-    <string name="calling">電話する</string>
-    <string name="launch_app">アプリケーションを起動する</string>
-    <string name="launch_web_browser">ウェブブラウザを起動する</string>
+    <string name="link_with_gesture">ジェスチャーと連動</string>
+    <string name="calling">電話をかける</string>
+    <string name="launch_app">アプリ実行</string>
+    <string name="launch_web_browser">ウェブ実行</string>
+    
     <!--Tips String-->
-    <string name="tips_setting_key">リンクするアクションの設定</string>
-    <string name="tips_setting_icons">アイコン画像の変更</string>
-    <string name="tips_setting_location">アイコンの位置を設定する</string>
-    <string name="tips_setting_size">アイコンのサイズを設定する</string>
-    <string name="tips_setting_language">使用する言語の設定</string>
-    <string name="tips_reset_all_settings">すべての設定をリセットする</string>
-
-    <string name="select_one_of_list">リストから選択する</string>
+    <string name="tips_setting_key">連動させる動作設定</string>
+    <string name="tips_setting_icons">アイコンのイメージ変更</string>
+    <string name="tips_setting_location">アイコンの初期位置設定</string>
+    <string name="tips_setting_size">アイコンのサイズ設定</string>
+    <string name="tips_setting_language">ランゲージ設定</string>
+    <string name="tips_reset_all_settings">全ての設定初期化</string>
+    <string name="select_one_of_list">項目の中で一つ選んでください</string>
 
     <!--keySetting tips-->
-    <string name="keysetting_tips_1">使用しようとする動作の</string>
-    <string name="keysetting_tips_1_1">ボタンを押します</string>
+    <string name="keysetting_tips_1">使用するモーションの</string>
+    <string name="keysetting_tips_1_1">ボタンを押す</string>
     <string name="keysetting_tips_2">連動させる動作を選択する</string>
-    <string name="keysetting_tips_3">버튼을 눌러 연동된 동작을 삭제한다</string>
+    <string name="keysetting_tips_3">ボタンを押して連動させた動作を削除する</string>
 </resources>
