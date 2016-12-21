@@ -97,7 +97,6 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d(TAG,"비트맵? : "+bitmap.toString());
         if (doc != null) {
             String[] retParams = {
                     data.getDescription(), data.getTitle(), data.getDomain(), params[0]
@@ -120,12 +119,16 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
         url_text=(TextView)view.findViewById(R.id.txt_url);
 
         if (s != null) {
-            urlImage.setImageBitmap(bitmap);
+            if(bitmap!=null) {
+                urlImage.setImageBitmap(bitmap);
 
-            Log.d(TAG,"캐시파일 : "+s[3]);
-            Cache.getInstance().getLru().put(s[3], bitmap);
-            Cache.getInstance().getTitle().put(s[3],s[0]);
-            Cache.getInstance().getContent().put(s[3],s[1]);
+                Log.d(TAG, "캐시파일 : " + s[3]);
+                Cache.getInstance().getLru().put(s[3], bitmap);
+            }else{
+
+            }
+            Cache.getInstance().getTitle().put(s[3], s[0]);
+            Cache.getInstance().getContent().put(s[3], s[1]);
             //webListAdapter.caches.add(memoryCache);
             urlText.setText(s[0]);
             urlTitle.setText(s[1]);
