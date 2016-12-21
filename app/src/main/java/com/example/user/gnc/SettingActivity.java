@@ -34,8 +34,10 @@ import android.widget.Toast;
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 
@@ -44,12 +46,13 @@ public class SettingActivity extends Activity {
     String TAG;
     String data;
     Uri uri;
-    String imgName;
+    File file;
+    String filePath;
+
 
     static String name;
     LinearLayout bt_icon, bt_key, bt_size, bt_location, bt_language;
     static final int REQ_CODE_SELECT_IMAGE = 100;
-    static final int SOME_RANDOM_REQUEST_CODE = 1;
     WindowManager.LayoutParams windowParameters;
     int iconX, iconY;
     ImageView flagImg;
@@ -101,6 +104,13 @@ public class SettingActivity extends Activity {
                 Intent icon_intent = new Intent(Intent.ACTION_PICK);
                 icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                icon_intent.putExtra("crop", "true");
+                icon_intent.putExtra("aspectX", "1");
+                icon_intent.putExtra("aspectY", "1");
+                icon_intent.putExtra("outputX", "200");
+                icon_intent.putExtra("outputY", "200");
+
+                icon_intent.putExtra("return-data", "true");
                 startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                 break;
             case R.id.bt_location:
@@ -284,49 +294,28 @@ public class SettingActivity extends Activity {
         if (requestCode == REQ_CODE_SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
+                    Bundle extras=data.getExtras();
                     //이미지 데이터를 비트맵으로 받아온다.
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    ImageView image = (ImageView) findViewById(R.id.img_icon);
-                    Log.d(TAG, "비트맵 " + bitmap);
+                    bitmap = extras.getParcelable("data");
+                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/file"+String.valueOf(System.currentTimeMillis())+".png";
+                    file=new File(filePath);
 
+                    uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
+
+                    storeCropImage(bitmap, filePath);
                     //배치해놓은 ImageView에 set
 
-                    image.setImageBitmap(bitmap);
-                    uri = data.getData();
-
-                    /*bitmap.recycle();
-                    bitmap=null;*/
-
                     sql = "update img_info set path=?";
+                    Log.d(TAG, "2");
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
+                    Log.d(TAG, "3");
 
-                    String uri_path = getImageNameToUri(uri);
-                    Log.d(TAG, "uri_path는? " + uri_path);
-
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-
-                    if (options.outWidth > 200 || options.outHeight > 200) {
-                        options.inSampleSize = 4;
-                    }
-                    src = BitmapFactory.decodeFile(uri_path, options);
-                    change_bitmap = Bitmap.createScaledBitmap(src, 150, 150, true);
+                    Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    Log.d(TAG, "바뀐 비트맵  "+change_bitmap);
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
 
-
-                    /*src.recycle();
-                    change_bitmap.recycle();
-                    src=null;
-                    change_bitmap=null;*/
-
-
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -334,25 +323,25 @@ public class SettingActivity extends Activity {
         }
     }
 
-
-
-    public String getImageNameToUri(Uri data) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(data, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-        cursor.moveToFirst();
-
-        String imgPath = cursor.getString(column_index);
-        imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-        return imgPath;
-    }
-
     public int checkFlag() {
         sql = "select setting from manual_flags";
         rs = defaultAct.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
+    }
+
+    private void storeCropImage(Bitmap bitmap, String filePath) {
+        File copyFile = new File(filePath);
+        BufferedOutputStream out = null;
+        try {
+            copyFile.createNewFile();
+            out = new BufferedOutputStream(new FileOutputStream(copyFile));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
