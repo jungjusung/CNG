@@ -127,9 +127,6 @@ public class initPermissionActivity extends AppCompatActivity {
             if (!isInstalled) {
                 addShortcut(this);
             }
-
-            // String updateSql = "update flag set x=1";
-            // sub_db.execSQL(updateSql);
         }
 
     }
@@ -160,8 +157,8 @@ public class initPermissionActivity extends AppCompatActivity {
 
     protected void onDestroy() {
         Log.d(TAG, "마지막에 내가 꺼졌따~");
-        /*RecycleUtils.recursiveRecycle(getWindow().getDecorView());
-        System.gc();*/
+        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();
         super.onDestroy();
     }
 
