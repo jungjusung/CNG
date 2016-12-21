@@ -307,7 +307,7 @@ public class KeySettingActivity extends Activity {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(
                 KeySettingActivity.this);
         alertBuilder.setIcon(R.drawable.logo);
-        alertBuilder.setTitle("항목중에 하나를 선택하세요.");
+        alertBuilder.setTitle(R.string.select_one_of_list);
 
         // List Adapter 생성
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(

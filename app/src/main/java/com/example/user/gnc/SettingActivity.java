@@ -84,7 +84,6 @@ public class SettingActivity extends Activity {
 
 
         setContentView(R.layout.setting_layout);
-
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
         bt_size = (LinearLayout) findViewById(R.id.bt_size);
@@ -211,14 +210,13 @@ public class SettingActivity extends Activity {
                 AlertDialog dialog = builder.create();    // 알림창 객체 생성
                 dialog.show();    // 알림창 띄우기
 
-
+                break;
 
             case R.id.bt_language:
                 Intent lang_intent = new Intent(Intent.ACTION_MAIN);
                 lang_intent.setClassName("com.android.settings", "com.android.settings.LanguageSettings");
                 startActivity(lang_intent);
                 break;
-
         }
     }
 
@@ -232,16 +230,18 @@ public class SettingActivity extends Activity {
         StartActivity.params2.y=600;
         StartActivity.params2.width=150;
         StartActivity.params2.height=150;
-        StartActivity.main_parameters1.width=SizeSettingActivity.iconParam.width*2;
-        StartActivity.main_parameters1.height=SizeSettingActivity.iconParam.height;
-        StartActivity.main_parameters2.width=SizeSettingActivity.iconParam.width*2;
-        StartActivity.main_parameters2.height=SizeSettingActivity.iconParam.height;
-        StartActivity.sub_parameters1.width=SizeSettingActivity.iconParam.width;
-        StartActivity.sub_parameters1.height=SizeSettingActivity.iconParam.height;
-        StartActivity.sub_parameters2.width=SizeSettingActivity.iconParam.width;
-        StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
-        StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
-        StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        if(SizeSettingActivity.iconParam!=null){
+            StartActivity.main_parameters1.width=SizeSettingActivity.iconParam.width*2;
+            StartActivity.main_parameters1.height=SizeSettingActivity.iconParam.height;
+            StartActivity.main_parameters2.width=SizeSettingActivity.iconParam.width*2;
+            StartActivity.main_parameters2.height=SizeSettingActivity.iconParam.height;
+            StartActivity.sub_parameters1.width=SizeSettingActivity.iconParam.width;
+            StartActivity.sub_parameters1.height=SizeSettingActivity.iconParam.height;
+            StartActivity.sub_parameters2.width=SizeSettingActivity.iconParam.width;
+            StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
+            StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
+            StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        }
         StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,StartActivity.params2);
         StartActivity.heroIcon.setImageResource(R.drawable.logo2);
 
@@ -265,10 +265,10 @@ public class SettingActivity extends Activity {
         String insertDefaultShortCut4="insert into shortcut ( short_cut) values (4)";
         String insertDefaultShortCut5="insert into shortcut ( short_cut) values (5)";
         String insertDefaultInitailPos = "insert into initialpos(x,y) values(350,600)";
-        String insertDefaultWeb1="insert into web(url) values('http://naver.com')";
-        String insertDefaultWeb2="insert into web(url) values('http://daum.net')";
-        String insertDefaultWeb3="insert into web(url) values('http://google.com')";
-        String insertDefaultWeb4="insert into web(url) values('http://youtube.com')";
+        String insertDefaultWeb1="insert into web(url) values('http://www.naver.com')";
+        String insertDefaultWeb2="insert into web(url) values('http://www.daum.net')";
+        String insertDefaultWeb3="insert into web(url) values('http://www.google.com')";
+        String insertDefaultWeb4="insert into web(url) values('http://www.youtube.com')";
 
         defaultAct.db.execSQL(insertDefaultImg_info);
         defaultAct.db.execSQL(insertDefaultManual_flags);
@@ -325,9 +325,9 @@ public class SettingActivity extends Activity {
 
     public int checkFlag() {
         sql = "select setting from manual_flags";
-        rs = defaultAct.db.rawQuery(sql, null);
-        rs.moveToNext();
-        return rs.getInt(0);
+        Cursor cs = defaultAct.db.rawQuery(sql, null);
+        cs.moveToNext();
+        return cs.getInt(0);
     }
 
     private void storeCropImage(Bitmap bitmap, String filePath) {
@@ -343,28 +343,6 @@ public class SettingActivity extends Activity {
             e.printStackTrace();
         }
     }
-
-
-//    public void showMsg(String title, String msg) {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-//        alert.setTitle(title).setMessage(msg).setCancelable(true)
-//                .setNegativeButton("닫기", null)
-//                .setPositiveButton("설정", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        try {
-//                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-//                                    .setData(Uri.parse("package:" + getPackageName()));
-//                            startActivity(intent);
-//                        }catch (ActivityNotFoundException e) {
-//                            e.printStackTrace();
-//                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-//                            startActivity(intent);
-//                        }
-//                    }
-//                })
-//                .show();
-//    }
 
 
 

@@ -26,4 +26,12 @@
     <string name="calling">呼叫</string>
     <string name="launch_app">运行应用程序</string>
     <string name="launch_web_browser">运行网络</string>
+
+    <!--Tips String-->
+    <string name="tips_setting_key">연동시킬 동작 설정</string>
+    <string name="tips_setting_icons">아이콘 이미지 변경</string>
+    <string name="tips_setting_location">아이콘 초기위치 설정</string>
+    <string name="tips_setting_size">아이콘 크기 설정</string>
+    <string name="tips_setting_language">사용할 언어 설정</string>
+    <string name="tips_reset_all_settings">모든 설정 초기화</string>
 </resources>

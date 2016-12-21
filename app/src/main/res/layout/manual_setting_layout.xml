@@ -76,7 +76,7 @@
                     android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
-                    android:text="연동시킬 동작 설정"
+                    android:text="@string/tips_setting_key"
                     android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -109,7 +109,7 @@
                     android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
-                    android:text="아이콘 이미지 변경"
+                    android:text="@string/tips_setting_icons"
                     android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -142,7 +142,7 @@
                     android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
-                    android:text="아이콘 초기위치 설정"
+                    android:text="@string/tips_setting_location"
                     android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -175,7 +175,7 @@
                     android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
-                    android:text="아이콘 크기 설정"
+                    android:text="@string/tips_setting_size"
                     android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -208,7 +208,7 @@
                     android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
-                    android:text="사용할 언어 설정"
+                    android:text="@string/tips_setting_language"
                     android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -241,7 +241,7 @@
                     android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
-                    android:text="모든 설정 초기화"
+                    android:text="@string/tips_reset_all_settings"
                     android:layout_weight="5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -252,6 +252,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
