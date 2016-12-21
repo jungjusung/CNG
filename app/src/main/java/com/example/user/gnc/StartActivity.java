@@ -293,7 +293,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
         dm = Resources.getSystem().getDisplayMetrics();
-        limitY = (dm.heightPixels / 2) - 500;
+        limitY = (dm.heightPixels / 2) - icon_height*2;
         limitX = (dm.widthPixels / 2) - icon_width * 2;
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
@@ -471,11 +471,28 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     txt_turn.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
                     main_parameters1.x = initialPosX;
 
-                    if (initialPosY < -limitY) {
-                        main_parameters1.y = initialPosY + (icon_height + 50);
-                    } else {
+
+                    Log.d(TAG,-limitY+"최대한도?");
+                    Log.d(TAG,"초기 y : "+initialPosY);
+                    if(params2.y<0){
+                        if(params2.y-icon_height<(dm.heightPixels/2-icon_height*2-100)*(-1)){
+                            //위에 놓일 칸이 없다.
+                            main_parameters1.y= initialPosY+(icon_height+50);
+                        }else{
+                            main_parameters1.y = initialPosY - (icon_height + 50);
+                        }
+
+                    }else{
                         main_parameters1.y = initialPosY - (icon_height + 50);
                     }
+
+
+//                    if (initialPosY < -limitY) {
+//
+//                        main_parameters1.y = initialPosY + (icon_height + 50);
+//                    } else {
+//                        main_parameters1.y = initialPosY - (icon_height + 50);
+//                    }
 
                     if(params2.x<0) {
                         if (params2.x-icon_width<(dm.widthPixels/2-icon_width/2)*(-1)){
@@ -539,11 +556,24 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
 
                     main_parameters2.x = initialPosX;
-                    if (initialPosY < -limitY) {
-                        main_parameters2.y = initialPosY + (icon_height + 50) * 2;
-                    } else {
-                        main_parameters2.y = initialPosY - (icon_height + 50) * 2;
+
+                    if(params2.y<0){
+                        if(params2.y-icon_height<(dm.heightPixels/2-icon_height*2-100)*(-1)){
+                            //위에 놓일 칸이 없다.
+                            main_parameters2.y= initialPosY+(icon_height*2+100);
+                        }else{
+                            main_parameters2.y = initialPosY - (icon_height*2 + 100);
+                        }
+
+                    }else{
+                        main_parameters2.y = initialPosY - (icon_height*2 + 100);
                     }
+
+//                    if (initialPosY < -limitY) {
+//                        main_parameters2.y = initialPosY + (icon_height + 50) * 2;
+//                    } else {
+//                        main_parameters2.y = initialPosY - (icon_height + 50) * 2;
+//                    }
 
                     if (params2.x < 0) {
                         if (params2.x - icon_width < (dm.widthPixels / 2 - icon_width / 2) * (-1)) {
