@@ -241,6 +241,17 @@ public class SettingActivity extends Activity {
             StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
             StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
             StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        }else{
+            StartActivity.main_parameters1.width=StartActivity.icon_width*2;
+            StartActivity.main_parameters1.height=StartActivity.icon_height;
+            StartActivity.main_parameters2.width=StartActivity.icon_width*2;
+            StartActivity.main_parameters2.height=StartActivity.icon_height;
+            StartActivity.sub_parameters1.width=StartActivity.icon_width;
+            StartActivity.sub_parameters1.height=StartActivity.icon_height;
+            StartActivity.sub_parameters2.width=StartActivity.icon_width;
+            StartActivity.sub_parameters2.height=StartActivity.icon_height;
+            StartActivity.txt_turn_parameters.width=StartActivity.icon_width;
+            StartActivity.txt_setting_parameters.width=StartActivity.icon_width;
         }
         StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,StartActivity.params2);
         StartActivity.heroIcon.setImageResource(R.drawable.logo2);
