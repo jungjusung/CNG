@@ -42,9 +42,11 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
     String TAG;
     int width;
     int height;
+    boolean chnageSize;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
+        chnageSize=false;
         setContentView(R.layout.size_setting_activity);
      /*   AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -75,6 +77,8 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
         sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                chnageSize=true;
+
                 if (i < 0)
                     seekBar.setProgress(0);
                 if (i > max)
@@ -113,39 +117,41 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        iconParam.width=width;
-        iconParam.height=height;
-        sql = "update img_info set size=?";
-        defaultAct.db.execSQL(sql, new String[]{
-                Integer.toString(iconParam.width)
-        });
-        StartActivity.params2.width = iconParam.width;
-        StartActivity.params2.height = iconParam.height;
-        StartActivity.icon_height = iconParam.height;
-        StartActivity.icon_width = iconParam.width;
-        StartActivity.main_parameters1.width = iconParam.width * 2;
-        StartActivity.main_parameters1.height = iconParam.height;
-        StartActivity.main_parameters2.width = iconParam.width * 2;
-        StartActivity.main_parameters2.height = iconParam.height;
-        StartActivity.sub_parameters1.width = iconParam.width;
-        StartActivity.sub_parameters1.height = iconParam.height;
-        StartActivity.sub_parameters2.width = iconParam.width;
-        StartActivity.sub_parameters2.height = iconParam.height;
-        StartActivity.txt_turn_parameters.width = iconParam.width;
-        StartActivity.txt_turn_parameters.height = iconParam.height;
-        StartActivity.txt_turn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        StartActivity.txt_setting_parameters.width = iconParam.width;
-        StartActivity.txt_setting_parameters.height = iconParam.height;
-        StartActivity.txt_setting.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        if(chnageSize) {
+            iconParam.width = width;
+            iconParam.height = height;
+            sql = "update img_info set size=?";
+            defaultAct.db.execSQL(sql, new String[]{
+                    Integer.toString(iconParam.width)
+            });
+            StartActivity.params2.width = iconParam.width;
+            StartActivity.params2.height = iconParam.height;
+            StartActivity.icon_height = iconParam.height;
+            StartActivity.icon_width = iconParam.width;
+            StartActivity.main_parameters1.width = iconParam.width * 2;
+            StartActivity.main_parameters1.height = iconParam.height;
+            StartActivity.main_parameters2.width = iconParam.width * 2;
+            StartActivity.main_parameters2.height = iconParam.height;
+            StartActivity.sub_parameters1.width = iconParam.width;
+            StartActivity.sub_parameters1.height = iconParam.height;
+            StartActivity.sub_parameters2.width = iconParam.width;
+            StartActivity.sub_parameters2.height = iconParam.height;
+            StartActivity.txt_turn_parameters.width = iconParam.width;
+            StartActivity.txt_turn_parameters.height = iconParam.height;
+            StartActivity.txt_turn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            StartActivity.txt_setting_parameters.width = iconParam.width;
+            StartActivity.txt_setting_parameters.height = iconParam.height;
+            StartActivity.txt_setting.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
-        StartActivity.sub_li1.setLayoutParams(StartActivity.sub_parameters1);
-        StartActivity.sub_li2.setLayoutParams(StartActivity.sub_parameters2);
-        StartActivity.txt_setting.setLayoutParams(StartActivity.txt_setting_parameters);
-        StartActivity.txt_turn.setLayoutParams(StartActivity.txt_turn_parameters);
+            StartActivity.sub_li1.setLayoutParams(StartActivity.sub_parameters1);
+            StartActivity.sub_li2.setLayoutParams(StartActivity.sub_parameters2);
+            StartActivity.txt_setting.setLayoutParams(StartActivity.txt_setting_parameters);
+            StartActivity.txt_turn.setLayoutParams(StartActivity.txt_turn_parameters);
 
-        StartActivity.main_li1.setLayoutParams(StartActivity.main_parameters1);
-        StartActivity.main_li2.setLayoutParams(StartActivity.main_parameters2);
-        wm.updateViewLayout(heroIcon, iconParam);
+            StartActivity.main_li1.setLayoutParams(StartActivity.main_parameters1);
+            StartActivity.main_li2.setLayoutParams(StartActivity.main_parameters2);
+            wm.updateViewLayout(heroIcon, iconParam);
+        }
     }
 }
 

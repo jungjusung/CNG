@@ -67,11 +67,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         webLoadingContainer=findViewById(R.id.web_loading_container);
         /*webListView 생성*/
         setLoadingView(false);
-
-
     }
-
-
 
     public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
