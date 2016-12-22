@@ -104,6 +104,8 @@ public class defaultAct extends Activity {
                     showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
                 } else if (permissions.length > 0 && grantResults[2] == PackageManager.PERMISSION_DENIED) {
                     showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
+                } else if (permissions.length > 0 && grantResults[3] == PackageManager.PERMISSION_DENIED) {
+                    showMsg("안내", "외부저장소 쓰기 사용권한을 주셔야 사용이 가능합니다.");
                 } else {
                 }
                 break;
