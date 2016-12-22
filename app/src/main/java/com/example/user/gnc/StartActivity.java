@@ -97,7 +97,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
     /*------------------------------------------------------------------------*/
     @Override
     public IBinder onBind(Intent intent) {
-        stopService(intent);
         return null;
     }
 
@@ -111,11 +110,11 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
         startActivity = this;
         sql = "select * from img_info";
-        rs = defaultAct.db.rawQuery(sql, null);
-        rs.moveToNext();
-        if (icon_width != rs.getInt(rs.getColumnIndex("size"))) {
-            icon_width = rs.getInt(rs.getColumnIndex("size"));
-            icon_height = rs.getInt(rs.getColumnIndex("size"));
+        Cursor rs1 = defaultAct.db.rawQuery(sql, null);
+        rs1.moveToNext();
+        if (icon_width != rs1.getInt(rs1.getColumnIndex("size"))) {
+            icon_width = rs1.getInt(rs1.getColumnIndex("size"));
+            icon_height = rs1.getInt(rs1.getColumnIndex("size"));
         }
         main_parameters1 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         main_parameters2 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
@@ -943,12 +942,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
     @Override
     public void onDestroy() {
         Log.d(TAG,"내가 켜졌다~~");
-        PushWakeLock.acquireCpuWakeLock(this);
+       // PushWakeLock.acquireCpuWakeLock(this);
+        //android.os.Process.killProcess(android.os.Process.myPid());
         /*close*/
-        change_bitmap=null;
-        System.gc();
+        //change_bitmap=null;
+        //System.gc();
+        sendBroadcast(new Intent("YouWillNeverKillMe"));
         System.exit(0);
-
         super.onDestroy();
     }
 

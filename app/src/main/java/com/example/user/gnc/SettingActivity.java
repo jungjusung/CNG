@@ -294,8 +294,6 @@ public class SettingActivity extends Activity {
         defaultAct.db.execSQL(insertDefaultWeb3);
         defaultAct.db.execSQL(insertDefaultWeb4);
 
-
-
         Toast.makeText(this, "초기화 완료", Toast.LENGTH_SHORT).show();
 
     }
