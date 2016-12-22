@@ -46,9 +46,16 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
         setContentView(R.layout.size_setting_activity);
-     /*   AdView mAdView = (AdView) findViewById(R.id.adView);
+
+     /*=======================================
+        광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+         ========================================
+        AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
+        mAdView.loadAd(adRequest);
+        ========================================*/
+
+
         btn_size=(Button)findViewById(R.id.btn_size);
         sql = "select * from img_info";
         rs = defaultAct.db.rawQuery(sql, null);
