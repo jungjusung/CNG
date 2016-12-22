@@ -35,6 +35,8 @@ import android.widget.Toast;
 
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -74,6 +76,7 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
 
+
         if(checkFlag() == 0){
 
             Intent intent = new Intent(this, ManualSettingActivity.class);
@@ -84,6 +87,15 @@ public class SettingActivity extends Activity {
 
 
         setContentView(R.layout.setting_layout);
+
+        /*=======================================
+        광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+         ========================================
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        ========================================*/
+
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
         bt_size = (LinearLayout) findViewById(R.id.bt_size);
@@ -102,13 +114,20 @@ public class SettingActivity extends Activity {
             case R.id.bt_icon:
                 Intent icon_intent = new Intent(Intent.ACTION_PICK);
                 icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                String sdcard= Environment.getExternalStorageState();
+
+                if( ! sdcard.equals(Environment.MEDIA_MOUNTED) ) {
+                    icon_intent.setData(MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                    Log.d(TAG,"외부저장소가 읍따");
+                } else {
+                    icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Log.d(TAG,"외부저장소가 있다");
+                }
                 icon_intent.putExtra("crop", "true");
                 icon_intent.putExtra("aspectX", "1");
                 icon_intent.putExtra("aspectY", "1");
                 icon_intent.putExtra("outputX", "200");
                 icon_intent.putExtra("outputY", "200");
-
                 icon_intent.putExtra("return-data", "true");
                 startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                 break;
@@ -304,23 +323,34 @@ public class SettingActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Bundle extras=data.getExtras();
+                    Log.d(TAG, "!");
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
-                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/file"+String.valueOf(System.currentTimeMillis())+".png";
+                    Log.d(TAG, "2");
+                    String sdcard= Environment.getExternalStorageState();
+                    Log.d(TAG, "3");
+                    if( ! sdcard.equals(Environment.MEDIA_MOUNTED) ) {
+                        filePath=Environment.getRootDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png";//내부저장소의 주소를 얻어옴
+                        Log.d(TAG,"외부저장소가 읍따");
+                    } else {
+                        filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png"; //외부저장소의 주소를 얻어옴
+                        Log.d(TAG,"외부저장소에 저장");
+                    }
+
                     file=new File(filePath);
 
                     uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
+
+
 
                     storeCropImage(bitmap, filePath);
                     //배치해놓은 ImageView에 set
 
                     sql = "update img_info set path=?";
-                    Log.d(TAG,"uri입니다.:"+uri.toString());
-                    Log.d(TAG, "2");
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
-                    Log.d(TAG, "3");
+                    Log.d(TAG,"uri입니다.:"+uri);
 
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                     Log.d(TAG, "바뀐 비트맵  "+change_bitmap);

@@ -75,14 +75,14 @@ public class initPermissionActivity extends AppCompatActivity {
 
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
-        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
         if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
 
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, REQUEST_ACCESS_CALL);
         }
 
