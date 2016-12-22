@@ -634,7 +634,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
             mGestureDetector = new GestureDetector(this, mOnSimpleOnGestureListener);
         }
 
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
 
@@ -943,11 +943,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
     @Override
     public void onDestroy() {
         Log.d(TAG,"내가 켜졌다~~");
-        android.os.Process.killProcess(android.os.Process.myPid());
-
+        PushWakeLock.acquireCpuWakeLock(this);
         /*close*/
         change_bitmap=null;
-
         System.gc();
         System.exit(0);
 

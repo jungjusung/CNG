@@ -56,7 +56,6 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
     @Override
 
     protected void onPreExecute() {
-        //webListAdapter.webListActivity.setLoadingView(true);
         ops = new BitmapFactory.Options();
         ops.inJustDecodeBounds = true;
 

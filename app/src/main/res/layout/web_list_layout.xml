@@ -52,6 +52,7 @@
                 android:text="http://"
                 android:textSize="15dp"
                 android:theme="@style/Theme.App.Base"
+                android:visibility="gone"
                 />
 
             <ImageView
@@ -60,6 +61,7 @@
                 android:layout_height="25sp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/chk_sel"
+                android:visibility="gone"
                 />
 
             <LinearLayout
