@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -406,11 +407,16 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     int method = rs.getInt(rs.getColumnIndex("method"));
                     if (method == START_PHONE_CALL) {
                         String number = rs.getString(rs.getColumnIndex("path"));
-                        if (!number.equals(null))
+                        String name = rs.getString(rs.getColumnIndex("name"));
+                        if (!number.equals(null)){
+                            Toast.makeText(StartActivity.this, name+"("+number+")", Toast.LENGTH_SHORT).show();
                             callPhone(number);
+                        }
                     } else if (method == START_APP_CALL) {
                         String number = rs.getString(rs.getColumnIndex("path"));
+                        String name = rs.getString(rs.getColumnIndex("name"));
                         if (!number.equals(null)) {
+                            Toast.makeText(StartActivity.this, name+" 실행", Toast.LENGTH_SHORT).show();
                             Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -419,6 +425,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         String urlPath = rs.getString(rs.getColumnIndex("path"));
                         Log.d(TAG, "URL PATh : " + urlPath);
                         if (!urlPath.equals(null)) {
+                            Toast.makeText(StartActivity.this, urlPath+" 열기", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setData(Uri.parse(urlPath));
@@ -753,12 +760,17 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         String number = null;
                         if (method == START_PHONE_CALL) {
                             number = rs.getString(rs.getColumnIndex("path"));
-                            if (!number.equals(null))
+                            String name = rs.getString(rs.getColumnIndex("name"));
+                            if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
+                            }
 
                         } else if (method == START_APP_CALL) {
                             number = rs.getString(rs.getColumnIndex("path"));
+                            String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name+" 실행", Toast.LENGTH_SHORT).show();
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -766,6 +778,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
+                                Toast.makeText(startActivity, urlPath+" 열기", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -780,12 +793,17 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            if (!number.equals(null))
+                            String name = rs.getString(rs.getColumnIndex("name"));
+                            if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
+                            }
 
                         } else if (method == START_APP_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
+                            String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name+" 실행", Toast.LENGTH_SHORT).show();
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -793,6 +811,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
+                                Toast.makeText(startActivity, urlPath+" 열기", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -806,11 +825,16 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            if (!number.equals(null))
+                            String name = rs.getString(rs.getColumnIndex("name"));
+                            if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
+                            }
                         } else if (method == START_APP_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
+                            String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name+" 실행", Toast.LENGTH_SHORT).show();
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -818,6 +842,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
+                                Toast.makeText(startActivity, urlPath+" 열기", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -832,11 +857,16 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
-                            if (!number.equals(null))
+                            String name = rs.getString(rs.getColumnIndex("name"));
+                            if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
+                            }
                         } else if (method == START_APP_CALL) {
                             String number = rs.getString(rs.getColumnIndex("path"));
+                            String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
+                                Toast.makeText(startActivity, name+" 실행", Toast.LENGTH_SHORT).show();
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -845,6 +875,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
+                                Toast.makeText(startActivity, urlPath+" 열기", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
