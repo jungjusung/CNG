@@ -62,9 +62,11 @@ public class defaultAct extends Activity {
                 startActivityForResult(intent, WINDOW_ALERT_REQUEST);
             } else {
                 startService(new Intent(this, StartActivity.class));
+                finish();
             }
         } else {
             startService(new Intent(this, StartActivity.class));
+            finish();
         }
         //권한 주기
     }
@@ -110,6 +112,7 @@ public class defaultAct extends Activity {
                 } else if (permissions.length > 0 && grantResults[3] == PackageManager.PERMISSION_DENIED) {
                     showMsg("안내", "외부저장소 쓰기 사용권한을 주셔야 사용이 가능합니다.");
                 } else {
+                    finish();
                 }
                 break;
         }
