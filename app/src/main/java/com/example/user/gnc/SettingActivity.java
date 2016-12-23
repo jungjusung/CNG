@@ -74,6 +74,7 @@ public class SettingActivity extends Activity {
     LinearLayout layout;
     LinearLayout.LayoutParams layoutParams;
     Bitmap bitmap;
+    Bitmap change_bitmap;
 
     /*------------------------------------------------------*/
     @Override
@@ -81,12 +82,11 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
 
-
-        if(checkFlag() == 0){
+        if (checkFlag() == 0) {
 
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
-        }else if(checkFlag() == -1){
+        } else if (checkFlag() == -1) {
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
         }
@@ -205,16 +205,16 @@ public class SettingActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
 
                 builder.setTitle("초기화 설정").setMessage("초기화 하시겠습니까?").setCancelable(false)
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             // 확인 버튼 클릭시 설정
-                            public void onClick(DialogInterface dialog, int whichButton){
+                            public void onClick(DialogInterface dialog, int whichButton) {
                                 doBackToDefault();
                                 finish();
                             }
                         })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                             // 취소 버튼 클릭시 설정
-                            public void onClick(DialogInterface dialog, int whichButton){
+                            public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
                             }
                         });
@@ -231,40 +231,40 @@ public class SettingActivity extends Activity {
         }
     }
 
-    public void doBackToDefault(){
+    public void doBackToDefault() {
 
-        StartActivity.initialPosX=350;
-        StartActivity.initialPosY=600;
-        StartActivity.icon_width=150;
-        StartActivity.icon_height=150;
-        StartActivity.params2.x=350;
-        StartActivity.params2.y=600;
-        StartActivity.params2.width=150;
-        StartActivity.params2.height=150;
-        if(SizeSettingActivity.iconParam!=null){
-            StartActivity.main_parameters1.width=SizeSettingActivity.iconParam.width*2;
-            StartActivity.main_parameters1.height=SizeSettingActivity.iconParam.height;
-            StartActivity.main_parameters2.width=SizeSettingActivity.iconParam.width*2;
-            StartActivity.main_parameters2.height=SizeSettingActivity.iconParam.height;
-            StartActivity.sub_parameters1.width=SizeSettingActivity.iconParam.width;
-            StartActivity.sub_parameters1.height=SizeSettingActivity.iconParam.height;
-            StartActivity.sub_parameters2.width=SizeSettingActivity.iconParam.width;
-            StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
-            StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
-            StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
-        }else{
-            StartActivity.main_parameters1.width=StartActivity.icon_width*2;
-            StartActivity.main_parameters1.height=StartActivity.icon_height;
-            StartActivity.main_parameters2.width=StartActivity.icon_width*2;
-            StartActivity.main_parameters2.height=StartActivity.icon_height;
-            StartActivity.sub_parameters1.width=StartActivity.icon_width;
-            StartActivity.sub_parameters1.height=StartActivity.icon_height;
-            StartActivity.sub_parameters2.width=StartActivity.icon_width;
-            StartActivity.sub_parameters2.height=StartActivity.icon_height;
-            StartActivity.txt_turn_parameters.width=StartActivity.icon_width;
-            StartActivity.txt_setting_parameters.width=StartActivity.icon_width;
+        StartActivity.initialPosX = 350;
+        StartActivity.initialPosY = 600;
+        StartActivity.icon_width = 150;
+        StartActivity.icon_height = 150;
+        StartActivity.params2.x = 350;
+        StartActivity.params2.y = 600;
+        StartActivity.params2.width = 150;
+        StartActivity.params2.height = 150;
+        if (SizeSettingActivity.iconParam != null) {
+            StartActivity.main_parameters1.width = SizeSettingActivity.iconParam.width * 2;
+            StartActivity.main_parameters1.height = SizeSettingActivity.iconParam.height;
+            StartActivity.main_parameters2.width = SizeSettingActivity.iconParam.width * 2;
+            StartActivity.main_parameters2.height = SizeSettingActivity.iconParam.height;
+            StartActivity.sub_parameters1.width = SizeSettingActivity.iconParam.width;
+            StartActivity.sub_parameters1.height = SizeSettingActivity.iconParam.height;
+            StartActivity.sub_parameters2.width = SizeSettingActivity.iconParam.width;
+            StartActivity.sub_parameters2.height = SizeSettingActivity.iconParam.height;
+            StartActivity.txt_turn_parameters.width = SizeSettingActivity.iconParam.width;
+            StartActivity.txt_setting_parameters.width = SizeSettingActivity.iconParam.width;
+        } else {
+            StartActivity.main_parameters1.width = StartActivity.icon_width * 2;
+            StartActivity.main_parameters1.height = StartActivity.icon_height;
+            StartActivity.main_parameters2.width = StartActivity.icon_width * 2;
+            StartActivity.main_parameters2.height = StartActivity.icon_height;
+            StartActivity.sub_parameters1.width = StartActivity.icon_width;
+            StartActivity.sub_parameters1.height = StartActivity.icon_height;
+            StartActivity.sub_parameters2.width = StartActivity.icon_width;
+            StartActivity.sub_parameters2.height = StartActivity.icon_height;
+            StartActivity.txt_turn_parameters.width = StartActivity.icon_width;
+            StartActivity.txt_setting_parameters.width = StartActivity.icon_width;
         }
-        StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,StartActivity.params2);
+        StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon, StartActivity.params2);
         StartActivity.heroIcon.setImageResource(R.drawable.logo2);
 
         String deleteImg_info = "delete from img_info";
@@ -280,17 +280,17 @@ public class SettingActivity extends Activity {
         defaultAct.db.execSQL(deleteWeb);
 
         String insertDefaultImg_info = "insert into img_info(x,y,size,path) values(350,600,150,'')";
-        String insertDefaultManual_flags="insert into manual_flags values( 0, 0, 0)";
-        String insertDefaultShortCut1="insert into shortcut ( short_cut) values (1)";
-        String insertDefaultShortCut2="insert into shortcut ( short_cut) values (2)";
-        String insertDefaultShortCut3="insert into shortcut ( short_cut) values (3)";
-        String insertDefaultShortCut4="insert into shortcut ( short_cut) values (4)";
-        String insertDefaultShortCut5="insert into shortcut ( short_cut) values (5)";
+        String insertDefaultManual_flags = "insert into manual_flags values( 0, 0, 0)";
+        String insertDefaultShortCut1 = "insert into shortcut ( short_cut) values (1)";
+        String insertDefaultShortCut2 = "insert into shortcut ( short_cut) values (2)";
+        String insertDefaultShortCut3 = "insert into shortcut ( short_cut) values (3)";
+        String insertDefaultShortCut4 = "insert into shortcut ( short_cut) values (4)";
+        String insertDefaultShortCut5 = "insert into shortcut ( short_cut) values (5)";
         String insertDefaultInitailPos = "insert into initialpos(x,y) values(350,600)";
-        String insertDefaultWeb1="insert into web(url) values('http://www.naver.com')";
-        String insertDefaultWeb2="insert into web(url) values('http://www.daum.net')";
-        String insertDefaultWeb3="insert into web(url) values('http://www.google.com')";
-        String insertDefaultWeb4="insert into web(url) values('http://www.youtube.com')";
+        String insertDefaultWeb1 = "insert into web(url) values('http://www.naver.com')";
+        String insertDefaultWeb2 = "insert into web(url) values('http://www.daum.net')";
+        String insertDefaultWeb3 = "insert into web(url) values('http://www.google.com')";
+        String insertDefaultWeb4 = "insert into web(url) values('http://www.youtube.com')";
 
         defaultAct.db.execSQL(insertDefaultImg_info);
         defaultAct.db.execSQL(insertDefaultManual_flags);
@@ -311,24 +311,19 @@ public class SettingActivity extends Activity {
 
     /* 세팅에 아이콘 이미지 변경 및 경로*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG,"1111");
-        if (requestCode == REQ_CODE_SELECT_IMAGE&&data!=null) {
-            Log.d(TAG,"2222");
+        if (requestCode == REQ_CODE_SELECT_IMAGE && data != null) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    Log.d(TAG,"번들전");
-                    Bundle extras=data.getExtras();
+                    Bundle extras = data.getExtras();
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
 
-                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png";
-                    Log.d(TAG,"파일경로: "+filePath);
-                    file=new File(filePath);
+                    filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/CNG" + String.valueOf(System.currentTimeMillis()) + ".png";
+                    file = new File(filePath);
 
-                    uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
+                    uri = Uri.parse(String.valueOf(Uri.fromFile(file)));
 
-                    Log.d(TAG,uri.toString());
-                    ImageUtils.normalizeImageForUri(this.getApplicationContext(),uri);
+                    ImageUtils.normalizeImageForUri(this.getApplicationContext(), uri);
 
                     storeCropImage(bitmap, filePath);
                     //배치해놓은 ImageView에 set
@@ -338,8 +333,7 @@ public class SettingActivity extends Activity {
                             uri.toString()
                     });
 
-                    Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                    Log.d(TAG, "바뀐 비트맵  "+change_bitmap);
+                    change_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                     StartActivity.startActivity.heroIcon.setImageBitmap(change_bitmap);
 
                 } catch (Exception e) {
@@ -353,11 +347,10 @@ public class SettingActivity extends Activity {
         String sql = "select setting from manual_flags";
 
         Cursor cs = defaultAct.db.rawQuery(sql, null);
-        if(cs!=null) {
+        if (cs != null) {
             cs.moveToNext();
             return cs.getInt(0);
-        }
-        else
+        } else
             return -1;
     }
 
@@ -376,20 +369,20 @@ public class SettingActivity extends Activity {
     }
 
 
-
     protected void onDestroy() {
-        if(bitmap!=null) {
+        if (bitmap != null) {
+            bitmap.recycle();
+            bitmap = null;
+        }
+        if (change_bitmap != null) {
             bitmap.recycle();
             bitmap = null;
         }
 //        recycleBitmap(flagImg);
-        Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
-        Log.d(TAG,"SettingActivity 꺼지냐?");
 
-        flagImg=null;
-        bitmap=null;
+        flagImg = null;
 
         super.onDestroy();
     }
@@ -401,13 +394,14 @@ public class SettingActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-       // Log.d(TAG,"강제종료된다.");
+        // Log.d(TAG,"강제종료된다.");
 
     }
+
     private static void recycleBitmap(ImageView iv) {
         Drawable d = iv.getDrawable();
         if (d instanceof BitmapDrawable) {
-            Bitmap b = ((BitmapDrawable)d).getBitmap();
+            Bitmap b = ((BitmapDrawable) d).getBitmap();
             b.recycle();
         } // 현재로서는 BitmapDrawable 이외의 drawable 들에 대한 직접적인 메모리 해제는 불가능하다.
 
@@ -420,35 +414,24 @@ public class SettingActivity extends Activity {
               .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialogInterface, int i) {
                       Intent icon_intent = new Intent("com.android.camera.action.CROP");
-                          icon_intent.setClassName("com.android.camera.action", "com.android.camera.action.CropImage");
-                          icon_intent.setType("image/*");
-                          icon_intent.setType("image/*");
-                          icon_intent.putExtra("crop", "true");
-                          icon_intent.putExtra("outputX", 200);
-                          icon_intent.putExtra("outputY", 200);
-                          icon_intent.putExtra("aspectX", 1);
-                          icon_intent.putExtra("aspectY", 1);
-                          icon_intent.putExtra("scale", true);
-                          icon_intent.putExtra("scaleUpIfNeeded", true);
+                      icon_intent.setType("image/*");
+                      icon_intent.putExtra("crop", "true");
+                      icon_intent.putExtra("outputX", 200);
+                      icon_intent.putExtra("outputY", 200);
+                      icon_intent.putExtra("aspectX", 1);
+                      icon_intent.putExtra("aspectY", 1);
+                      icon_intent.putExtra("scale", true);
+                      icon_intent.putExtra("scaleUpIfNeeded", true);
+                      icon_intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
 
-                          icon_intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-
-                          if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
-                          {
-                              icon_intent.setAction(Intent.ACTION_GET_CONTENT);
-                          }
-                          else
-                          {
-                              icon_intent.setAction(Intent.ACTION_PICK);
-                              icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                          }
-                          Log.d(TAG,"클릭했당");
-                          Log.d(TAG,icon_intent+"");
-                          startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
-                          //startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
-                          Log.d(TAG,"클릭했당");
+                      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                          icon_intent.setAction(Intent.ACTION_GET_CONTENT);
+                      } else {
+                          icon_intent.setAction(Intent.ACTION_PICK);
+                          icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                      }
+                      startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                   }
               }).show();
-
   }
 }
