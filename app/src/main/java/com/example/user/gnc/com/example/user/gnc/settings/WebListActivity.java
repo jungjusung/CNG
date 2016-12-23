@@ -135,7 +135,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                         webListAdapter.init();
                         webListAdapter.notifyDataSetChanged();
                         Toast.makeText(WebListActivity.this, url +" "+ getString(R.string.was_deleted), Toast.LENGTH_SHORT).show();
-                        edit_url.setText("http://");
+                        edit_url.setText("http://www.");
                     }
                 });
         AlertDialog alert = alert_confirm.create();
