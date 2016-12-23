@@ -37,7 +37,14 @@
         </activity>
         <service android:name=".StartActivity"
             android:screenOrientation="portrait">
-    </service>
+        </service>
+        <receiver android:name=".RestartServiceReceiver">
+            <intent-filter>
+                <action android:name="YouWillNeverKillMe">
+
+                </action>
+            </intent-filter>x
+        </receiver>
 
         <activity
             android:name=".SettingActivity"

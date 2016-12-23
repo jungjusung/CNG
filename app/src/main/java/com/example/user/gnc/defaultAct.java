@@ -120,8 +120,8 @@ public class defaultAct extends Activity {
     protected void onDestroy() {
         Log.d(TAG, "내가 꺼졌따~");
 
-        RecycleUtils.recursiveRecycle(getWindow().getDecorView());
-        System.gc();
+      /*  RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+        System.gc();*/
         super.onDestroy();
     }
 
