@@ -30,18 +30,25 @@ public class defaultAct extends Activity {
     private static final int REQUEST_ACCESS_CALL = 2;
     String TAG;
     public static com.example.user.gnc.defaultAct defaultAct;
-    MyDB myDB;
-    public static SQLiteDatabase db;
+  /*  MyDB myDB;
+    public static SQLiteDatabase db;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+      // init();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         Log.d(TAG, "나 디폴트냐??");
         TAG = this.getClass().getName();
         defaultAct = this;
@@ -76,10 +83,6 @@ public class defaultAct extends Activity {
         }
     }
 
-    public void init() {
-        myDB = new MyDB(this, "iot.sqlite", null, 1);
-        db = myDB.getWritableDatabase();
-    }
 
     public void showMsg(String title, String msg) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);

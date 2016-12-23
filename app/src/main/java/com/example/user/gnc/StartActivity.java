@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -28,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.user.gnc.com.example.user.gnc.settings.MyDB;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,6 @@ import java.util.List;
 public class StartActivity extends Service implements View.OnTouchListener {
 
     String gestureResult = "";
-
     boolean startAnimationFlag = false;
     private LinearLayout bli;
     public static LinearLayout sub_li1, sub_li2;
@@ -56,7 +58,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
     DisplayMetrics dm;
     Boolean longClickOn = false;
     public static StartActivity startActivity;
-
+    MyDB myDB;
+    public static SQLiteDatabase db;
 
     static int initialPosX;
     static int initialPosY;
@@ -85,8 +88,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     /*------------------------------- 코드 정리 ----------------------------------*/
 
-    String sql;
-    Cursor rs;
     LinearLayout.LayoutParams layoutParams;
     WindowManager.LayoutParams parameters;
     Bitmap change_bitmap;
@@ -100,22 +101,24 @@ public class StartActivity extends Service implements View.OnTouchListener {
         return null;
     }
 
+
     @Override
     public void onCreate() {
         TAG = this.getClass().getName();
 
-
+        init();
         /*StartActivity*/
         Log.d(TAG,"나 스타트엑티비티 생성된다.");
 
         startActivity = this;
-        sql = "select * from img_info";
-        Cursor rs1 = defaultAct.db.rawQuery(sql, null);
+        String sql1 = "select * from img_info";
+        Cursor rs1 = StartActivity.db.rawQuery(sql1, null);
         rs1.moveToNext();
         if (icon_width != rs1.getInt(rs1.getColumnIndex("size"))) {
             icon_width = rs1.getInt(rs1.getColumnIndex("size"));
             icon_height = rs1.getInt(rs1.getColumnIndex("size"));
         }
+        rs1.close();
         main_parameters1 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         main_parameters2 = new WindowManager.LayoutParams(icon_width * 2, icon_width, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
@@ -216,7 +219,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 windowManager.removeView(layout);
                 windowManager.removeView(title);
                 windowManager.removeView(copyright);
-                defaultAct.defaultAct.finish();
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -299,12 +301,14 @@ public class StartActivity extends Service implements View.OnTouchListener {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         //초기 위치 설정
-        sql = "select * from initialpos";
-        rs = defaultAct.db.rawQuery(sql, null);
+
+        String sql = "select * from initialpos";
+        Cursor rs = StartActivity.db.rawQuery(sql, null);
 
         rs.moveToNext();
         initialPosX = rs.getInt(rs.getColumnIndex("x"));
         initialPosY = rs.getInt(rs.getColumnIndex("y"));
+        rs.close();
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         layout.setBackgroundColor(Color.argb(100, 255, 0, 0));
@@ -346,9 +350,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
         parameters.alpha = 0f;
         heroIcon = new HeroIcon(this, initialPosX, initialPosY, icon_width, icon_height);
         sql = "select path from img_info";
-        Cursor cursor = defaultAct.db.rawQuery(sql, null);
+        Cursor cursor = StartActivity.db.rawQuery(sql, null);
         cursor.moveToNext();
         String imgPath = cursor.getString(cursor.getColumnIndex("path"));
+        cursor.close();
         if (imgPath.equals("")) {
             heroIcon.setImageResource(R.drawable.logo2);
         } else {
@@ -399,8 +404,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 }
 
                 public boolean onDoubleTap(MotionEvent e) {
-                    sql = "select * from shortcut where short_cut=1";
-                    rs = defaultAct.db.rawQuery(sql, null);
+                    String sql = "select * from shortcut where short_cut=1";
+                    Cursor rs = StartActivity.db.rawQuery(sql, null);
 
                     rs.moveToNext();
                     int method = rs.getInt(rs.getColumnIndex("method"));
@@ -425,6 +430,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             startActivity(intent);
                         }
                     }
+                    rs.close();
                     return super.onDoubleTap(e);
                 }
 
@@ -745,11 +751,13 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 if (longClickOn == false) {
 
                     if (gestureResult.equals("왼쪽")) {
-                        sql = "select * from shortcut where short_cut=4";
-                        rs = defaultAct.db.rawQuery(sql, null);
+
+                        String sql = "select * from shortcut where short_cut=4";
+                        Cursor rs = StartActivity.db.rawQuery(sql, null);
 
                         rs.moveToNext();
                         int method = rs.getInt(rs.getColumnIndex("method"));
+
                         String number = null;
                         if (method == START_PHONE_CALL) {
                             number = rs.getString(rs.getColumnIndex("path"));
@@ -772,10 +780,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         }
-
+                        rs.close();
                     } else if (gestureResult.equals("오른쪽")) {
-                        sql = "select * from shortcut where short_cut=5";
-                        rs = defaultAct.db.rawQuery(sql, null);
+                        String sql = "select * from shortcut where short_cut=5";
+                        Cursor rs = StartActivity.db.rawQuery(sql, null);
                         rs.moveToNext();
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
@@ -799,9 +807,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         }
+                        rs.close();
                     } else if (gestureResult.equals("아래쪽")) {
-                        sql = "select * from shortcut where short_cut=3";
-                        rs = defaultAct.db.rawQuery(sql, null);
+                        String sql = "select * from shortcut where short_cut=3";
+                        Cursor rs = StartActivity.db.rawQuery(sql, null);
                         rs.moveToNext();
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
@@ -824,10 +833,10 @@ public class StartActivity extends Service implements View.OnTouchListener {
                                 startActivity(intent);
                             }
                         }
-
+                        rs.close();
                     } else if (gestureResult.equals("위쪽")) {
-                        sql = "select * from shortcut where short_cut=2";
-                        rs = defaultAct.db.rawQuery(sql, null);
+                        String sql = "select * from shortcut where short_cut=2";
+                        Cursor rs = StartActivity.db.rawQuery(sql, null);
                         rs.moveToNext();
                         int method = rs.getInt(rs.getColumnIndex("method"));
                         if (method == START_PHONE_CALL) {
@@ -852,7 +861,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             }
 
                         }
-
+                        rs.close();
                     }
                     gestureResult = "";
                 } else {
@@ -889,17 +898,18 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
                     String sqlPos = "update initialpos set x=?, y=?";
 
-                    defaultAct.db.execSQL(sqlPos, new String[]{
+                    StartActivity.db.execSQL(sqlPos, new String[]{
                             Integer.toString(initialPosX), Integer.toString(initialPosY)
                     });
 
-                    sql = "select * from initialpos";
-                    rs = defaultAct.db.rawQuery(sql, null);
+                    String sql = "select * from initialpos";
+                    Cursor rs = StartActivity.db.rawQuery(sql, null);
 
                     rs.moveToNext();
                     initialPosX = rs.getInt(rs.getColumnIndex("x"));
                     initialPosY = rs.getInt(rs.getColumnIndex("y"));
 
+                    rs.close();
                     gestureResult = "";
                 }
                 longClickOn = false;
@@ -963,6 +973,12 @@ public class StartActivity extends Service implements View.OnTouchListener {
             e.printStackTrace();
         }
     }
+
+    public void init() {
+        myDB = new MyDB(this, "iot.sqlite", null, 1);
+        db = myDB.getWritableDatabase();
+    }
+
 
 
 

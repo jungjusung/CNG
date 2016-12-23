@@ -60,7 +60,7 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
 
         btn_size=(Button)findViewById(R.id.btn_size);
         sql = "select * from img_info";
-        rs = defaultAct.db.rawQuery(sql, null);
+        rs = StartActivity.db.rawQuery(sql, null);
         rs.moveToNext();
         init = rs.getInt(rs.getColumnIndex("size"));
 
@@ -128,7 +128,7 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
             iconParam.width = width;
             iconParam.height = height;
             sql = "update img_info set size=?";
-            defaultAct.db.execSQL(sql, new String[]{
+            StartActivity.db.execSQL(sql, new String[]{
                     Integer.toString(iconParam.width)
             });
             StartActivity.params2.width = iconParam.width;

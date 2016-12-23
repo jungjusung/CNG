@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 
 import com.example.user.gnc.R;
 import com.example.user.gnc.RecycleUtils;
+import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
 
 /**
@@ -36,7 +37,7 @@ public class ManualKeySettingActivity extends Activity implements CompoundButton
         if (compoundButton.getId() == R.id.key_check_view) {
             if (compoundButton.isChecked()) {
                 String sql = "update manual_flags set key_setting=1";
-                defaultAct.db.execSQL(sql);
+                StartActivity.db.execSQL(sql);
                 finish();
             }
         }

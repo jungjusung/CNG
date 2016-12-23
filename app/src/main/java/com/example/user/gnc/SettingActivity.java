@@ -175,12 +175,12 @@ public class SettingActivity extends Activity {
                                     StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon, updatedParameters);
                                     sql = "update initialpos set x=?, y=?";
 
-                                    defaultAct.db.execSQL(sql, new String[]{
+                                    StartActivity.db.execSQL(sql, new String[]{
                                             Integer.toString(StartActivity.initialPosX), Integer.toString(StartActivity.initialPosY)
                                     });
 
                                     sql = "select * from initialpos";
-                                    rs = defaultAct.db.rawQuery(sql, null);
+                                    rs = StartActivity.db.rawQuery(sql, null);
 
                                     rs.moveToNext();
                                     StartActivity.initialPosX = rs.getInt(rs.getColumnIndex("x"));
@@ -281,11 +281,11 @@ public class SettingActivity extends Activity {
         String deleteInitialPos = "delete from initialpos";
         String deleteWeb = "delete from web";
 
-        defaultAct.db.execSQL(deleteImg_info);
-        defaultAct.db.execSQL(deleteManual_flags);
-        defaultAct.db.execSQL(deleteShortCut);
-        defaultAct.db.execSQL(deleteInitialPos);
-        defaultAct.db.execSQL(deleteWeb);
+        StartActivity.db.execSQL(deleteImg_info);
+        StartActivity.db.execSQL(deleteManual_flags);
+        StartActivity.db.execSQL(deleteShortCut);
+        StartActivity.db.execSQL(deleteInitialPos);
+        StartActivity.db.execSQL(deleteWeb);
 
         String insertDefaultImg_info = "insert into img_info(x,y,size,path) values(350,600,150,'')";
         String insertDefaultManual_flags="insert into manual_flags values( 0, 0, 0)";
@@ -300,18 +300,18 @@ public class SettingActivity extends Activity {
         String insertDefaultWeb3="insert into web(url) values('http://www.google.com')";
         String insertDefaultWeb4="insert into web(url) values('http://www.youtube.com')";
 
-        defaultAct.db.execSQL(insertDefaultImg_info);
-        defaultAct.db.execSQL(insertDefaultManual_flags);
-        defaultAct.db.execSQL(insertDefaultShortCut1);
-        defaultAct.db.execSQL(insertDefaultShortCut2);
-        defaultAct.db.execSQL(insertDefaultShortCut3);
-        defaultAct.db.execSQL(insertDefaultShortCut4);
-        defaultAct.db.execSQL(insertDefaultShortCut5);
-        defaultAct.db.execSQL(insertDefaultInitailPos);
-        defaultAct.db.execSQL(insertDefaultWeb1);
-        defaultAct.db.execSQL(insertDefaultWeb2);
-        defaultAct.db.execSQL(insertDefaultWeb3);
-        defaultAct.db.execSQL(insertDefaultWeb4);
+        StartActivity.db.execSQL(insertDefaultImg_info);
+        StartActivity.db.execSQL(insertDefaultManual_flags);
+        StartActivity.db.execSQL(insertDefaultShortCut1);
+        StartActivity.db.execSQL(insertDefaultShortCut2);
+        StartActivity.db.execSQL(insertDefaultShortCut3);
+        StartActivity.db.execSQL(insertDefaultShortCut4);
+        StartActivity.db.execSQL(insertDefaultShortCut5);
+        StartActivity.db.execSQL(insertDefaultInitailPos);
+        StartActivity.db.execSQL(insertDefaultWeb1);
+        StartActivity.db.execSQL(insertDefaultWeb2);
+        StartActivity.db.execSQL(insertDefaultWeb3);
+        StartActivity.db.execSQL(insertDefaultWeb4);
 
         Toast.makeText(this, "초기화 완료", Toast.LENGTH_SHORT).show();
 
@@ -347,7 +347,7 @@ public class SettingActivity extends Activity {
                     //배치해놓은 ImageView에 set
 
                     sql = "update img_info set path=?";
-                    defaultAct.db.execSQL(sql, new String[]{
+                    StartActivity.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
                     Log.d(TAG,"uri입니다.:"+uri);
@@ -365,7 +365,7 @@ public class SettingActivity extends Activity {
 
     public int checkFlag() {
         sql = "select setting from manual_flags";
-        Cursor cs = defaultAct.db.rawQuery(sql, null);
+        Cursor cs = StartActivity.db.rawQuery(sql, null);
         cs.moveToNext();
         return cs.getInt(0);
     }

@@ -32,7 +32,7 @@ public class ManualSettingActivity extends Activity implements CompoundButton.On
         if (compoundButton.getId() == R.id.setting_check_view) {
             if (compoundButton.isChecked()) {
                 String sql = "update manual_flags set setting=1";
-                defaultAct.db.execSQL(sql);
+                StartActivity.db.execSQL(sql);
                 finish();
             }
         }

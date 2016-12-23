@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.user.gnc.R;
 import com.example.user.gnc.RecycleUtils;
+import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
 
 import java.util.List;
@@ -80,7 +81,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                             public void onClick(DialogInterface dialog, int which) {
                                 // 'YES'
                                 String sql = "update shortcut set name = ?, path=?, method=3 where short_cut=?";
-                                defaultAct.db.execSQL(sql, new String[]{
+                                StartActivity.db.execSQL(sql, new String[]{
                                         url, url, Integer.toString(short_id)
                                 });
                                 Intent intent = new Intent(WebListActivity.this, KeySettingActivity.class);
@@ -92,7 +93,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String sql = "delete from web where url = ?";
-                        defaultAct.db.execSQL(sql, new String[]{url});
+                        StartActivity.db.execSQL(sql, new String[]{url});
                         webListAdapter.init();
                         webListAdapter.notifyDataSetChanged();
                         Toast.makeText(WebListActivity.this, url +" "+ getString(R.string.was_deleted), Toast.LENGTH_SHORT).show();
@@ -108,7 +109,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         if (view.getId() == R.id.add_url) {
             String url = edit_url.getText().toString();
             sql = "select * from web where url=\"" + url + "\"";
-            rs = defaultAct.db.rawQuery(sql, null);
+            rs = StartActivity.db.rawQuery(sql, null);
 
             if (rs.getCount() != 0) {
                 Toast.makeText(this, "입력하신 " + url + "이 중복됩니다.", Toast.LENGTH_SHORT).show();
@@ -116,7 +117,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                 if (Patterns.WEB_URL.matcher(url).matches()) {
                     //유효한 url;
                     sql = "insert into web(url) values(?)";
-                    defaultAct.db.execSQL(sql, new String[]{
+                    StartActivity.db.execSQL(sql, new String[]{
                             url
                     });
                     webListAdapter.init();
