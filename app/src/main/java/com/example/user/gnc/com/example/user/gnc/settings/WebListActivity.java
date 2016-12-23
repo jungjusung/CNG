@@ -1,9 +1,12 @@
 package com.example.user.gnc.com.example.user.gnc.settings;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -49,25 +52,61 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
-        Intent intent = getIntent();
-        short_id = Integer.parseInt(intent.getStringExtra("short_id"));
-        Log.d(TAG,"여기오냐고?1");
-        setContentView(R.layout.web_list_layout);
-        webListView=(ListView)findViewById(R.id.webListView);
-        webListAdapter=new WebListAdapter(this,this);
-        webListView.setAdapter(webListAdapter);
-        webListView.setOnItemClickListener(this);
-        Log.d(TAG,"여기오냐고?");
-        add_url = (ImageView) findViewById(R.id.add_url);
-        add_url.setOnClickListener(this);
 
 
-        edit_url = (EditText) findViewById(R.id.edit_url);
-        edit_url.setSelection(edit_url.length());
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if(networkInfo!=null)
+        {
+            if(networkInfo.getType()==ConnectivityManager.TYPE_WIFI&&networkInfo.isConnectedOrConnecting()||
+                    networkInfo.getType()==ConnectivityManager.TYPE_MOBILE&&networkInfo.isConnectedOrConnecting()){
 
-        webLoadingContainer=findViewById(R.id.web_loading_container);
+                Intent intent = getIntent();
+                short_id = Integer.parseInt(intent.getStringExtra("short_id"));
+                Log.d(TAG,"여기오냐고?1");
+                setContentView(R.layout.web_list_layout);
+                webListView=(ListView)findViewById(R.id.webListView);
+                webListAdapter=new WebListAdapter(this,this);
+                webListView.setAdapter(webListAdapter);
+                webListView.setOnItemClickListener(this);
+                Log.d(TAG,"여기오냐고?");
+                add_url = (ImageView) findViewById(R.id.add_url);
+                add_url.setOnClickListener(this);
+
+
+                edit_url = (EditText) findViewById(R.id.edit_url);
+                edit_url.setSelection(edit_url.length());
+
+                webLoadingContainer=findViewById(R.id.web_loading_container);
         /*webListView 생성*/
-        setLoadingView(false);
+                setLoadingView(false);
+            }else{
+                //인터넷에 연결할 수 없습니다. 연결을 확인하세요.
+                AlertDialog.Builder alert_internet_status = new AlertDialog.Builder(this);
+                alert_internet_status.setTitle( "인터넷연결" );
+                alert_internet_status.setMessage( "인터넷연결을 확인하세요" );
+                alert_internet_status.setPositiveButton( "닫기", new DialogInterface.OnClickListener() {
+                    public void onClick( DialogInterface dialog, int which) {
+                        dialog.dismiss();   //닫기
+                        finish();
+                    }
+                });
+                alert_internet_status.show();
+            }
+        }else{
+            //인터넷에 연결할 수 없습니다. 연결을 확인하세요.
+            AlertDialog.Builder alert_internet_status = new AlertDialog.Builder(this);
+            alert_internet_status.setTitle( "인터넷연결" );
+            alert_internet_status.setMessage( "인터넷연결을 확인하세요" );
+            alert_internet_status.setCancelable(false);
+            alert_internet_status.setPositiveButton( "닫기", new DialogInterface.OnClickListener() {
+                public void onClick( DialogInterface dialog, int which) {
+                    dialog.dismiss();   //닫기
+                    finish();
+                }
+            });
+            alert_internet_status.show();
+        }
     }
 
     public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
@@ -97,7 +136,7 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                         webListAdapter.init();
                         webListAdapter.notifyDataSetChanged();
                         Toast.makeText(WebListActivity.this, url +" "+ getString(R.string.was_deleted), Toast.LENGTH_SHORT).show();
-                        edit_url.setText("http://");
+                        edit_url.setText("http://www.");
                     }
                 });
         AlertDialog alert = alert_confirm.create();

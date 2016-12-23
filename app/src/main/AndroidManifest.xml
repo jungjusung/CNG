@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />     <!--바로가기 생성-->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
@@ -22,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".initPermissionActivity"
+        <activity
+            android:name=".initPermissionActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,20 +38,17 @@
         <service android:name=".StartActivity"
             android:screenOrientation="portrait">
         </service>
-        <receiver android:name=".RestartServiceReceiver">
-            <intent-filter>
-                <action android:name="YouWillNeverKillMe">
-
-                </action>
-            </intent-filter>x
-        </receiver>
 
         <activity
             android:name=".SettingActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:taskAffinity="" />    <!--액티비티 추가시 넣어 줄것!!!!!!!!!!!!!!!!!!!!!!!-->
+            android:taskAffinity=""
+            />
+
+
+        <!--액티비티 추가시 넣어 줄것!!!!!!!!!!!!!!!!!!!!!!!-->
 
         <activity
             android:name=".com.example.user.gnc.settings.IconSettingActivity"
@@ -78,8 +75,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:taskAffinity=""
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -90,6 +86,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
         <activity
+
             android:name=".ManualSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
