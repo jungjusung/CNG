@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.user.gnc">
 
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -13,7 +12,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />     <!--바로가기 생성-->
-
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
@@ -23,12 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".initPermissionActivity"
+        <activity
+            android:name=".initPermissionActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version"/>
         </activity>
         <activity
             android:name=".defaultAct"
@@ -36,17 +37,29 @@
         </activity>
         <service android:name=".StartActivity"
             android:screenOrientation="portrait">
-    </service>
+        </service>
+        <receiver android:name=".RestartServiceReceiver">
+            <intent-filter>
+                <action android:name="YouWillNeverKillMe">
+
+                </action>
+            </intent-filter>x
+        </receiver>
 
         <activity
             android:name=".SettingActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:taskAffinity="" />    <!--액티비티 추가시 넣어 줄것!!!!!!!!!!!!!!!!!!!!!!!-->
+            android:taskAffinity=""
+            />
+
+
+        <!--액티비티 추가시 넣어 줄것!!!!!!!!!!!!!!!!!!!!!!!-->
 
         <activity
             android:name=".com.example.user.gnc.settings.IconSettingActivity"
+
             android:screenOrientation="portrait" />
         <activity
             android:name=".com.example.user.gnc.settings.KeySettingActivity"
@@ -69,8 +82,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:taskAffinity=""
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -81,6 +93,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
         <activity
+
             android:name=".ManualSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />

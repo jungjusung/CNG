@@ -16,8 +16,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -72,17 +74,17 @@ public class initPermissionActivity extends AppCompatActivity {
         }
     }
 
-
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
-        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+
         if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
 
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, REQUEST_ACCESS_CALL);
         }
 
@@ -97,6 +99,8 @@ public class initPermissionActivity extends AppCompatActivity {
                 if (!isInstalled) {
                     addShortcut(this);
                 }
+
+
             }
         }
         Log.d(TAG, "checkAccess 메서드 종료");
@@ -177,9 +181,9 @@ public class initPermissionActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
 
         builder.setTitle(title).setMessage(msg).setCancelable(false)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     // 확인 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton){
+                    public void onClick(DialogInterface dialog, int whichButton) {
                         finish();
                     }
                 });

@@ -17,10 +17,12 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.SyncStateContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -33,14 +35,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.user.gnc.com.example.user.gnc.settings.ImageUtils;
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static android.R.attr.previewImage;
 
 
 public class SettingActivity extends Activity {
@@ -74,8 +81,12 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
 
+
         if(checkFlag() == 0){
 
+            Intent intent = new Intent(this, ManualSettingActivity.class);
+            startActivity(intent);
+        }else if(checkFlag() == -1){
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
         }
@@ -84,6 +95,15 @@ public class SettingActivity extends Activity {
 
 
         setContentView(R.layout.setting_layout);
+
+        /*=======================================
+        광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+         ========================================
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        ========================================*/
+
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
         bt_size = (LinearLayout) findViewById(R.id.bt_size);
@@ -232,6 +252,17 @@ public class SettingActivity extends Activity {
             StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
             StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
             StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        }else{
+            StartActivity.main_parameters1.width=StartActivity.icon_width*2;
+            StartActivity.main_parameters1.height=StartActivity.icon_height;
+            StartActivity.main_parameters2.width=StartActivity.icon_width*2;
+            StartActivity.main_parameters2.height=StartActivity.icon_height;
+            StartActivity.sub_parameters1.width=StartActivity.icon_width;
+            StartActivity.sub_parameters1.height=StartActivity.icon_height;
+            StartActivity.sub_parameters2.width=StartActivity.icon_width;
+            StartActivity.sub_parameters2.height=StartActivity.icon_height;
+            StartActivity.txt_turn_parameters.width=StartActivity.icon_width;
+            StartActivity.txt_setting_parameters.width=StartActivity.icon_width;
         }
         StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,StartActivity.params2);
         StartActivity.heroIcon.setImageResource(R.drawable.logo2);
@@ -274,35 +305,38 @@ public class SettingActivity extends Activity {
         defaultAct.db.execSQL(insertDefaultWeb3);
         defaultAct.db.execSQL(insertDefaultWeb4);
 
-
-
         Toast.makeText(this, "초기화 완료", Toast.LENGTH_SHORT).show();
 
     }
 
     /* 세팅에 아이콘 이미지 변경 및 경로*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_CODE_SELECT_IMAGE) {
+        Log.d(TAG,"1111");
+        if (requestCode == REQ_CODE_SELECT_IMAGE&&data!=null) {
+            Log.d(TAG,"2222");
             if (resultCode == Activity.RESULT_OK) {
                 try {
+                    Log.d(TAG,"번들전");
                     Bundle extras=data.getExtras();
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
-                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/file"+String.valueOf(System.currentTimeMillis())+".png";
+
+                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png";
+                    Log.d(TAG,"파일경로: "+filePath);
                     file=new File(filePath);
 
                     uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
+
+                    Log.d(TAG,uri.toString());
+                    ImageUtils.normalizeImageForUri(this.getApplicationContext(),uri);
 
                     storeCropImage(bitmap, filePath);
                     //배치해놓은 ImageView에 set
 
                     sql = "update img_info set path=?";
-                    Log.d(TAG,"uri입니다.:"+uri.toString());
-                    Log.d(TAG, "2");
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
-                    Log.d(TAG, "3");
 
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                     Log.d(TAG, "바뀐 비트맵  "+change_bitmap);
@@ -316,10 +350,15 @@ public class SettingActivity extends Activity {
     }
 
     public int checkFlag() {
-        sql = "select setting from manual_flags";
+        String sql = "select setting from manual_flags";
+
         Cursor cs = defaultAct.db.rawQuery(sql, null);
-        cs.moveToNext();
-        return cs.getInt(0);
+        if(cs!=null) {
+            cs.moveToNext();
+            return cs.getInt(0);
+        }
+        else
+            return -1;
     }
 
     private void storeCropImage(Bitmap bitmap, String filePath) {
@@ -339,14 +378,14 @@ public class SettingActivity extends Activity {
 
 
     protected void onDestroy() {
+        if(bitmap!=null) {
+            bitmap.recycle();
+            bitmap = null;
+        }
+//        recycleBitmap(flagImg);
         Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
-//        bitmap.recycle();
-//        bitmap=null;
-//        change_bitmap.recycle();
-//        change_bitmap=null;
-//        recycleBitmap(flagImg);
         Log.d(TAG,"SettingActivity 꺼지냐?");
 
         flagImg=null;
@@ -354,6 +393,7 @@ public class SettingActivity extends Activity {
 
         super.onDestroy();
     }
+
 
     public void onBackPressed() {
         this.finish();
@@ -379,17 +419,34 @@ public class SettingActivity extends Activity {
       alert.setTitle(title).setMessage(msg).setCancelable(true)
               .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialogInterface, int i) {
-                      Intent icon_intent = new Intent(Intent.ACTION_PICK);
-                      icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                      icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                      icon_intent.putExtra("crop", "true");
-                      icon_intent.putExtra("aspectX", "1");
-                      icon_intent.putExtra("aspectY", "1");
-                      icon_intent.putExtra("outputX", "200");
-                      icon_intent.putExtra("outputY", "200");
+                      Intent icon_intent = new Intent("com.android.camera.action.CROP");
+                          icon_intent.setClassName("com.android.camera.action", "com.android.camera.action.CropImage");
+                          icon_intent.setType("image/*");
+                          icon_intent.setType("image/*");
+                          icon_intent.putExtra("crop", "true");
+                          icon_intent.putExtra("outputX", 200);
+                          icon_intent.putExtra("outputY", 200);
+                          icon_intent.putExtra("aspectX", 1);
+                          icon_intent.putExtra("aspectY", 1);
+                          icon_intent.putExtra("scale", true);
+                          icon_intent.putExtra("scaleUpIfNeeded", true);
 
-                      icon_intent.putExtra("return-data", "true");
-                      startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                          icon_intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+
+                          if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+                          {
+                              icon_intent.setAction(Intent.ACTION_GET_CONTENT);
+                          }
+                          else
+                          {
+                              icon_intent.setAction(Intent.ACTION_PICK);
+                              icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                          }
+                          Log.d(TAG,"클릭했당");
+                          Log.d(TAG,icon_intent+"");
+                          startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                          //startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                          Log.d(TAG,"클릭했당");
                   }
               }).show();
 

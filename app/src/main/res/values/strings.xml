@@ -26,6 +26,7 @@
     <string name="calling">Call</string>
     <string name="launch_app">Run app</string>
     <string name="launch_web_browser">Run web browser</string>
+
     <!--Tips 스트링-->
     <string name="tips_setting_key">Setting actions to link</string>
     <string name="tips_setting_icons">Changing icon images</string>

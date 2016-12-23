@@ -49,7 +49,6 @@ public class WebListAdapter extends BaseAdapter{
     Cache cache=Cache.getInstance();
     public WebListAdapter(Context context,WebListActivity webListActivity) {
         TAG=this.getClass().getName();
-        Log.d(TAG,"어답터생성");
         this.context = context;
         this.webListActivity=webListActivity;
         /*인플레이터 생성*/
@@ -70,7 +69,6 @@ public class WebListAdapter extends BaseAdapter{
             Log.d(TAG,"이닛?");
             list.add(rs.getString(rs.getColumnIndex("url")));
         }
-        //myAsyncTaskList=new MyAsyncTask[list.size()];
     }
 
     public int getCount() {
@@ -90,9 +88,8 @@ public class WebListAdapter extends BaseAdapter{
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         View view = null;
         Log.d(TAG,"겟뷰");
-        webListActivity.setLoadingView(true);
         if (convertView == null) {
-
+            webListActivity.setLoadingView(true);
             view = inflater.inflate(R.layout.web_item, null);
             view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,400));
         }else{
@@ -111,6 +108,7 @@ public class WebListAdapter extends BaseAdapter{
             urlImage.setImageBitmap(bitmap);
             urlTitle.setText(title);
             urlContent.setText(content);
+            webListActivity.setLoadingView(false);
         }else{
             myAsyncTask = new MyAsyncTask(view, this,i);
             myAsyncTask.execute(txt_url.getText().toString());
