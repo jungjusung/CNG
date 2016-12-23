@@ -128,7 +128,7 @@ public class SettingActivity extends Activity {
                     layout.setLayoutParams(layoutParams);
 
                     flagImg = new ImageView(this);
-                    flagImg.setImageResource(R.drawable.logo2_transparent);
+                    flagImg.setImageResource(R.drawable.flag_transparent);
                     flagImg.setLayoutParams(layoutParams);
                     layout.addView(flagImg);
                     StartActivity.windowManager.addView(layout, windowParameters);
