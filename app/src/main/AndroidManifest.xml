@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.user.gnc">
+    package="com.sai.user.gnc">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".initPermissionActivity"
+            android:name="com.sai.user.gnc.initPermissionActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,15 +32,15 @@
                 android:value="@integer/google_play_services_version"/>
         </activity>
         <activity
-            android:name=".defaultAct"
+            android:name="com.sai.user.gnc.defaultAct"
             android:screenOrientation="portrait">
         </activity>
-        <service android:name=".StartActivity"
+        <service android:name="com.sai.user.gnc.StartActivity"
             android:screenOrientation="portrait">
         </service>
 
         <activity
-            android:name=".SettingActivity"
+            android:name="com.sai.user.gnc.SettingActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
@@ -51,26 +51,26 @@
         <!--액티비티 추가시 넣어 줄것!!!!!!!!!!!!!!!!!!!!!!!-->
 
         <activity
-            android:name=".com.example.user.gnc.settings.IconSettingActivity"
+            android:name="com.sai.user.gnc.settings.IconSettingActivity"
 
             android:screenOrientation="portrait" />
         <activity
-            android:name=".com.example.user.gnc.settings.KeySettingActivity"
+            android:name="com.sai.user.gnc.settings.KeySettingActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:taskAffinity="" />
         <activity
-            android:name=".com.example.user.gnc.settings.LocationSettingActivity"
+            android:name="com.sai.user.gnc.settings.LocationSettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".com.example.user.gnc.settings.SizeSettingActivity"
+            android:name="com.sai.user.gnc.settings.SizeSettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".com.example.user.gnc.settings.AppListActivity"
+            android:name="com.sai.user.gnc.settings.AppListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".com.example.user.gnc.settings.WebListActivity"
+            android:name="com.sai.user.gnc.settings.WebListActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
@@ -82,12 +82,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent" />
         <activity
-            android:name=".com.example.user.gnc.settings.ManualKeySettingActivity"
+            android:name="com.sai.user.gnc.settings.ManualKeySettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
         <activity
 
-            android:name=".ManualSettingActivity"
+            android:name="com.sai.user.gnc.ManualSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
     </application>
