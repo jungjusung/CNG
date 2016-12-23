@@ -122,12 +122,8 @@ public class SettingActivity extends Activity {
             case R.id.bt_icon:
 		  Intent icon_intent = new Intent("com.android.camera.action.CROP");
                 try {
-
-
-
                     icon_intent.setClassName("com.android.camera.action", "com.android.camera.action.CropImage");
                     icon_intent.setType("image/*");
-
                     icon_intent.setType("image/*");
                     icon_intent.putExtra("crop", "true");
                     icon_intent.putExtra("outputX", 200);
@@ -356,16 +352,15 @@ public class SettingActivity extends Activity {
                 try {
                     Log.d(TAG,"번들전");
                     Bundle extras=data.getExtras();
-                    Log.d(TAG, "!");
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
 
-                    Log.d(TAG,"비트맵: "+bitmap);
                     filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png";
                     Log.d(TAG,"파일경로: "+filePath);
                     file=new File(filePath);
 
                     uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
+
                     Log.d(TAG,uri.toString());
                     ImageUtils.normalizeImageForUri(this.getApplicationContext(),uri);
 
@@ -432,6 +427,7 @@ public class SettingActivity extends Activity {
 
         super.onDestroy();
     }
+
 
     public void onBackPressed() {
         this.finish();
