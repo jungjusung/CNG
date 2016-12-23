@@ -93,9 +93,14 @@ public class initPermissionActivity extends AppCompatActivity {
                 Toast.makeText(this, "이미 실행 중입니다.", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
-                Intent intent = new Intent(this,defaultAct.class);
-                this.getApplicationContext().startActivity(intent);
                 finish();
+                Intent intent = new Intent(this, defaultAct.class);
+                startActivity(intent);
+                if (!isInstalled) {
+                    addShortcut(this);
+                }
+
+
             }
         }
         Log.d(TAG, "checkAccess 메서드 종료");
@@ -176,9 +181,9 @@ public class initPermissionActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
 
         builder.setTitle(title).setMessage(msg).setCancelable(false)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     // 확인 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton){
+                    public void onClick(DialogInterface dialog, int whichButton) {
                         finish();
                     }
                 });
