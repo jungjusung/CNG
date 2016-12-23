@@ -100,17 +100,7 @@ public class SettingActivity extends Activity {
                 startActivity(key_intent);
                 break;
             case R.id.bt_icon:
-                Intent icon_intent = new Intent(Intent.ACTION_PICK);
-                icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                icon_intent.putExtra("crop", "true");
-                icon_intent.putExtra("aspectX", "1");
-                icon_intent.putExtra("aspectY", "1");
-                icon_intent.putExtra("outputX", "200");
-                icon_intent.putExtra("outputY", "200");
-
-                icon_intent.putExtra("return-data", "true");
-                startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                showMsg(getString(R.string.notice), getString(R.string.please_use_default_gallery));
                 break;
             case R.id.bt_location:
                 if (flagImg == null) {
@@ -159,6 +149,7 @@ public class SettingActivity extends Activity {
                                     defaultAct.db.execSQL(sql, new String[]{
                                             Integer.toString(StartActivity.initialPosX), Integer.toString(StartActivity.initialPosY)
                                     });
+
 
                                     sql = "select * from initialpos";
                                     rs = defaultAct.db.rawQuery(sql, null);
@@ -383,4 +374,24 @@ public class SettingActivity extends Activity {
         d.setCallback(null);
     }
 
+  public void showMsg(String title, String msg){
+      AlertDialog.Builder alert= new AlertDialog.Builder(this);
+      alert.setTitle(title).setMessage(msg).setCancelable(true)
+              .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialogInterface, int i) {
+                      Intent icon_intent = new Intent(Intent.ACTION_PICK);
+                      icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                      icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                      icon_intent.putExtra("crop", "true");
+                      icon_intent.putExtra("aspectX", "1");
+                      icon_intent.putExtra("aspectY", "1");
+                      icon_intent.putExtra("outputX", "200");
+                      icon_intent.putExtra("outputY", "200");
+
+                      icon_intent.putExtra("return-data", "true");
+                      startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                  }
+              }).show();
+
+  }
 }
