@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.user.gnc.R;
 import com.example.user.gnc.RecycleUtils;
+import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -117,7 +118,7 @@ public class KeySettingActivity extends Activity {
 
         for (int i = 0; i < viewList.size(); i++) {
             sql = "select * from shortcut where short_cut=" + (i + 1);
-            rs = defaultAct.db.rawQuery(sql, null);
+            rs = StartActivity.db.rawQuery(sql, null);
             Log.d(TAG, "이거 호출 되는지??");
             rs.moveToNext();
 
@@ -181,7 +182,7 @@ public class KeySettingActivity extends Activity {
         for (int i = 1; i <= 5; i++) {
 
             sql = "select * from shortcut where short_cut=" + i;
-            rs = defaultAct.db.rawQuery(sql, null);
+            rs = StartActivity.db.rawQuery(sql, null);
             rs.moveToNext();
 
             int method = rs.getInt(rs.getColumnIndex("method"));
@@ -410,7 +411,7 @@ public class KeySettingActivity extends Activity {
 
         for (int i = 1; i <= 5; i++) {
             sql = "select * from shortcut where short_cut=" + i;
-            rs = defaultAct.db.rawQuery(sql, null);
+            rs = StartActivity.db.rawQuery(sql, null);
             rs.moveToNext();
             String name = rs.getString(rs.getColumnIndex("name"));
             String icon_img = rs.getString(rs.getColumnIndex("path"));
@@ -534,7 +535,7 @@ public class KeySettingActivity extends Activity {
 
                 sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
 
-                defaultAct.db.execSQL(sql, new String[]{
+                StartActivity.db.execSQL(sql, new String[]{
                         name + "에게 전화걸기", number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
                 });
 
@@ -545,7 +546,7 @@ public class KeySettingActivity extends Activity {
 
     public int checkFlag() {
         sql = "select key_setting from manual_flags";
-        rs = defaultAct.db.rawQuery(sql, null);
+        rs = StartActivity.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
     }
@@ -553,7 +554,7 @@ public class KeySettingActivity extends Activity {
     public void deleteKeySetting(int index) {
         sql = "update shortcut set name=NULL, path=NULL, method=NULL where short_cut=?";
 
-        defaultAct.db.execSQL(sql, new String[]{
+        StartActivity.db.execSQL(sql, new String[]{
                 Integer.toString(index)
         });
         viewChk[index] = false;

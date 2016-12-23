@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.example.user.gnc.R;
 import com.example.user.gnc.RecycleUtils;
+import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
 
 import java.util.ArrayList;
@@ -286,7 +287,7 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
                                 public void onClick(DialogInterface dialog, int which) {
                                     // 'YES'
                                     String sql = "update shortcut set path=?, name=?, method=2 where short_cut=?";
-                                    defaultAct.db.execSQL(sql, new String[]{pkg, title, Integer.toString(short_cut)});
+                                    StartActivity.db.execSQL(sql, new String[]{pkg, title, Integer.toString(short_cut)});
                                     AppListActivity.this.finish();
                                 }
                             })
@@ -300,7 +301,7 @@ public class AppListActivity extends Activity implements AdapterView.OnItemClick
 
     private int checkFlag() {
         String sql = "select applist from manual_flags";
-        Cursor rs = defaultAct.db.rawQuery(sql, null);
+        Cursor rs = StartActivity.db.rawQuery(sql, null);
         rs.moveToNext();
         return rs.getInt(0);
     }

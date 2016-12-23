@@ -166,13 +166,13 @@ public class SettingActivity extends Activity {
                                     StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon, updatedParameters);
                                     sql = "update initialpos set x=?, y=?";
 
-                                    defaultAct.db.execSQL(sql, new String[]{
+                                    StartActivity.db.execSQL(sql, new String[]{
                                             Integer.toString(StartActivity.initialPosX), Integer.toString(StartActivity.initialPosY)
                                     });
 
 
                                     sql = "select * from initialpos";
-                                    rs = defaultAct.db.rawQuery(sql, null);
+                                    rs = StartActivity.db.rawQuery(sql, null);
 
                                     rs.moveToNext();
                                     StartActivity.initialPosX = rs.getInt(rs.getColumnIndex("x"));
@@ -273,11 +273,11 @@ public class SettingActivity extends Activity {
         String deleteInitialPos = "delete from initialpos";
         String deleteWeb = "delete from web";
 
-        defaultAct.db.execSQL(deleteImg_info);
-        defaultAct.db.execSQL(deleteManual_flags);
-        defaultAct.db.execSQL(deleteShortCut);
-        defaultAct.db.execSQL(deleteInitialPos);
-        defaultAct.db.execSQL(deleteWeb);
+        StartActivity.db.execSQL(deleteImg_info);
+        StartActivity.db.execSQL(deleteManual_flags);
+        StartActivity.db.execSQL(deleteShortCut);
+        StartActivity.db.execSQL(deleteInitialPos);
+        StartActivity.db.execSQL(deleteWeb);
 
         String insertDefaultImg_info = "insert into img_info(x,y,size,path) values(350,600,150,'')";
         String insertDefaultManual_flags = "insert into manual_flags values( 0, 0, 0)";
@@ -292,18 +292,18 @@ public class SettingActivity extends Activity {
         String insertDefaultWeb3 = "insert into web(url) values('http://www.google.com')";
         String insertDefaultWeb4 = "insert into web(url) values('http://www.youtube.com')";
 
-        defaultAct.db.execSQL(insertDefaultImg_info);
-        defaultAct.db.execSQL(insertDefaultManual_flags);
-        defaultAct.db.execSQL(insertDefaultShortCut1);
-        defaultAct.db.execSQL(insertDefaultShortCut2);
-        defaultAct.db.execSQL(insertDefaultShortCut3);
-        defaultAct.db.execSQL(insertDefaultShortCut4);
-        defaultAct.db.execSQL(insertDefaultShortCut5);
-        defaultAct.db.execSQL(insertDefaultInitailPos);
-        defaultAct.db.execSQL(insertDefaultWeb1);
-        defaultAct.db.execSQL(insertDefaultWeb2);
-        defaultAct.db.execSQL(insertDefaultWeb3);
-        defaultAct.db.execSQL(insertDefaultWeb4);
+        StartActivity.db.execSQL(insertDefaultImg_info);
+        StartActivity.db.execSQL(insertDefaultManual_flags);
+        StartActivity.db.execSQL(insertDefaultShortCut1);
+        StartActivity.db.execSQL(insertDefaultShortCut2);
+        StartActivity.db.execSQL(insertDefaultShortCut3);
+        StartActivity.db.execSQL(insertDefaultShortCut4);
+        StartActivity.db.execSQL(insertDefaultShortCut5);
+        StartActivity.db.execSQL(insertDefaultInitailPos);
+        StartActivity.db.execSQL(insertDefaultWeb1);
+        StartActivity.db.execSQL(insertDefaultWeb2);
+        StartActivity.db.execSQL(insertDefaultWeb3);
+        StartActivity.db.execSQL(insertDefaultWeb4);
 
         Toast.makeText(this, "초기화 완료", Toast.LENGTH_SHORT).show();
 
@@ -330,7 +330,7 @@ public class SettingActivity extends Activity {
                     //배치해놓은 ImageView에 set
 
                     sql = "update img_info set path=?";
-                    defaultAct.db.execSQL(sql, new String[]{
+                    StartActivity.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
 
@@ -345,14 +345,16 @@ public class SettingActivity extends Activity {
     }
 
     public int checkFlag() {
+
         String sql = "select setting from manual_flags";
 
-        Cursor cs = defaultAct.db.rawQuery(sql, null);
+        Cursor cs = StartActivity.db.rawQuery(sql, null);
         if (cs != null) {
             cs.moveToNext();
             return cs.getInt(0);
         } else
             return -1;
+
     }
 
     private void storeCropImage(Bitmap bitmap, String filePath) {
@@ -416,9 +418,10 @@ public class SettingActivity extends Activity {
                   public void onClick(DialogInterface dialogInterface, int i) {
                       Intent icon_intent = new Intent("com.android.camera.action.CROP");
                       icon_intent.setType("image/*");
+
                       icon_intent.putExtra("crop", "true");
-                      icon_intent.putExtra("outputX", 200);
-                      icon_intent.putExtra("outputY", 200);
+                      icon_intent.putExtra("outputX", 100);
+                      icon_intent.putExtra("outputY", 100);
                       icon_intent.putExtra("aspectX", 1);
                       icon_intent.putExtra("aspectY", 1);
                       icon_intent.putExtra("scale", true);
@@ -427,10 +430,12 @@ public class SettingActivity extends Activity {
 
                       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                           icon_intent.setAction(Intent.ACTION_GET_CONTENT);
-                          Log.d(TAG,"333");
+
                       } else {
                           icon_intent.setAction(Intent.ACTION_PICK);
                           icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+
                           Log.d(TAG,"444");
                       }
                       startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);

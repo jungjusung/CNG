@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.user.gnc.MyAsyncTask;
 import com.example.user.gnc.R;
+import com.example.user.gnc.StartActivity;
 import com.example.user.gnc.defaultAct;
 
 import java.io.File;
@@ -61,7 +62,7 @@ public class WebListAdapter extends BaseAdapter{
 
     public void init(){
         String sql="select * from web";
-        Cursor rs=defaultAct.db.rawQuery(sql,null);
+        Cursor rs= StartActivity.db.rawQuery(sql,null);
         Log.d(TAG,"이닛?");
         list.clear();
         caches.clear();
