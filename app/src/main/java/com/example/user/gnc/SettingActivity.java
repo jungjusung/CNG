@@ -418,8 +418,8 @@ public class SettingActivity extends Activity {
                       icon_intent.setType("image/*");
 
                       icon_intent.putExtra("crop", "true");
-                      icon_intent.putExtra("outputX", 100);
-                      icon_intent.putExtra("outputY", 100);
+                      icon_intent.putExtra("outputX", 200);
+                      icon_intent.putExtra("outputY", 200);
                       icon_intent.putExtra("aspectX", 1);
                       icon_intent.putExtra("aspectY", 1);
                       icon_intent.putExtra("scale", true);
