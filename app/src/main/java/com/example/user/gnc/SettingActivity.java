@@ -115,7 +115,6 @@ public class SettingActivity extends Activity {
                 Intent icon_intent = new Intent(Intent.ACTION_PICK);
                 icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 String sdcard= Environment.getExternalStorageState();
-
                 if( ! sdcard.equals(Environment.MEDIA_MOUNTED) ) {
                     icon_intent.setData(MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                     Log.d(TAG,"외부저장소가 읍따");
@@ -344,7 +343,6 @@ public class SettingActivity extends Activity {
                     uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
 
 
-
                     storeCropImage(bitmap, filePath);
                     //배치해놓은 ImageView에 set
 
@@ -404,6 +402,7 @@ public class SettingActivity extends Activity {
 
         super.onDestroy();
     }
+
 
     public void onBackPressed() {
         this.finish();
