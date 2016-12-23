@@ -416,7 +416,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         String number = rs.getString(rs.getColumnIndex("path"));
                         String name = rs.getString(rs.getColumnIndex("name"));
                         if (!number.equals(null)) {
-                            Toast.makeText(StartActivity.this, name+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StartActivity.this, name+" "+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
                             Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -424,7 +424,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     } else if (method == START_WEB_CALL) {
                         String urlPath = rs.getString(rs.getColumnIndex("path"));
                         if (!urlPath.equals(null)) {
-                            Toast.makeText(StartActivity.this, urlPath+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StartActivity.this, urlPath+" "+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setData(Uri.parse(urlPath));
@@ -769,7 +769,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             number = rs.getString(rs.getColumnIndex("path"));
                             String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
-                                Toast.makeText(startActivity, name+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, name+" "+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -777,7 +777,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
-                                Toast.makeText(startActivity, urlPath+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, urlPath+" "+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -802,7 +802,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             String number = rs.getString(rs.getColumnIndex("path"));
                             String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
-                                Toast.makeText(startActivity, name+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, name+" "+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -810,7 +810,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
-                                Toast.makeText(startActivity, urlPath+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, urlPath+" "+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -834,7 +834,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             String number = rs.getString(rs.getColumnIndex("path"));
                             String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
-                                Toast.makeText(startActivity, name+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, name+" "+getString(R.string.is_run), Toast.LENGTH_SHORT).show();
                                 Intent intent = getPackageManager().getLaunchIntentForPackage(number);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -842,7 +842,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
-                                Toast.makeText(startActivity, urlPath+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, urlPath+" "+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
@@ -875,7 +875,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         } else if (method == START_WEB_CALL) {
                             String urlPath = rs.getString(rs.getColumnIndex("path"));
                             if (!urlPath.equals(null)) {
-                                Toast.makeText(startActivity, urlPath+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, urlPath+" "+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.setData(Uri.parse(urlPath));
