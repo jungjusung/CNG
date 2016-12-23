@@ -204,7 +204,7 @@ public class SettingActivity extends Activity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);     // 여기서 this는 Activity의 this
 
-                builder.setTitle("초기화 설정").setMessage("초기화 하시겠습니까?").setCancelable(false)
+                builder.setTitle(R.string.reset_all_setting).setMessage(R.string.do_you_want_to_reset).setCancelable(false)
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             // 확인 버튼 클릭시 설정
                             public void onClick(DialogInterface dialog, int whichButton) {
