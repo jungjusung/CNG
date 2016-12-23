@@ -302,7 +302,7 @@ public class SettingActivity extends Activity {
         StartActivity.db.execSQL(insertDefaultWeb3);
         StartActivity.db.execSQL(insertDefaultWeb4);
 
-        Toast.makeText(this, "초기화 완료", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Initialization is completed", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -412,7 +412,7 @@ public class SettingActivity extends Activity {
   public void showMsg(String title, String msg){
       AlertDialog.Builder alert= new AlertDialog.Builder(this);
       alert.setTitle(title).setMessage(msg).setCancelable(false)
-              .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+              .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialogInterface, int i) {
                       Intent icon_intent = new Intent("com.android.camera.action.CROP");
                       icon_intent.setType("image/*");
