@@ -375,8 +375,8 @@ public class SettingActivity extends Activity {
             bitmap = null;
         }
         if (change_bitmap != null) {
-            bitmap.recycle();
-            bitmap = null;
+            change_bitmap.recycle();
+            change_bitmap = null;
         }
 //        recycleBitmap(flagImg);
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
