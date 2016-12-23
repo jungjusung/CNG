@@ -224,13 +224,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                handler.removeMessages(0);
-                handler2.removeMessages(0);
-                handler3.removeMessages(0);
-                handler=null;
-                handler2=null;
-                task=null;
-                task3=null;
+
             }
         };
         task3 = new Runnable() {

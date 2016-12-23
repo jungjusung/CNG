@@ -131,7 +131,7 @@ public class SettingActivity extends Activity {
                     layout.setLayoutParams(layoutParams);
 
                     flagImg = new ImageView(this);
-                    flagImg.setImageResource(R.drawable.initlocationflag);
+                    flagImg.setImageResource(R.drawable.logo2_transparent);
                     flagImg.setLayoutParams(layoutParams);
                     layout.addView(flagImg);
                     StartActivity.windowManager.addView(layout, windowParameters);
@@ -430,15 +430,17 @@ public class SettingActivity extends Activity {
 
                       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                           icon_intent.setAction(Intent.ACTION_GET_CONTENT);
-
+                          Log.d(TAG,"난 고사양");
+                          startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                       } else {
                           icon_intent.setAction(Intent.ACTION_PICK);
                           icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-
                           Log.d(TAG,"444");
+                          Log.d(TAG,"난 저사양");
+                          startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                       }
-                      startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                      //startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                   }
               }).show();
   }
