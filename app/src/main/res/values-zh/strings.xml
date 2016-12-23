@@ -50,4 +50,12 @@
     <string name="add">添加</string>
 
     <string name="already_running">此应用已在运行</string>
+    <string name="notice">信息</string>
+    <string name="please_use_default_gallery">请使用默认图库应用程序 :)</string>
+    <string name="do_you_want_to_reset">重置所有设置？</string>
+    <string name="internet_connection">连接到互联网</string>
+    <string name="please_check_internet_connection">请检查互联网连接</string>
+    <string name="close">关</string>
+    <string name="url_address_is_wrong">网址地址错误</string>
+
 </resources>

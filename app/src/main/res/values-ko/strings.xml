@@ -52,11 +52,11 @@
 
     <string name="info">정보</string>
     <string name="notice">안내</string>
-    <string name="please_use_default_gallery">기본 겔러리 앱을 사용해주세요:)</string>
+    <string name="please_use_default_gallery">기본 갤러리 앱을 사용해주세요 :)</string>
     <string name="do_you_want_to_reset">초기화 하시겠습니까?</string>
-    <string name="internet_connection">인터넷연결</string>
-    <string name="please_check_internet_connection">인터넷연결을 확인하세요</string>
+    <string name="internet_connection">인터넷 연결</string>
+    <string name="please_check_internet_connection">인터넷 연결을 확인해주세요</string>
     <string name="close">닫기</string>
-    <string name="url_address_is_wrong">Url 주소가 올바르지 않습니다.</string>
+    <string name="url_address_is_wrong">URL 주소가 올바르지 않습니다.</string>
 
 </resources>

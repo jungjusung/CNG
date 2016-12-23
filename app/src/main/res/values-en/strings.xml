@@ -49,5 +49,13 @@
     <string name="add">add</string>
 
     <string name="already_running">This app is already running</string>
+    <string name="info">Information</string>
+    <string name="notice">Notice</string>
+    <string name="please_use_default_gallery">Please use default Gallery App use</string>
+    <string name="do_you_want_to_reset">Do you want reset all settings?</string>
+    <string name="internet_connection">Connecting to Internet</string>
+    <string name="please_check_internet_connection">Please check internet connection</string>
+    <string name="close">close</string>
+    <string name="url_address_is_wrong">Url address is wrong</string>
 
 </resources>
