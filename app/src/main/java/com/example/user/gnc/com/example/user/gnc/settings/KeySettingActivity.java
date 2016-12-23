@@ -536,7 +536,7 @@ public class KeySettingActivity extends Activity {
                 sql = "update shortcut set name=?, path=?, method=? where short_cut=?";
 
                 StartActivity.db.execSQL(sql, new String[]{
-                        name + "에게 전화걸기", number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
+                        name, number, Integer.toString(START_PHONE_CALL), Integer.toString(confirmNum)
                 });
 
                 confirmNum = -1;

@@ -59,4 +59,7 @@
     <string name="close">닫기</string>
     <string name="url_address_is_wrong">URL 주소가 올바르지 않습니다.</string>
 
+    <string name="is_run"> 실행</string>
+    <string name="will_be_opened">열기</string>
+
 </resources>

@@ -60,4 +60,7 @@
     <string name="close">close</string>
     <string name="url_address_is_wrong">Url address is wrong</string>
 
+    <string name="is_run">will be run</string>
+    <string name="will_be_opened">will be open</string>
+
 </resources>
