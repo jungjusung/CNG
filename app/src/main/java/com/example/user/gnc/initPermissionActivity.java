@@ -76,7 +76,7 @@ public class initPermissionActivity extends AppCompatActivity {
 
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
-        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
 
         if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
@@ -84,7 +84,7 @@ public class initPermissionActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.READ_CONTACTS,
                     Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, REQUEST_ACCESS_CALL);
         }
 
@@ -93,24 +93,9 @@ public class initPermissionActivity extends AppCompatActivity {
                 Toast.makeText(this, "이미 실행 중입니다.", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
+                Intent intent = new Intent(this,defaultAct.class);
+                this.getApplicationContext().startActivity(intent);
                 finish();
-
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    Intent intent = new Intent(this,defaultAct.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    String packageName = this.getApplicationContext().getPackageName();
-                    PowerManager pm = (PowerManager) this.getApplicationContext().getSystemService(Context.POWER_SERVICE);
-                    if (pm.isIgnoringBatteryOptimizations(packageName))
-                        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                    else {
-                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + packageName));
-                    }
-                    this.getApplicationContext().startActivity(intent);
-                }
-                if (!isInstalled) {
-                    addShortcut(this);
-                }
             }
         }
         Log.d(TAG, "checkAccess 메서드 종료");

@@ -38,6 +38,8 @@ import android.widget.Toast;
 import com.example.user.gnc.com.example.user.gnc.settings.ImageUtils;
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -79,6 +81,7 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
 
+
         if(checkFlag() == 0){
 
             Intent intent = new Intent(this, ManualSettingActivity.class);
@@ -92,6 +95,15 @@ public class SettingActivity extends Activity {
 
 
         setContentView(R.layout.setting_layout);
+
+        /*=======================================
+        광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+         ========================================
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        ========================================*/
+
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
         bt_size = (LinearLayout) findViewById(R.id.bt_size);
@@ -108,7 +120,7 @@ public class SettingActivity extends Activity {
                 startActivity(key_intent);
                 break;
             case R.id.bt_icon:
-                Intent icon_intent = new Intent("com.android.camera.action.CROP");
+		  Intent icon_intent = new Intent("com.android.camera.action.CROP");
                 try {
 
 
@@ -147,6 +159,7 @@ public class SettingActivity extends Activity {
                     Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
                     toast.show();
                 }
+
                 break;
             case R.id.bt_location:
                 if (flagImg == null) {
@@ -277,6 +290,17 @@ public class SettingActivity extends Activity {
             StartActivity.sub_parameters2.height=SizeSettingActivity.iconParam.height;
             StartActivity.txt_turn_parameters.width=SizeSettingActivity.iconParam.width;
             StartActivity.txt_setting_parameters.width=SizeSettingActivity.iconParam.width;
+        }else{
+            StartActivity.main_parameters1.width=StartActivity.icon_width*2;
+            StartActivity.main_parameters1.height=StartActivity.icon_height;
+            StartActivity.main_parameters2.width=StartActivity.icon_width*2;
+            StartActivity.main_parameters2.height=StartActivity.icon_height;
+            StartActivity.sub_parameters1.width=StartActivity.icon_width;
+            StartActivity.sub_parameters1.height=StartActivity.icon_height;
+            StartActivity.sub_parameters2.width=StartActivity.icon_width;
+            StartActivity.sub_parameters2.height=StartActivity.icon_height;
+            StartActivity.txt_turn_parameters.width=StartActivity.icon_width;
+            StartActivity.txt_setting_parameters.width=StartActivity.icon_width;
         }
         StartActivity.windowManager.updateViewLayout(StartActivity.heroIcon,StartActivity.params2);
         StartActivity.heroIcon.setImageResource(R.drawable.logo2);
@@ -319,8 +343,6 @@ public class SettingActivity extends Activity {
         defaultAct.db.execSQL(insertDefaultWeb3);
         defaultAct.db.execSQL(insertDefaultWeb4);
 
-
-
         Toast.makeText(this, "초기화 완료", Toast.LENGTH_SHORT).show();
 
     }
@@ -334,8 +356,10 @@ public class SettingActivity extends Activity {
                 try {
                     Log.d(TAG,"번들전");
                     Bundle extras=data.getExtras();
+                    Log.d(TAG, "!");
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
+
                     Log.d(TAG,"비트맵: "+bitmap);
                     filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png";
                     Log.d(TAG,"파일경로: "+filePath);
@@ -344,17 +368,14 @@ public class SettingActivity extends Activity {
                     uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
                     Log.d(TAG,uri.toString());
                     ImageUtils.normalizeImageForUri(this.getApplicationContext(),uri);
+
                     storeCropImage(bitmap, filePath);
                     //배치해놓은 ImageView에 set
 
                     sql = "update img_info set path=?";
-                    Log.d(TAG,"uri입니다.:"+uri.toString());
-                    Log.d(TAG, "2");
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
-
-                    Log.d(TAG, "3");
 
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                     Log.d(TAG, "바뀐 비트맵  "+change_bitmap);
