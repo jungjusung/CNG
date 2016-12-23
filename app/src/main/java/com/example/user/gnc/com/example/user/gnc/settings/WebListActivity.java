@@ -83,9 +83,9 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
             }else{
                 //인터넷에 연결할 수 없습니다. 연결을 확인하세요.
                 AlertDialog.Builder alert_internet_status = new AlertDialog.Builder(this);
-                alert_internet_status.setTitle( "인터넷연결" );
-                alert_internet_status.setMessage( "인터넷연결을 확인하세요" );
-                alert_internet_status.setPositiveButton( "닫기", new DialogInterface.OnClickListener() {
+                alert_internet_status.setTitle( R.string.internet_connection );
+                alert_internet_status.setMessage( R.string.please_check_internet_connection );
+                alert_internet_status.setPositiveButton( R.string.close, new DialogInterface.OnClickListener() {
                     public void onClick( DialogInterface dialog, int which) {
                         dialog.dismiss();   //닫기
                         finish();
@@ -96,10 +96,10 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
         }else{
             //인터넷에 연결할 수 없습니다. 연결을 확인하세요.
             AlertDialog.Builder alert_internet_status = new AlertDialog.Builder(this);
-            alert_internet_status.setTitle( "인터넷연결" );
-            alert_internet_status.setMessage( "인터넷연결을 확인하세요" );
+            alert_internet_status.setTitle( R.string.internet_connection );
+            alert_internet_status.setMessage( R.string.please_check_internet_connection );
             alert_internet_status.setCancelable(false);
-            alert_internet_status.setPositiveButton( "닫기", new DialogInterface.OnClickListener() {
+            alert_internet_status.setPositiveButton( R.string.close, new DialogInterface.OnClickListener() {
                 public void onClick( DialogInterface dialog, int which) {
                     dialog.dismiss();   //닫기
                     finish();
@@ -163,9 +163,9 @@ public class WebListActivity extends AppCompatActivity implements AdapterView.On
                     webListAdapter.notifyDataSetChanged();
                     Toast.makeText(this, url + getString(R.string.was_added), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Url 주소가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.url_address_is_wrong, Toast.LENGTH_SHORT).show();
                 }
-                edit_url.setText("http://");
+                edit_url.setText("http://www.");
                 edit_url.setSelection(edit_url.length());
 
 
