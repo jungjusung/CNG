@@ -315,6 +315,7 @@ public class SettingActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Bundle extras = data.getExtras();
+                    Log.d(TAG, "1");
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
 
@@ -410,7 +411,7 @@ public class SettingActivity extends Activity {
 
   public void showMsg(String title, String msg){
       AlertDialog.Builder alert= new AlertDialog.Builder(this);
-      alert.setTitle(title).setMessage(msg).setCancelable(true)
+      alert.setTitle(title).setMessage(msg).setCancelable(false)
               .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialogInterface, int i) {
                       Intent icon_intent = new Intent("com.android.camera.action.CROP");
@@ -426,9 +427,11 @@ public class SettingActivity extends Activity {
 
                       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                           icon_intent.setAction(Intent.ACTION_GET_CONTENT);
+                          Log.d(TAG,"333");
                       } else {
                           icon_intent.setAction(Intent.ACTION_PICK);
                           icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                          Log.d(TAG,"444");
                       }
                       startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                   }
