@@ -81,7 +81,6 @@ public class SettingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getName();
-        Log.d(TAG,"나나나나ㅏ나나나나나setting");
 
         if (checkFlag() == 0) {
 
@@ -312,7 +311,6 @@ public class SettingActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Bundle extras = data.getExtras();
-                    Log.d(TAG, "1");
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
 
@@ -370,7 +368,6 @@ public class SettingActivity extends Activity {
 
 
     protected void onDestroy() {
-        Log.d(TAG,"setting 꺼짐");
         if (bitmap != null) {
             bitmap.recycle();
             bitmap = null;
@@ -395,7 +392,6 @@ public class SettingActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // Log.d(TAG,"강제종료된다.");
 
     }
 
@@ -428,14 +424,11 @@ public class SettingActivity extends Activity {
 
                       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                           icon_intent.setAction(Intent.ACTION_GET_CONTENT);
-                          Log.d(TAG,"난 고사양");
                           startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                       } else {
                           icon_intent.setAction(Intent.ACTION_PICK);
                           icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                          Log.d(TAG,"444");
-                          Log.d(TAG,"난 저사양");
                           startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
                       }
                       //startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
