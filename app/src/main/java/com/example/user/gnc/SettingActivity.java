@@ -416,9 +416,10 @@ public class SettingActivity extends Activity {
                   public void onClick(DialogInterface dialogInterface, int i) {
                       Intent icon_intent = new Intent("com.android.camera.action.CROP");
                       icon_intent.setType("image/*");
+
                       icon_intent.putExtra("crop", "true");
-                      icon_intent.putExtra("outputX", 200);
-                      icon_intent.putExtra("outputY", 200);
+                      icon_intent.putExtra("outputX", 100);
+                      icon_intent.putExtra("outputY", 100);
                       icon_intent.putExtra("aspectX", 1);
                       icon_intent.putExtra("aspectY", 1);
                       icon_intent.putExtra("scale", true);
@@ -427,10 +428,12 @@ public class SettingActivity extends Activity {
 
                       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                           icon_intent.setAction(Intent.ACTION_GET_CONTENT);
-                          Log.d(TAG,"333");
+
                       } else {
                           icon_intent.setAction(Intent.ACTION_PICK);
                           icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+
                           Log.d(TAG,"444");
                       }
                       startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
