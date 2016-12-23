@@ -17,10 +17,12 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.SyncStateContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -33,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.user.gnc.com.example.user.gnc.settings.ImageUtils;
 import com.example.user.gnc.com.example.user.gnc.settings.KeySettingActivity;
 import com.example.user.gnc.com.example.user.gnc.settings.SizeSettingActivity;
 
@@ -41,6 +44,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static android.R.attr.previewImage;
 
 
 public class SettingActivity extends Activity {
@@ -78,6 +83,9 @@ public class SettingActivity extends Activity {
 
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
+        }else if(checkFlag() == -1){
+            Intent intent = new Intent(this, ManualSettingActivity.class);
+            startActivity(intent);
         }
 
         //checkAccessPermission();
@@ -100,17 +108,45 @@ public class SettingActivity extends Activity {
                 startActivity(key_intent);
                 break;
             case R.id.bt_icon:
-                Intent icon_intent = new Intent(Intent.ACTION_PICK);
-                icon_intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                icon_intent.putExtra("crop", "true");
-                icon_intent.putExtra("aspectX", "1");
-                icon_intent.putExtra("aspectY", "1");
-                icon_intent.putExtra("outputX", "200");
-                icon_intent.putExtra("outputY", "200");
+                Intent icon_intent = new Intent("com.android.camera.action.CROP");
+                try {
 
-                icon_intent.putExtra("return-data", "true");
-                startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+
+
+                    icon_intent.setClassName("com.android.camera.action", "com.android.camera.action.CropImage");
+                    icon_intent.setType("image/*");
+
+                    icon_intent.setType("image/*");
+                    icon_intent.putExtra("crop", "true");
+                    icon_intent.putExtra("outputX", 200);
+                    icon_intent.putExtra("outputY", 200);
+                    icon_intent.putExtra("aspectX", 1);
+                    icon_intent.putExtra("aspectY", 1);
+                    icon_intent.putExtra("scale", true);
+                    icon_intent.putExtra("scaleUpIfNeeded", true);
+
+                    icon_intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+                    {
+                        icon_intent.setAction(Intent.ACTION_GET_CONTENT);
+                    }
+                    else
+                    {
+                        icon_intent.setAction(Intent.ACTION_PICK);
+                        icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    }
+                    Log.d(TAG,"클릭했당");
+                    Log.d(TAG,icon_intent+"");
+                    startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                    //startActivityForResult(icon_intent, REQ_CODE_SELECT_IMAGE);
+                    Log.d(TAG,"클릭했당");
+                } catch (Exception e) {
+                    // display an error message
+                    String errorMessage = "기본 갤러리에서만 접근 가능합니다.";
+                    Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 break;
             case R.id.bt_location:
                 if (flagImg == null) {
@@ -291,17 +327,23 @@ public class SettingActivity extends Activity {
 
     /* 세팅에 아이콘 이미지 변경 및 경로*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_CODE_SELECT_IMAGE) {
+        Log.d(TAG,"1111");
+        if (requestCode == REQ_CODE_SELECT_IMAGE&&data!=null) {
+            Log.d(TAG,"2222");
             if (resultCode == Activity.RESULT_OK) {
                 try {
+                    Log.d(TAG,"번들전");
                     Bundle extras=data.getExtras();
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
-                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/file"+String.valueOf(System.currentTimeMillis())+".png";
+                    Log.d(TAG,"비트맵: "+bitmap);
+                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png";
+                    Log.d(TAG,"파일경로: "+filePath);
                     file=new File(filePath);
 
                     uri=Uri.parse(String.valueOf(Uri.fromFile(file)));
-
+                    Log.d(TAG,uri.toString());
+                    ImageUtils.normalizeImageForUri(this.getApplicationContext(),uri);
                     storeCropImage(bitmap, filePath);
                     //배치해놓은 ImageView에 set
 
@@ -311,6 +353,7 @@ public class SettingActivity extends Activity {
                     defaultAct.db.execSQL(sql, new String[]{
                             uri.toString()
                     });
+
                     Log.d(TAG, "3");
 
                     Bitmap change_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
@@ -325,10 +368,15 @@ public class SettingActivity extends Activity {
     }
 
     public int checkFlag() {
-        sql = "select setting from manual_flags";
+        String sql = "select setting from manual_flags";
+
         Cursor cs = defaultAct.db.rawQuery(sql, null);
-        cs.moveToNext();
-        return cs.getInt(0);
+        if(cs!=null) {
+            cs.moveToNext();
+            return cs.getInt(0);
+        }
+        else
+            return -1;
     }
 
     private void storeCropImage(Bitmap bitmap, String filePath) {
@@ -348,14 +396,14 @@ public class SettingActivity extends Activity {
 
 
     protected void onDestroy() {
+        if(bitmap!=null) {
+            bitmap.recycle();
+            bitmap = null;
+        }
+//        recycleBitmap(flagImg);
         Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
-//        bitmap.recycle();
-//        bitmap=null;
-//        change_bitmap.recycle();
-//        change_bitmap=null;
-//        recycleBitmap(flagImg);
         Log.d(TAG,"SettingActivity 꺼지냐?");
 
         flagImg=null;
@@ -382,5 +430,9 @@ public class SettingActivity extends Activity {
 
         d.setCallback(null);
     }
-
+    private void updatePreviewWithUri(ImageView previewImage,Uri uri) {
+        //Attempt to rotate image and re-save it again
+        ImageUtils.normalizeImageForUri(this, uri);
+        previewImage.setImageURI(uri);
+    }
 }

@@ -943,7 +943,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
     @Override
     public void onDestroy() {
         Log.d(TAG,"내가 켜졌다~~");
-        android.os.Process.killProcess(android.os.Process.myPid());
 
         /*close*/
         change_bitmap=null;

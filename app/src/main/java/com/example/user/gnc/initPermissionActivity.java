@@ -16,8 +16,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -72,11 +74,11 @@ public class initPermissionActivity extends AppCompatActivity {
         }
     }
 
-
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
         int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+
         if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
 
             ActivityCompat.requestPermissions(this, new String[]{
@@ -92,8 +94,20 @@ public class initPermissionActivity extends AppCompatActivity {
                 finish();
             } else {
                 finish();
-                Intent intent = new Intent(this, defaultAct.class);
-                startActivity(intent);
+
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                    Intent intent = new Intent(this,defaultAct.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    String packageName = this.getApplicationContext().getPackageName();
+                    PowerManager pm = (PowerManager) this.getApplicationContext().getSystemService(Context.POWER_SERVICE);
+                    if (pm.isIgnoringBatteryOptimizations(packageName))
+                        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    else {
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + packageName));
+                    }
+                    this.getApplicationContext().startActivity(intent);
+                }
                 if (!isInstalled) {
                     addShortcut(this);
                 }
