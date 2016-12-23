@@ -80,13 +80,11 @@ public class SettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TAG = this.getClass().getName();
+        Log.d(TAG,"나나나나ㅏ나나나나나setting");
 
         if (checkFlag() == 0) {
 
-            Intent intent = new Intent(this, ManualSettingActivity.class);
-            startActivity(intent);
-        } else if (checkFlag() == -1) {
             Intent intent = new Intent(this, ManualSettingActivity.class);
             startActivity(intent);
         }
@@ -110,7 +108,6 @@ public class SettingActivity extends Activity {
         bt_location = (LinearLayout) findViewById(R.id.bt_location);
         bt_language = (LinearLayout) findViewById(R.id.bt_language);
 
-        TAG = this.getClass().getName();
     }
 
     public void btnClick(View view) {
@@ -373,6 +370,7 @@ public class SettingActivity extends Activity {
 
 
     protected void onDestroy() {
+        Log.d(TAG,"setting 꺼짐");
         if (bitmap != null) {
             bitmap.recycle();
             bitmap = null;

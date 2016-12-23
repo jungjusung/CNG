@@ -189,6 +189,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 windowManager.updateViewLayout(copyright, params4);
             }
         };
+
         handler3 = new Handler() {
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
@@ -216,6 +217,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     message.setData(bundle);
                     handler2.sendMessage(message);
                 }
+
                 windowManager.removeView(main_layout);
                 windowManager.removeView(layout);
                 windowManager.removeView(title);
@@ -224,13 +226,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                handler.removeMessages(0);
-                handler2.removeMessages(0);
-                handler3.removeMessages(0);
-                handler=null;
-                handler2=null;
-                task=null;
-                task3=null;
+
             }
         };
         task3 = new Runnable() {
@@ -622,6 +618,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     sub_li2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            Log.d(TAG,"나나나나ㅏ나나나나나");
                             /*--- 2번째 버튼 클릭 했을시 SettingActivity로 전환 */
                             Intent settingIntent = new Intent(StartActivity.this, SettingActivity.class);
                             settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
