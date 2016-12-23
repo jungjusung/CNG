@@ -12,6 +12,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -313,15 +317,27 @@ public class KeySettingActivity extends Activity {
     }
 
     public void showSelectedDialog(final int short_id) {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(
-                KeySettingActivity.this);
+        ContextThemeWrapper cw_apdater = new ContextThemeWrapper( this, R.style.AlertDialogTheme );
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+
         alertBuilder.setIcon(R.drawable.logo);
-        alertBuilder.setTitle(R.string.select_one_of_list);
+        //alertBuilder.setTitle(R.string.select_one_of_list);
+        String titleText=getString(R.string.select_one_of_list);
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(titleText);
 
 
-        // List Adapter 생성
+        RelativeSizeSpan largeSizeText = new RelativeSizeSpan(0.8f);
+        ssBuilder.setSpan(
+                largeSizeText, // Span to add
+                0, // Start of the span
+                titleText.length(), // End of the span
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extent the span when text add later
+        );
+        alertBuilder.setTitle(ssBuilder);
+        alertBuilder.create();
+//        // List Adapter 생성
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                KeySettingActivity.this,
+                cw_apdater,
                 android.R.layout.select_dialog_singlechoice);
 
         adapter.add(getString(R.string.calling));

@@ -16,8 +16,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -72,11 +74,11 @@ public class initPermissionActivity extends AppCompatActivity {
         }
     }
 
-
     public void checkAccessPermission() {
         int accessPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
         int iconPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int accessCall = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+
         if (accessPermission == PackageManager.PERMISSION_DENIED || accessCall == PackageManager.PERMISSION_DENIED || iconPermission == PackageManager.PERMISSION_DENIED) {
 
             ActivityCompat.requestPermissions(this, new String[]{
@@ -91,12 +93,9 @@ public class initPermissionActivity extends AppCompatActivity {
                 Toast.makeText(this, "이미 실행 중입니다.", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
+                Intent intent = new Intent(this,defaultAct.class);
+                this.getApplicationContext().startActivity(intent);
                 finish();
-                Intent intent = new Intent(this, defaultAct.class);
-                startActivity(intent);
-                if (!isInstalled) {
-                    addShortcut(this);
-                }
             }
         }
         Log.d(TAG, "checkAccess 메서드 종료");
