@@ -109,7 +109,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
         init();
         /*StartActivity*/
-        Log.d(TAG,"나 스타트엑티비티 생성된다.");
 
         startActivity = this;
         String sql1 = "select * from img_info";
@@ -424,7 +423,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         }
                     } else if (method == START_WEB_CALL) {
                         String urlPath = rs.getString(rs.getColumnIndex("path"));
-                        Log.d(TAG, "URL PATh : " + urlPath);
                         if (!urlPath.equals(null)) {
                             Toast.makeText(StartActivity.this, urlPath+getString(R.string.will_be_opened), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -486,8 +484,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     main_parameters1.x = initialPosX;
 
 
-                    Log.d(TAG,-limitY+"최대한도?");
-                    Log.d(TAG,"초기 y : "+initialPosY);
                     if(params2.y<0){
                         if(params2.y-icon_height<(dm.heightPixels/2-icon_height*2-100)*(-1)){
                             //위에 놓일 칸이 없다.
@@ -618,7 +614,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
                     sub_li2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Log.d(TAG,"나나나나ㅏ나나나나나");
                             /*--- 2번째 버튼 클릭 했을시 SettingActivity로 전환 */
                             Intent settingIntent = new Intent(StartActivity.this, SettingActivity.class);
                             settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -655,7 +650,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.d(TAG, "다운");
                 iconX = updatedParameters.x;
                 iconY = updatedParameters.y;
 
@@ -979,7 +973,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG,"내가 켜졌다~~");
 
         /*close*/
         //change_bitmap=null;

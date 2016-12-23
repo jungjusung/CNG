@@ -49,7 +49,6 @@ public class defaultAct extends Activity {
     protected void onResume() {
         super.onResume();
 
-        Log.d(TAG, "나 디폴트냐??");
         TAG = this.getClass().getName();
         defaultAct = this;
 
@@ -57,7 +56,6 @@ public class defaultAct extends Activity {
             boolean floatingWindowPermission = Settings.canDrawOverlays(this);
             Log.d(TAG, floatingWindowPermission + " permission");
             if (floatingWindowPermission == false) {
-                Log.d(TAG, "windowPermission if문");
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, WINDOW_ALERT_REQUEST);
             } else {
@@ -124,7 +122,6 @@ public class defaultAct extends Activity {
     }
 
     protected void onDestroy() {
-        Log.d(TAG, "내가 꺼졌따~");
 
       /*  RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();*/

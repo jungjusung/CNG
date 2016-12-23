@@ -39,7 +39,6 @@ public class ManualSettingActivity extends Activity implements CompoundButton.On
     }
 
     protected void onDestroy() {
-        Log.d(TAG, "내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();

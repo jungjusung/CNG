@@ -57,7 +57,6 @@ public class initPermissionActivity extends AppCompatActivity {
         isInstalled = preferences.getBoolean("isInstalled", false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Log.d(TAG, "하이유 하이유~~");
             checkAccessPermission();
         } else {
             if (isRunning) {
@@ -103,7 +102,6 @@ public class initPermissionActivity extends AppCompatActivity {
 
             }
         }
-        Log.d(TAG, "checkAccess 메서드 종료");
     }
 
     @Override
@@ -123,9 +121,7 @@ public class initPermissionActivity extends AppCompatActivity {
                 break;
         }
 
-        Log.d(TAG, "여기는 오는데?");
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "여기는 안오니??");
             Intent intent = new Intent(this, defaultAct.class);
             startActivity(intent);
             if (!isInstalled) {
@@ -160,7 +156,6 @@ public class initPermissionActivity extends AppCompatActivity {
     }
 
     protected void onDestroy() {
-        Log.d(TAG, "마지막에 내가 꺼졌따~");
         RecycleUtils.recursiveRecycle(getWindow().getDecorView());
         System.gc();
         super.onDestroy();
