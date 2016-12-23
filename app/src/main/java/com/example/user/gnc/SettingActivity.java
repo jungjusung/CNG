@@ -117,10 +117,8 @@ public class SettingActivity extends Activity {
                 String sdcard= Environment.getExternalStorageState();
                 if( ! sdcard.equals(Environment.MEDIA_MOUNTED) ) {
                     icon_intent.setData(MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                    Log.d(TAG,"외부저장소가 읍따");
                 } else {
                     icon_intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    Log.d(TAG,"외부저장소가 있다");
                 }
                 icon_intent.putExtra("crop", "true");
                 icon_intent.putExtra("aspectX", "1");
@@ -322,18 +320,13 @@ public class SettingActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Bundle extras=data.getExtras();
-                    Log.d(TAG, "!");
                     //이미지 데이터를 비트맵으로 받아온다.
                     bitmap = extras.getParcelable("data");
-                    Log.d(TAG, "2");
                     String sdcard= Environment.getExternalStorageState();
-                    Log.d(TAG, "3");
                     if( ! sdcard.equals(Environment.MEDIA_MOUNTED) ) {
                         filePath=Environment.getRootDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png";//내부저장소의 주소를 얻어옴
-                        Log.d(TAG,"외부저장소가 읍따");
                     } else {
                         filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/CNG"+String.valueOf(System.currentTimeMillis())+".png"; //외부저장소의 주소를 얻어옴
-                        Log.d(TAG,"외부저장소에 저장");
                     }
 
                     file=new File(filePath);
