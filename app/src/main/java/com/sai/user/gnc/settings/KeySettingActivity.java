@@ -21,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.sai.user.gnc.R;
 import com.sai.user.gnc.RecycleUtils;
 import com.sai.user.gnc.StartActivity;
@@ -72,13 +74,9 @@ public class KeySettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.key_setting_activity);
 
-        /*=======================================
-        광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
-         ========================================
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        ========================================*/
 
 
         TAG = this.getClass().getName();
