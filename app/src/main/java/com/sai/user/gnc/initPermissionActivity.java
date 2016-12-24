@@ -147,7 +147,7 @@ public class initPermissionActivity extends AppCompatActivity {
     public boolean isServiceRunningCheck() {
         ActivityManager manager = (ActivityManager) this.getSystemService(Activity.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if ("com.example.user.gnc.StartActivity".equals(service.service.getClassName())) {
+            if ("com.sai.user.gnc.StartActivity".equals(service.service.getClassName())) {
                 return true;
             }
         }
