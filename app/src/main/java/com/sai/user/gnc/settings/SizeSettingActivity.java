@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.sai.user.gnc.HeroIcon;
 import com.sai.user.gnc.R;
 import com.sai.user.gnc.RecycleUtils;
@@ -45,11 +47,11 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
 
      /*=======================================
         광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
-         ========================================
+         ========================================*/
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        ========================================*/
+        /*========================================*/
 
 
         btn_size=(Button)findViewById(R.id.btn_size);

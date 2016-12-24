@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.sai.user.gnc.settings.ImageUtils;
 import com.sai.user.gnc.settings.KeySettingActivity;
 import com.sai.user.gnc.settings.SizeSettingActivity;
@@ -76,11 +78,11 @@ public class SettingActivity extends Activity {
 
         /*=======================================
         광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
-         ========================================
+         ========================================*/
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        ========================================*/
+       /* ========================================*/
 
         bt_key = (LinearLayout) findViewById(R.id.bt_key);
         bt_icon = (LinearLayout) findViewById(R.id.bt_icon);
