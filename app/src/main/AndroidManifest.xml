@@ -32,6 +32,9 @@
                 android:value="@integer/google_play_services_version"/>
         </activity>
         <activity
+            android:name="com.sai.user.gnc.OverlayPermiissionActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name="com.sai.user.gnc.defaultAct"
             android:screenOrientation="portrait">
         </activity>
