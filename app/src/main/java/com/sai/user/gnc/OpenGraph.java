@@ -276,7 +276,7 @@ public class OpenGraph {
 
         // return empty
         printLog("parse the title fail");
-        return "title 이 존재하지 않습니다.";
+        return "제목이 이 존재하지 않습니다.";
     }
 
     private String getDescription(Document doc) {
