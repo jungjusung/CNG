@@ -170,6 +170,5 @@ public class initPermissionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
     }
 }

@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class defaultAct extends Activity {
     private static final int WINDOW_ALERT_REQUEST = 1;
@@ -258,7 +259,6 @@ public class defaultAct extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
     }
 
     protected void onDestroy() {
@@ -270,7 +270,7 @@ public class defaultAct extends Activity {
 
     @Override
     public void onLowMemory() {
-        super.onLowMemory();
         System.gc();
+        super.onLowMemory();
     }
 }
