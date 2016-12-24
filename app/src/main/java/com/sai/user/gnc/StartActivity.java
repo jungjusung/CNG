@@ -3,6 +3,7 @@ package com.sai.user.gnc;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,6 +18,7 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -45,11 +47,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
     int iconX, iconY;
     public static int icon_width = 150;
     public static int icon_height = 150;
-    RelativeLayout layout;
-    RelativeLayout title;
-    RelativeLayout copyright;
-    RelativeLayout main_layout;
-    public static WindowManager.LayoutParams params, params2, params3, params4,main_layout_params;
+
+    public static WindowManager.LayoutParams params2;
     public static WindowManager.LayoutParams main_parameters1, main_parameters2, sub_parameters1, sub_parameters2, txt_turn_parameters, txt_setting_parameters;
     public static LinearLayout.LayoutParams main_liParameters1, main_liParameters2, sub_liParameters1, sub_liParameters2;
     public static TextView txt_setting, txt_turn;
@@ -64,14 +63,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
     static int initialPosX;
     static int initialPosY;
     String TAG;
-    Handler handler, handler2, handler3;
-    Thread thread;
-    int dy;
-    float alpha = 1.0f;
+    Handler handler3;
     float alpha2 = 0.0f;
-    int cnt = 0;
-    boolean moveDown = false;
-    Runnable task, task2, task3;
+    Runnable task3;
     GestureDetector mGestureDetector;
     Block block_left, block_right, block_top, block_bottom;
 
@@ -124,15 +118,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
         layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        layout = new RelativeLayout(this);
-        copyright = new RelativeLayout(this);
-        title = new RelativeLayout(this);
-        main_layout=new RelativeLayout(this);
-        main_layout_params=new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-        params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+
+
         params2 = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-        params3 = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-        params4 = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         parameters = new WindowManager.LayoutParams(icon_width, icon_height, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         bli = new LinearLayout(StartActivity.this);
         bliParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -162,32 +150,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
         btnParameters3 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         btnParameters4 = new WindowManager.LayoutParams(50, 250, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
-        handler = new Handler() {
-            public void handleMessage(Message msg) {
-                Bundle bundle = msg.getData();
-                String str = bundle.getString("thread");
-                int dy = Integer.parseInt(str);
-                params.y = dy;
-                windowManager.updateViewLayout(layout, params);
-            }
-        };
-
-
-        handler2 = new Handler() {
-            public void handleMessage(Message msg) {
-                Bundle bundle = msg.getData();
-                String str = bundle.getString("threadAlpha");
-                float alpha = Float.parseFloat(str);
-                params.alpha = alpha;
-                params4.alpha=alpha;
-                main_layout_params.alpha=alpha;
-                windowManager.updateViewLayout(layout, params);
-                windowManager.updateViewLayout(title, params);
-                windowManager.updateViewLayout(main_layout,main_layout_params);
-                windowManager.updateViewLayout(copyright, params4);
-            }
-        };
-
         handler3 = new Handler() {
             public void handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
@@ -198,40 +160,11 @@ public class StartActivity extends Service implements View.OnTouchListener {
                 startAnimationFlag = true;
             }
         };
-
-        task2 = new Runnable() {
-            public void run() {
-                while (alpha >= 0) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                    }
-
-                    alpha -= 0.08;
-
-                    Message message = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("threadAlpha", Float.toString(alpha));
-                    message.setData(bundle);
-                    handler2.sendMessage(message);
-                }
-
-                windowManager.removeView(main_layout);
-                windowManager.removeView(layout);
-                windowManager.removeView(title);
-                windowManager.removeView(copyright);
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
-            }
-        };
         task3 = new Runnable() {
             public void run() {
                 while (alpha2 <= 1.0f) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                     }
 
@@ -246,43 +179,9 @@ public class StartActivity extends Service implements View.OnTouchListener {
             }
 
         };
-        task = new Runnable() {
-            public void run() {
-                while (cnt < 8) {
-                    try {
-                        Thread.sleep(15);
-                    } catch (InterruptedException e) {
-                    }
 
-                    if (!moveDown) {
-                        dy -= 5;
-                        if (dy <= 50) {
-                            moveDown = true;
-                            cnt++;
-                        }
-                    } else {
-                        dy += (int) 5 + Math.pow(2, 2);
-                        if (dy >= 150) {
-                            moveDown = false;
-                            cnt++;
-                        }
-                    }
-                    Message message = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("thread", Integer.toString(dy));
-                    message.setData(bundle);
-                    handler.sendMessage(message);
-                }
-                Thread threadNew = new Thread(task3);
-                Thread threadAlpha = new Thread(task2);
-                threadNew.start();
-                threadAlpha.start();
-
-            }
-
-        };
-
-
+        Thread threadNew = new Thread(task3);
+        threadNew.start();
         super.onCreate();
 
     }
@@ -304,21 +203,8 @@ public class StartActivity extends Service implements View.OnTouchListener {
         initialPosX = rs.getInt(rs.getColumnIndex("x"));
         initialPosY = rs.getInt(rs.getColumnIndex("y"));
         rs.close();
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        //windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
-        layout.setBackgroundColor(Color.argb(100, 255, 0, 0));
-        layoutParams.setMargins(0, 20, 0, 0);
-        layout.setLayoutParams(layoutParams);
-        copyright.setLayoutParams(layoutParams);
-        title.setLayoutParams(layoutParams);
-
-
-        layout.setBackgroundResource(R.drawable.m_logo);
-        copyright.setBackgroundResource(R.drawable.m_copy);
-        title.setBackgroundResource(R.drawable.m_title);
-        main_layout.setBackgroundColor(Color.WHITE);
-
-        params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
 
         //크기 조절 문제점이 여기에 있다.!! params2
 
@@ -326,17 +212,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
         params2.x = initialPosX;
         params2.y = initialPosY;
 
-        params3.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-        params4.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-        params.y = 150;
-        params3.y = 150;
-        params4.y = dm.heightPixels-200;
-
-
-        windowManager.addView(main_layout, main_layout_params);
-        windowManager.addView(title,params3);
-        windowManager.addView(copyright, params4);
-        windowManager.addView(layout, params);
 
 
 
@@ -365,11 +240,6 @@ public class StartActivity extends Service implements View.OnTouchListener {
         }
         windowManager.addView(heroIcon, parameters);
 
-
-        dy = params.y;
-
-        thread = new Thread(task);
-        thread.start();
 
         if (windowManager != null) {
             GestureDetector.SimpleOnGestureListener mOnSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
@@ -998,8 +868,26 @@ public class StartActivity extends Service implements View.OnTouchListener {
         db = myDB.getWritableDatabase();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
 
+        Log.d(TAG,"x :"+heroIcon.x+" y : "+heroIcon.y);
+        int cx=heroIcon.x;
+        int cy=heroIcon.y;
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) // 세로 전환시
+        {
 
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)// 가로 전환시
+        {
 
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        System.gc();
+    }
 }
 

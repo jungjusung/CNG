@@ -19,7 +19,6 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:debuggable="false"
         android:theme="@style/AppTheme">
 
         <activity
@@ -32,6 +31,9 @@
             <meta-data android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version"/>
         </activity>
+        <activity
+            android:name="com.sai.user.gnc.OverlayPermiissionActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.sai.user.gnc.defaultAct"
             android:screenOrientation="portrait">

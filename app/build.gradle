@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.sai.user.gnc"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 24
         versionCode 3
         versionName "1.0.2"

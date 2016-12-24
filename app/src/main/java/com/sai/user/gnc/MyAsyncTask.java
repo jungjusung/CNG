@@ -127,8 +127,8 @@ public class MyAsyncTask extends AsyncTask<String, Void, String[]> {
             }else{
 
             }
-            Cache.getInstance().getTitle().put(s[3], s[0]);
-            Cache.getInstance().getContent().put(s[3], s[1]);
+            Cache.getInstance().getTitle().put(s[3], s[1]);
+            Cache.getInstance().getContent().put(s[3], s[0]);
             //webListAdapter.caches.add(memoryCache);
             urlText.setText(s[0]);
             urlTitle.setText(s[1]);
