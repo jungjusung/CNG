@@ -76,6 +76,7 @@ public class SettingActivity extends Activity {
 
         setContentView(R.layout.setting_layout);
 
+
         /*=======================================
         광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
          ========================================*/

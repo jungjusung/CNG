@@ -47,6 +47,9 @@ public class defaultAct extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        defaultAct = this;
+
+
         layout = new RelativeLayout(this);
         copyright = new RelativeLayout(this);
         title = new RelativeLayout(this);
@@ -107,23 +110,8 @@ public class defaultAct extends Activity {
                 windowManager.removeView(title);
                 windowManager.removeView(copyright);
 
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    boolean floatingWindowPermission = Settings.canDrawOverlays(defaultAct);
-                    Log.d(TAG, floatingWindowPermission + " permission");
-                    if (floatingWindowPermission == false) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-                        startActivityForResult(intent, WINDOW_ALERT_REQUEST);
-                    } else {
-                        startService(new Intent(defaultAct, StartActivity.class));
-                        finish();
-                    }
-                } else {
-                    startService(new Intent(defaultAct, StartActivity.class));
-                    finish();
-                }
-                //권한 주기
-
+                startService(new Intent(defaultAct, StartActivity.class));
+                finish();
             }
         };
 
@@ -194,6 +182,8 @@ public class defaultAct extends Activity {
         thread = new Thread(task);
         thread.start();
         // init();
+
+
     }
 
     @Override
@@ -210,52 +200,7 @@ public class defaultAct extends Activity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onactivityresult " + Integer.toString(resultCode));
-        restartApp();
 
-        switch (requestCode) {
-            case WINDOW_ALERT_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    showMsg("안내", "다른 앱 위에 그리기 권한을 허용해 주셔야 사용이 가능합니다.");
-                    break;
-                }
-        }
-    }
-
-
-    public void showMsg(String title, String msg) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(title).setMessage(msg).show();
-    }
-
-    public void restartApp() {
-        finish();
-        startService(new Intent(this, StartActivity.class));
-    }
-
-
-    /*권한 설정!! 사진, 전화, 외부저장소*/
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.d(TAG, "onresultper " + Integer.toString(requestCode));
-        switch (requestCode) {
-            case REQUEST_ACCESS_CALL:
-                if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    showMsg("안내", "연락처 사용권한을 주셔야 사용이 가능합니다.");
-                } else if (permissions.length > 0 && grantResults[1] == PackageManager.PERMISSION_DENIED) {
-                    showMsg("안내", "전화 사용권한을 주셔야 사용이 가능합니다.");
-                } else if (permissions.length > 0 && grantResults[2] == PackageManager.PERMISSION_DENIED) {
-                    showMsg("안내", "외부저장소 사용권한을 주셔야 사용이 가능합니다.");
-                } else if (permissions.length > 0 && grantResults[3] == PackageManager.PERMISSION_DENIED) {
-                    showMsg("안내", "외부저장소 쓰기 사용권한을 주셔야 사용이 가능합니다.");
-                } else {
-                    finish();
-                }
-                break;
-        }
-    }
 
     @Override
     public void onBackPressed() {

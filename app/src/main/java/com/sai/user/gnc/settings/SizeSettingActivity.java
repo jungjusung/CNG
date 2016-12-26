@@ -44,7 +44,6 @@ public class SizeSettingActivity extends Activity implements View.OnClickListene
         TAG = this.getClass().getName();
         chnageSize=false;
         setContentView(R.layout.size_setting_activity);
-
      /*=======================================
         광고니까 지우지마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
          ========================================*/

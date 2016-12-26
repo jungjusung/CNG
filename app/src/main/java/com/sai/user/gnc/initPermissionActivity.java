@@ -46,7 +46,7 @@ public class initPermissionActivity extends AppCompatActivity {
                 finish();
             } else {
                 finish();
-                Intent intent = new Intent(this, defaultAct.class);
+                Intent intent = new Intent(this, OverlayPermiissionActivity.class);
                 startActivity(intent);
                 /*if (!isInstalled) {
                     addShortcut(this);
@@ -75,7 +75,7 @@ public class initPermissionActivity extends AppCompatActivity {
                 finish();
             } else {
                 finish();
-                Intent intent = new Intent(this, defaultAct.class);
+                Intent intent = new Intent(this, OverlayPermiissionActivity.class);
                 startActivity(intent);
                 /*if (!isInstalled) {
                     addShortcut(this);
@@ -104,7 +104,7 @@ public class initPermissionActivity extends AppCompatActivity {
         }
 
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(this, defaultAct.class);
+            Intent intent = new Intent(this, OverlayPermiissionActivity.class);
             startActivity(intent);
             /*if (!isInstalled) {
                 addShortcut(this);
@@ -147,7 +147,7 @@ public class initPermissionActivity extends AppCompatActivity {
     public boolean isServiceRunningCheck() {
         ActivityManager manager = (ActivityManager) this.getSystemService(Activity.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if ("com.example.user.gnc.StartActivity".equals(service.service.getClassName())) {
+            if ("com.sai.user.gnc.StartActivity".equals(service.service.getClassName())) {
                 return true;
             }
         }
