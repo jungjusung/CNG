@@ -84,6 +84,7 @@ public class WebListAdapter extends BaseAdapter{
         }else{
             view=convertView;
         }
+
         txt_url = (TextView) view.findViewById(R.id.txt_url);
         urlImage=(ImageView)view.findViewById(R.id.UrlImage);
         urlTitle=(TextView)view.findViewById(R.id.UrlTitle);
@@ -93,12 +94,14 @@ public class WebListAdapter extends BaseAdapter{
         Bitmap bitmap = (Bitmap) Cache.getInstance().getLru().get(txt_url.getText().toString());
         String title= Cache.getInstance().getTitle().get(txt_url.getText().toString());
         String content= Cache.getInstance().getContent().get(txt_url.getText().toString());
+
         if(bitmap!=null&&title!=null&&content!=null){
             urlImage.setImageBitmap(bitmap);
             urlTitle.setText(title);
             urlContent.setText(content);
             webListActivity.setLoadingView(false);
         }else{
+            webListActivity.setLoadingView(true);
             myAsyncTask = new MyAsyncTask(view, this,i);
             myAsyncTask.execute(txt_url.getText().toString());
         }
