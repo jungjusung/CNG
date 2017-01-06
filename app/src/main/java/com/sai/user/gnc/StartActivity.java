@@ -278,7 +278,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                         String number = rs.getString(rs.getColumnIndex("path"));
                         String name = rs.getString(rs.getColumnIndex("name"));
                         if (!number.equals(null)){
-                            Toast.makeText(StartActivity.this, "Calling to "+name+"("+number+")", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StartActivity.this, "Calling "+name+"("+number+")", Toast.LENGTH_SHORT).show();
                             callPhone(number);
                         }
                     } else if (method == START_APP_CALL) {
@@ -630,7 +630,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             number = rs.getString(rs.getColumnIndex("path"));
                             String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
-                                Toast.makeText(startActivity, "Calling to "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, "Calling "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
                             }
 
@@ -663,7 +663,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             String number = rs.getString(rs.getColumnIndex("path"));
                             String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
-                                Toast.makeText(startActivity, "Calling to "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, "Calling "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
                             }
 
@@ -696,7 +696,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             String number = rs.getString(rs.getColumnIndex("path"));
                             String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
-                                Toast.makeText(startActivity, "Calling to "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, "Calling "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
                             }
                         } else if (method == START_APP_CALL) {
@@ -728,7 +728,7 @@ public class StartActivity extends Service implements View.OnTouchListener {
                             String number = rs.getString(rs.getColumnIndex("path"));
                             String name = rs.getString(rs.getColumnIndex("name"));
                             if (!number.equals(null)) {
-                                Toast.makeText(startActivity, "Calling to "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(startActivity, "Calling "+name + "(" + number + ")", Toast.LENGTH_SHORT).show();
                                 callPhone(number);
                             }
                         } else if (method == START_APP_CALL) {
