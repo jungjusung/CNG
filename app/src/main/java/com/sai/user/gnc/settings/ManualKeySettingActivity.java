@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -40,6 +41,11 @@ public class ManualKeySettingActivity extends Activity implements CompoundButton
                 finish();
             }
         }
+    }
+
+    public void btnClick(View view){
+        Log.d(TAG,"나 눌렀어?");
+        finish();
     }
 
     protected void onDestroy() {

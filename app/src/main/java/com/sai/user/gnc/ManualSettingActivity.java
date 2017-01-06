@@ -3,7 +3,9 @@ package com.sai.user.gnc;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -33,6 +35,11 @@ public class ManualSettingActivity extends Activity implements CompoundButton.On
                 finish();
             }
         }
+    }
+
+    public void btnClick(View view){
+        Log.d(TAG,"나 눌렀니?");
+        finish();
     }
 
     protected void onDestroy() {
